@@ -218,6 +218,11 @@ const state = {
         matches: [],
         participants: [],
         lastUpdated: null
+    },
+    pause: {
+        visible: false,
+        type: 'tech',
+        teamSide: 'attack'
     }
 };
 
@@ -409,6 +414,11 @@ app.get('/replay', (req, res) => {
 // Tournament Bracket Overlay
 app.get('/bracket', (req, res) => {
     res.sendFile(path.join(__dirname, 'bracket.html'));
+});
+
+// Match Pause Overlay
+app.get('/pause', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pause.html'));
 });
 
 // Endpoint to list MVP images from assets/mvp

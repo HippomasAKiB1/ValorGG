@@ -1,0 +1,201 @@
+/* ═══════════════════════════════════════════════════════════
+   VCT BROADCAST HUD  —  pause.css
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Fullscreen Overlay Wrapper ── */
+.pause-wrapper {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1920px;
+    height: 1080px;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* ── The Horizontal Pause Band (Centered, compact, shifted down in upper-middle viewport) ── */
+.pause-band {
+    position: absolute;
+    top: 382px; /* Shifted down by another 200px (total 382px) to perfectly clear scoreboard and timer bezels */
+    left: 50%;
+    width: 820px;
+    height: 160px;
+    border-top: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(0, 0, 0, 0.15);
+    transition: background 0.4s ease;
+    overflow: hidden;
+    
+    /* VCT Broadcast Entry Animation: scale-Y expansion from center, keeping horizontal translate */
+    transform: translateX(-50%) scaleY(0);
+    opacity: 0;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    transform-origin: center;
+}
+
+.pause-wrapper.active .pause-band {
+    transform: translateX(-50%) scaleY(1);
+    opacity: 1;
+}
+
+/* Pause Type Themed Gradients (With transparent overlay support to show gameplay) */
+.pause-band.type-tech {
+    /* Sleek semi-transparent dark charcoal grey VCT Technical Pause gradient */
+    background: linear-gradient(90deg, 
+        rgba(8, 10, 15, 0.82) 0%, 
+        rgba(15, 20, 28, 0.78) 50%, 
+        rgba(8, 10, 15, 0.82) 100%
+    );
+}
+
+.pause-band.type-team {
+    /* Premium semi-transparent burgundy VCT Team Timeout gradient */
+    background: linear-gradient(90deg, 
+        rgba(48, 8, 12, 0.76) 0%, 
+        rgba(76, 12, 18, 0.72) 50%, 
+        rgba(48, 8, 12, 0.76) 100%
+    );
+}
+
+/* ── Asymmetric Corner Accent Brackets ── */
+.pause-accent-bracket {
+    position: absolute;
+    width: 32px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.pause-accent-bracket.left-bracket {
+    left: 20px;
+}
+
+.pause-accent-bracket.right-bracket {
+    right: 20px;
+}
+
+.pause-accent-bracket::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    width: 32px;
+    height: 4px;
+    background: #ffffff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+}
+
+.pause-accent-bracket::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    width: 32px;
+    height: 4px;
+    background: #ffffff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+}
+
+.left-bracket::before, .left-bracket::after { left: 0; }
+.right-bracket::before, .right-bracket::after { right: 0; }
+
+/* ── Large Background Outline Watermark (Enhanced stroke visibility) ── */
+.pause-bg-watermark {
+    position: absolute;
+    font-family: var(--font-hud);
+    font-size: 80px;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.14); /* Increased opacity from 0.04 to 0.14 for better visibility */
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    letter-spacing: 12px;
+    pointer-events: none;
+    z-index: 1;
+    user-select: none;
+    transition: all 0.3s ease;
+}
+
+.pause-band.type-tech .pause-bg-watermark {
+    font-size: 55px;
+    letter-spacing: 8px;
+}
+
+/* ── Foreground Content Layout ── */
+.pause-content-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+}
+
+/* Technical Pause Styling */
+.tech-title {
+    font-family: var(--font-hud);
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    animation: textFadePulse 1.8s infinite ease-in-out;
+}
+
+/* Team Timeout Styling */
+.team-logo-wrap {
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2px;
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.15));
+    animation: floatLogo 3.0s infinite ease-in-out;
+}
+
+.team-logo-img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+
+.team-name {
+    font-family: var(--font-hud);
+    font-size: 30px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 2px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.timeout-label {
+    font-family: var(--font-hud);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(232, 184, 75, 0.4);
+}
+
+/* ── Keyframe Animations ── */
+@keyframes textFadePulse {
+    0% { opacity: 0.85; transform: scale(1.0); }
+    50% { opacity: 0.55; transform: scale(0.99); }
+    100% { opacity: 0.85; transform: scale(1.0); }
+}
+
+@keyframes floatLogo {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0px); }
+}

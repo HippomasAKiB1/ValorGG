@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>VCT Broadcast Pause Overlay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="pause.css">
+</head>
+<body>
+
+    <!-- Full screen transparent wrapper -->
+    <div class="pause-wrapper" id="pause-wrapper">
+        
+        <!-- The Horizontal pause band stretching across the screen -->
+        <div class="pause-band" id="pause-band">
+            
+            <!-- White accent brackets at the left and right edges -->
+            <div class="pause-accent-bracket left-bracket"></div>
+            <div class="pause-accent-bracket right-bracket"></div>
+            
+            <!-- Large transparent background outline watermark text -->
+            <div class="pause-bg-watermark" id="pause-bg-watermark">TIMEOUT</div>
+            
+            <!-- Main foreground content block -->
+            <div class="pause-content-box" id="pause-content-box">
+                <!-- Injected dynamically by pause.js -->
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <script src="pause.js"></script>
+</body>
+</html>

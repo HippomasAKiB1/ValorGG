@@ -308,6 +308,37 @@
     </section>
 
     <!-- ════════════════════════════════════════════
+         MATCH PAUSE OVERLAY CONTROL PANEL [NEW]
+    ════════════════════════════════════════════ -->
+    <section class="panel pause-panel-admin" style="margin: 0 24px 24px; padding: 24px;">
+        <h2>⏸️ Match Pause Broadcast Overlay</h2>
+        <p style="color: #8a97a4; margin-bottom: 20px; font-size: 13px;">Manage real-time timeout and technical pause screens. State updates propagate instantly to the /pause overlay.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center;">
+                <button id="btn-pause-toggle" class="btn btn-danger" onclick="togglePause()" style="padding: 12px 30px; font-size: 15px; font-weight: 700; min-width: 240px; letter-spacing: 1px; transition: all 0.3s ease;">
+                    🔴 PAUSE OVERLAY: OFF
+                </button>
+                <div style="display: flex; gap: 14px; align-items: center;">
+                    <span style="color: #8a97a4; font-size: 13px; font-weight: 700; text-transform: uppercase;">Pause Type:</span>
+                    <select id="f-pause-type" onchange="updatePauseConfig()" style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; font-weight: 700; outline: none; cursor: pointer;">
+                        <option value="tech">Technical Pause</option>
+                        <option value="team">Team Timeout</option>
+                    </select>
+                </div>
+                <div id="team-pause-options" style="display: none; gap: 14px; align-items: center;">
+                    <span style="color: #8a97a4; font-size: 13px; font-weight: 700; text-transform: uppercase;">Timeout Team:</span>
+                    <select id="f-pause-side" onchange="updatePauseConfig()" style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; font-weight: 700; outline: none; cursor: pointer;">
+                        <option value="attack">Attackers Team</option>
+                        <option value="defense">Defenders Team</option>
+                    </select>
+                </div>
+            </div>
+            <span style="color: #8a97a4; font-size: 13px;">Team Timeout dynamically resolves the team currently assigned to the Attack/Defense side.</span>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
          CHALLONGE BRACKET INTEGRATION PANEL
     ════════════════════════════════════════════ -->
     <section class="panel challonge-panel-admin" style="margin: 0 24px 24px; padding: 24px;">
@@ -770,6 +801,17 @@ function populateAll() {
     // Replay overlay
     const rep = localState.replay || { visible: false };
     updateReplayToggleButton(rep.visible);
+
+    // Pause overlay
+    if (!localState.pause) localState.pause = { visible: false, type: 'tech', teamSide: 'attack' };
+    const pse = localState.pause;
+    const typeEl = document.getElementById('f-pause-type');
+    const sideEl = document.getElementById('f-pause-side');
+    if (typeEl) typeEl.value = pse.type || 'tech';
+    if (sideEl) sideEl.value = pse.teamSide || 'attack';
+    const optEl = document.getElementById('team-pause-options');
+    if (optEl) optEl.style.display = pse.type === 'team' ? 'flex' : 'none';
+    updatePauseToggleButton(pse.visible);
 
     // Challonge Setup Loader
     const br = localState.bracket || {};
@@ -1260,6 +1302,50 @@ function updateReplayToggleButton(visible) {
         btn.textContent = '🔴 REPLAY OVERLAY: OFF';
         btn.style.boxShadow = 'none';
     }
+}
+
+/* ══════════════════════════════════════════════════════════
+   MATCH PAUSE OVERLAY CONTROL FUNCTIONS
+   ══════════════════════════════════════════════════════════ */
+function togglePause() {
+    if (!localState.pause) localState.pause = { visible: false, type: 'tech', teamSide: 'attack' };
+    const nextVal = !localState.pause.visible;
+    localState.pause.visible = nextVal;
+    
+    // Update button visual state immediately
+    updatePauseToggleButton(nextVal);
+    
+    // Send to WebSocket
+    pushUpdate({ pause: { visible: nextVal } });
+}
+
+function updatePauseToggleButton(visible) {
+    const btn = document.getElementById('btn-pause-toggle');
+    if (!btn) return;
+    if (visible) {
+        btn.className = 'btn btn-gold';
+        btn.textContent = '🟢 PAUSE OVERLAY: ON';
+        btn.style.boxShadow = '0 0 15px rgba(232, 184, 75, 0.4)';
+    } else {
+        btn.className = 'btn btn-danger';
+        btn.textContent = '🔴 PAUSE OVERLAY: OFF';
+        btn.style.boxShadow = 'none';
+    }
+}
+
+function updatePauseConfig() {
+    if (!localState.pause) localState.pause = { visible: false, type: 'tech', teamSide: 'attack' };
+    const type = document.getElementById('f-pause-type').value;
+    const side = document.getElementById('f-pause-side').value;
+    
+    localState.pause.type = type;
+    localState.pause.teamSide = side;
+    
+    // Show/hide sub-options for team timeout
+    document.getElementById('team-pause-options').style.display = type === 'team' ? 'flex' : 'none';
+    
+    // Send to WebSocket
+    pushUpdate({ pause: { type, teamSide: side } });
 }
 
 /* ══════════════════════════════════════════════════════════
