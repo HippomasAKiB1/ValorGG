@@ -217,7 +217,8 @@ const state = {
         tournamentUrl: 'warcitiesroundof16',
         matches: [],
         participants: [],
-        lastUpdated: null
+        lastUpdated: null,
+        activeTab: 'upper'
     },
     pause: {
         visible: false,
@@ -614,6 +615,62 @@ app.post('/api/swap-sides', (req, res) => {
    CHALLONGE SECURE API SYNC PROXY
    ────────────────────────────────────────────────────────── */
 
+function extractChallongeId(input) {
+    if (!input) return '';
+    let cleaned = input.trim();
+    
+    // Remove query params and hash
+    cleaned = cleaned.split('?')[0].split('#')[0];
+    
+    // Remove trailing slash
+    if (cleaned.endsWith('/')) {
+        cleaned = cleaned.slice(0, -1);
+    }
+    
+    // Remove protocol and www.
+    cleaned = cleaned.replace(/^(https?:\/\/)?(www\.)?/, '');
+    
+    if (cleaned.includes('challonge.com')) {
+        const urlParts = cleaned.split('/');
+        const host = urlParts[0]; // e.g. "org.challonge.com" or "challonge.com"
+        
+        // Remove port if any
+        const hostWithoutPort = host.split(':')[0];
+        const hostParts = hostWithoutPort.split('.');
+        
+        let subdomain = '';
+        if (hostParts.length > 2 && hostParts[0] !== 'www') {
+            subdomain = hostParts[0];
+        }
+        
+        // The remaining path parts
+        const pathParts = urlParts.slice(1).filter(part => part.length > 0);
+        
+        if (pathParts.length > 1) {
+            // e.g. challonge.com/subdomain/my_tournament
+            if (!subdomain) {
+                subdomain = pathParts[0];
+                const slug = pathParts[1];
+                return `${subdomain}-${slug}`;
+            }
+        }
+        
+        // If we have a subdomain in host and a slug in path
+        if (subdomain && pathParts.length > 0) {
+            const slug = pathParts[0];
+            return `${subdomain}-${slug}`;
+        }
+        
+        // Otherwise just take the last part of path
+        if (pathParts.length > 0) {
+            return pathParts[pathParts.length - 1];
+        }
+    }
+    
+    // If it's already a slug or subdomain-slug
+    return cleaned;
+}
+
 function fetchChallonge(username, apiKey, endpoint) {
     return new Promise((resolve, reject) => {
         const auth = Buffer.from(`${username}:${apiKey}`).toString('base64');
@@ -634,7 +691,22 @@ function fetchChallonge(username, apiKey, endpoint) {
                     try { resolve(JSON.parse(data)); }
                     catch (e) { reject(e); }
                 } else {
-                    reject(new Error(`HTTP Status ${res.statusCode}: ${data}`));
+                    let errMsg = `HTTP Status ${res.statusCode}`;
+                    if (res.statusCode === 401) {
+                        errMsg = 'Invalid Challonge Username or API Key. Please verify your credentials.';
+                    } else if (res.statusCode === 404) {
+                        errMsg = 'Tournament not found on Challonge. Please verify the URL/ID or ensure the tournament is public/accessible.';
+                    } else if (res.statusCode === 403) {
+                        errMsg = 'Access Forbidden. Please check your Challonge settings or tournament visibility.';
+                    } else {
+                        try {
+                            const parsed = JSON.parse(data);
+                            if (parsed.errors && parsed.errors.length > 0) {
+                                errMsg += `: ${parsed.errors.join(', ')}`;
+                            }
+                        } catch (e) {}
+                    }
+                    reject(new Error(errMsg));
                 }
             });
         });
@@ -650,12 +722,14 @@ app.post('/api/bracket/sync', async (req, res) => {
     }
 
     try {
-        console.log(`[CHALLONGE] Syncing tournament: ${tournamentUrl}`);
+        console.log(`[CHALLONGE] Input URL/ID: ${tournamentUrl}`);
+        const tournamentId = extractChallongeId(tournamentUrl);
+        console.log(`[CHALLONGE] Extracted ID for API: ${tournamentId}`);
         
         // 1. Fetch participants and matches in parallel
         const [participantsData, matchesData] = await Promise.all([
-            fetchChallonge(username, apiKey, `tournaments/${tournamentUrl}/participants.json`),
-            fetchChallonge(username, apiKey, `tournaments/${tournamentUrl}/matches.json`)
+            fetchChallonge(username, apiKey, `tournaments/${tournamentId}/participants.json`),
+            fetchChallonge(username, apiKey, `tournaments/${tournamentId}/matches.json`)
         ]);
 
         // 2. Clean and format participants
@@ -701,6 +775,24 @@ app.post('/api/bracket/sync', async (req, res) => {
 wss.on('connection', (ws) => {
     console.log('[WS] Overlay connected. Total:', wss.clients.size);
     ws.send(JSON.stringify(state));
+    
+    ws.on('message', (message) => {
+        try {
+            const data = JSON.parse(message);
+            if (data && typeof data === 'object') {
+                deepMerge(state, data);
+                // Broadcast the change to all other connected clients
+                wss.clients.forEach(client => {
+                    if (client !== ws && client.readyState === 1) { // 1 is OPEN
+                        client.send(JSON.stringify(data));
+                    }
+                });
+            }
+        } catch (err) {
+            console.error('[WS] Error processing incoming client message:', err);
+        }
+    });
+
     ws.on('close', () => console.log('[WS] Overlay disconnected. Total:', wss.clients.size));
 });
 

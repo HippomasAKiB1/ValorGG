@@ -18,19 +18,8 @@
             <div class="header-scene">PLAYOFFS BRACKET</div>
         </header>
 
-        <!-- Left Vertical Side Accent -->
-        <aside class="winner-side-accent side-left">
-            <div class="accent-text">ROAD TO CHAMPIONS</div>
-            <div class="accent-line"></div>
-            <div class="accent-year">— 2026</div>
-        </aside>
-
-        <!-- Right Vertical Side Accent -->
-        <aside class="winner-side-accent side-right">
-            <div class="accent-text">ROAD TO CHAMPIONS</div>
-            <div class="accent-line"></div>
-            <div class="accent-year">— 2026</div>
-        </aside>
+        <!-- Giant Rotated Watermark Background Text -->
+        <div class="bracket-watermark">PLAYOFFS</div>
 
         <!-- Dynamic SVG Connector Lines Layer (Draws glowing paths between match cards) -->
         <svg class="connector-svg-layer" id="connector-svg-layer" xmlns="http://www.w3.org/2000/svg">
@@ -54,16 +43,6 @@
         <main class="bracket-board" id="bracket-board">
             <!-- Dynamically populated round columns containing VCT styled match cards -->
         </main>
-
-        <!-- Bottom Scrolling Sponsor / Event Ticker -->
-        <footer class="winner-footer">
-            <div class="ticker-label">PARTNERS</div>
-            <div class="ticker-wrap">
-                <div class="ticker-scroll" id="ticker-scroll">
-                    <!-- Populated dynamically by WebSocket -->
-                </div>
-            </div>
-        </footer>
     </div>
 
     <!-- Live WebSocket Bridge & Bracket Engine -->

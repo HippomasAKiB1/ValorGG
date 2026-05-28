@@ -1,4 +1,4 @@
-// bracket.js — VCT-Style Custom Tournament Bracket Controller
+// bracket.js — VCT-Style Custom Tournament Bracket Controller (Unified Double-Elimination)
 'use strict';
 
 const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -6,6 +6,7 @@ const ws = new WebSocket(`${wsProto}//${location.host}`);
 let activeState = {};
 let prevBracketJson = '';
 let prevMatchJson = '';
+let hasLoadedRealData = false;
 
 // Standard deep state merge helper
 function deepMerge(target, src) {
@@ -16,7 +17,7 @@ function deepMerge(target, src) {
         if (Array.isArray(srcVal)) {
             if (Array.isArray(tgtVal) && tgtVal.length && tgtVal[0] && tgtVal[0].id !== undefined) {
                 for (const srcItem of srcVal) {
-                    const tgtItem = tgtVal.find(x => x.id === srcItem.id);
+                    const tgtItem = tgtVal.find(x => x.id == srcItem.id);
                     if (tgtItem) deepMerge(tgtItem, srcItem);
                     else tgtVal.push(srcItem);
                 }
@@ -46,6 +47,9 @@ ws.onmessage = (event) => {
             const bracketJson = JSON.stringify(bracket);
             if (bracketJson !== prevBracketJson) {
                 prevBracketJson = bracketJson;
+                if (bracket.matches && bracket.matches.length > 0) {
+                    hasLoadedRealData = true;
+                }
                 renderBracketBoard(bracket);
             }
         }
@@ -63,7 +67,7 @@ ws.onmessage = (event) => {
 };
 
 ws.onopen = () => {
-    console.log('[WS] Connected to VCT HUD Server (Custom Bracket Overlay)');
+    console.log('[WS] Connected to VCT HUD Server (Unified Bracket Overlay)');
 };
 
 ws.onclose = () => {
@@ -84,20 +88,64 @@ const MOCK_BRACKET_DATA = {
         { id: 8, name: 'G2 ESPORTS', seed: 8 }
     ],
     matches: [
-        // Round 1 (Quarterfinals)
-        { id: 'm1', round: 1, player1Id: 1, player2Id: 8, scoresCsv: '2-0', winnerId: 1, state: 'complete' },
-        { id: 'm2', round: 1, player1Id: 3, player2Id: 5, scoresCsv: '2-1', winnerId: 3, state: 'complete' },
-        { id: 'm3', round: 1, player1Id: 4, player2Id: 7, scoresCsv: '1-2', winnerId: 7, state: 'complete' },
-        { id: 'm4', round: 1, player1Id: 2, player2Id: 6, scoresCsv: '2-1', winnerId: 2, state: 'complete' },
+        // Upper Bracket (Winners)
+        { id: 'm1', round: 1, player1Id: 1, player2Id: 8, scoresCsv: '13-8,13-11', winnerId: 1, state: 'complete', suggestedPlayOrder: 1 },
+        { id: 'm2', round: 1, player1Id: 3, player2Id: 5, scoresCsv: '13-5,13-9', winnerId: 3, state: 'complete', suggestedPlayOrder: 2 },
+        { id: 'm3', round: 1, player1Id: 4, player2Id: 7, scoresCsv: '13-11,10-13,13-5', winnerId: 4, state: 'complete', suggestedPlayOrder: 3 },
+        { id: 'm4', round: 1, player1Id: 2, player2Id: 6, scoresCsv: '13-7,13-6', winnerId: 2, state: 'complete', suggestedPlayOrder: 4 },
         
-        // Round 2 (Semifinals)
-        { id: 'm5', round: 2, player1Id: 1, player2Id: 3, scoresCsv: '2-1', winnerId: 1, state: 'complete' },
-        { id: 'm6', round: 2, player1Id: 7, player2Id: 2, scoresCsv: '1-2', winnerId: 2, state: 'complete' },
+        { id: 'm5', round: 2, player1Id: 1, player2Id: 3, scoresCsv: '13-10,13-8', winnerId: 1, state: 'complete', suggestedPlayOrder: 5 },
+        { id: 'm6', round: 2, player1Id: 4, player2Id: 2, scoresCsv: '13-9,13-11', winnerId: 4, state: 'complete', suggestedPlayOrder: 6 },
         
-        // Round 3 (Grand Finale)
-        { id: 'm7', round: 3, player1Id: 1, player2Id: 2, scoresCsv: '0-0', winnerId: null, state: 'open' }
+        { id: 'm7', round: 3, player1Id: 1, player2Id: 4, scoresCsv: '13-11,13-9', winnerId: 1, state: 'complete', suggestedPlayOrder: 7 },
+        
+        // Lower Bracket (Losers)
+        { id: 'm8', round: -1, player1Id: 8, player2Id: 5, scoresCsv: '13-10,13-6', winnerId: 8, state: 'complete', suggestedPlayOrder: 8 },
+        { id: 'm9', round: -1, player1Id: 7, player2Id: 6, scoresCsv: '13-5,13-8', winnerId: 7, state: 'complete', suggestedPlayOrder: 9 },
+        
+        { id: 'm10', round: -2, player1Id: 8, player2Id: 2, scoresCsv: '13-11,13-9', winnerId: 2, state: 'complete', suggestedPlayOrder: 10 },
+        { id: 'm11', round: -2, player1Id: 7, player2Id: 3, scoresCsv: '13-6,13-10', winnerId: 3, state: 'complete', suggestedPlayOrder: 11 },
+        
+        { id: 'm12', round: -3, player1Id: 2, player2Id: 3, scoresCsv: '13-9,13-11', winnerId: 3, state: 'complete', suggestedPlayOrder: 12 },
+        { id: 'm13', round: -4, player1Id: 3, player2Id: 4, scoresCsv: '13-11,13-8', winnerId: 4, state: 'complete', suggestedPlayOrder: 13 },
+        
+        // Grand Finale
+        { id: 'm14', round: 4, player1Id: 1, player2Id: 4, scoresCsv: '0-0', winnerId: null, state: 'open', suggestedPlayOrder: 14 }
     ]
 };
+
+// Resilient scores parser that handles direct score-dashes or sums multiple sets in Challonge
+function parseChallongeScores(scoresCsv) {
+    if (!scoresCsv) return { p1: '0', p2: '0' };
+    
+    const cleaned = scoresCsv.trim();
+    if (!cleaned) return { p1: '0', p2: '0' };
+
+    // Check if there are comma-separated sets
+    if (cleaned.includes(',')) {
+        let p1Wins = 0;
+        let p2Wins = 0;
+        const sets = cleaned.split(',');
+        for (const set of sets) {
+            const parts = set.trim().split('-');
+            if (parts.length === 2) {
+                const s1 = parseInt(parts[0]) || 0;
+                const s2 = parseInt(parts[1]) || 0;
+                if (s1 > s2) p1Wins++;
+                else if (s2 > s1) p2Wins++;
+            }
+        }
+        return { p1: String(p1Wins), p2: String(p2Wins) };
+    }
+    
+    // Single set or simple format (e.g., "2-1")
+    const parts = cleaned.split('-');
+    if (parts.length === 2) {
+        return { p1: parts[0].trim(), p2: parts[1].trim() };
+    }
+    
+    return { p1: '0', p2: '0' };
+}
 
 // ── Bracket Rendering Engine ──
 function renderBracketBoard(bracketData) {
@@ -113,102 +161,185 @@ function renderBracketBoard(bracketData) {
         ? bracketData.matches 
         : MOCK_BRACKET_DATA.matches;
 
-    // Group matches by round (ignoring negative round losers bracket for streamlined clean looks)
-    const roundsMap = {};
-    matches.forEach(m => {
-        if (m.round > 0) {
-            if (!roundsMap[m.round]) roundsMap[m.round] = [];
-            roundsMap[m.round].push(m);
-        }
-    });
-
-    const roundKeys = Object.keys(roundsMap).sort((a, b) => parseInt(a) - parseInt(b));
-    
-    if (roundKeys.length === 0) {
-        board.innerHTML = `
-            <div style="width:100%; text-align:center; padding:100px; font-size:24px; color:var(--vct-yellow);">
-                Awaiting bracket synchronization from Challonge...
-            </div>
-        `;
-        return;
+    // Reset old SVG lines globally before redraws
+    const canvas = document.getElementById('connector-svg-layer');
+    if (canvas) {
+        canvas.querySelectorAll('.connector-path').forEach(el => el.remove());
     }
 
-    // Build the round columns
-    board.innerHTML = roundKeys.map((rk, idx) => {
-        const roundMatches = roundsMap[rk];
-        // Sort matches by play order or index to keep visual structure aligned
-        roundMatches.sort((a, b) => (a.suggestedPlayOrder || 0) - (b.suggestedPlayOrder || 0));
+    // Find the absolute maximum positive round (Grand Finals)
+    const maxRound = matches.length > 0 ? Math.max(...matches.map(m => m.round)) : 0;
 
-        // Resolve Round Title Header
-        let roundTitle = `ROUND ${rk}`;
-        if (roundKeys.length === 3) {
-            // Standard 8-team 3-round playoff names
-            if (idx === 0) roundTitle = 'QUARTERFINALS';
-            else if (idx === 1) roundTitle = 'SEMIFINALS';
-            else if (idx === 2) roundTitle = 'GRAND FINALE';
-        } else if (roundKeys.length === 4) {
-            // 16-team 4-round playoff names
-            if (idx === 0) roundTitle = 'ROUND OF 16';
-            else if (idx === 1) roundTitle = 'QUARTERFINALS';
-            else if (idx === 2) roundTitle = 'SEMIFINALS';
-            else if (idx === 3) roundTitle = 'GRAND FINALE';
+    // 1. Group Upper matches (positive rounds)
+    const upperRoundsMap = {};
+    matches.forEach(m => {
+        if (m.round > 0) {
+            if (!upperRoundsMap[m.round]) upperRoundsMap[m.round] = [];
+            upperRoundsMap[m.round].push(m);
         }
+    });
+    const rawUpperKeys = Object.keys(upperRoundsMap).sort((a, b) => parseInt(a) - parseInt(b));
 
-        const matchCardsHtml = roundMatches.map(m => {
-            const team1 = participants.find(p => p.id === m.player1Id) || { name: 'TBD', seed: '' };
-            const team2 = participants.find(p => p.id === m.player2Id) || { name: 'TBD', seed: '' };
+    // 2. Group Lower matches (negative rounds)
+    const lowerRoundsMap = {};
+    matches.forEach(m => {
+        if (m.round < 0) {
+            if (!lowerRoundsMap[m.round]) lowerRoundsMap[m.round] = [];
+            lowerRoundsMap[m.round].push(m);
+        }
+    });
+    const rawLowerKeys = Object.keys(lowerRoundsMap).sort((a, b) => Math.abs(parseInt(a)) - Math.abs(parseInt(b)));
 
-            const p1Score = m.scoresCsv ? m.scoresCsv.split('-')[0] : '0';
-            const p2Score = m.scoresCsv ? m.scoresCsv.split('-')[1] : '0';
+    // 3. Align Winners and Losers Brackets sequentially matching Challonge's native columns
+    let upperRoundKeys = [];
+    let lowerRoundKeys = [];
 
-            const isLive = m.state === 'open' || m.state === 'pending' && (m.player1Id && m.player2Id);
-            const isComplete = m.state === 'complete';
+    const losersRounds = rawLowerKeys.filter(rk => parseInt(rk) < 0);
 
-            // Resolve winners/losers classes
-            let p1Class = 'team-row';
-            let p2Class = 'team-row';
-            if (team1.name === 'TBD') p1Class += ' tbd';
-            if (team2.name === 'TBD') p2Class += ' tbd';
+    if (losersRounds.length > 0) {
+        const minLowerRound = Math.min(...losersRounds.map(Number));
+        const totalLowerRounds = Math.abs(minLowerRound);
+        const totalCols = Math.max(maxRound, totalLowerRounds);
 
-            if (isComplete && m.winnerId) {
-                if (m.winnerId === m.player1Id) {
-                    p1Class += ' winner';
-                    p2Class += ' loser';
-                } else if (m.winnerId === m.player2Id) {
-                    p2Class += ' winner';
-                    p1Class += ' loser';
+        for (let i = 1; i <= totalCols; i++) {
+            if (i <= maxRound) {
+                upperRoundKeys.push(String(i));
+            } else {
+                upperRoundKeys.push('spacer_u_' + i);
+            }
+
+            if (i <= totalLowerRounds) {
+                lowerRoundKeys.push(String(-i));
+            } else {
+                lowerRoundKeys.push('spacer_l_' + i);
+            }
+        }
+    } else {
+        // Fallback for Single Elimination (just standard rounds sequential)
+        upperRoundKeys = rawUpperKeys.map(String);
+        lowerRoundKeys = Array(rawUpperKeys.length).fill('spacer_l');
+    }
+
+    // Render helper function for a given rounds map and sorted keys
+    function buildColumnsHtml(roundsMap, roundKeys, isUpper) {
+        if (roundKeys.length === 0) return '';
+        
+        return roundKeys.map((rk, idx) => {
+            if (String(rk).startsWith('spacer_')) {
+                return `
+                    <div class="bracket-round spacer-round">
+                        <div class="round-header" style="visibility: hidden;">
+                            <h2>SPACER</h2>
+                        </div>
+                        <div class="round-matches-container"></div>
+                    </div>
+                `;
+            }
+
+            const roundMatches = roundsMap[rk];
+            roundMatches.sort((a, b) => (a.suggestedPlayOrder || 0) - (b.suggestedPlayOrder || 0));
+
+            let roundTitle = `ROUND ${rk}`;
+            const roundNum = parseInt(rk);
+            
+            if (isUpper) {
+                if (roundNum === maxRound) {
+                    roundTitle = 'GRAND FINALE';
+                } else if (maxRound === 4) { // 8-team DE
+                    if (roundNum === 1) roundTitle = 'UPPER ROUND 1';
+                    else if (roundNum === 2) roundTitle = 'UPPER SEMIFINALS';
+                    else if (roundNum === 3) roundTitle = 'UPPER FINALS';
+                } else { // 16-team DE or generic
+                    if (roundNum === 1) roundTitle = 'UPPER ROUND 1';
+                    else if (roundNum === 2) roundTitle = 'UPPER QUARTERFINALS';
+                    else if (roundNum === 3) roundTitle = 'UPPER SEMIFINALS';
+                    else if (roundNum === 4) roundTitle = 'UPPER FINALS';
+                }
+            } else {
+                const lowerIdx = Math.abs(roundNum);
+                const minLowerRound = Math.min(...Object.keys(roundsMap).map(Number).filter(r => r < 0));
+                if (roundNum === minLowerRound) {
+                    roundTitle = 'LOWER FINALS';
+                } else {
+                    roundTitle = `LOWER ROUND ${lowerIdx}`;
                 }
             }
 
-            return `
-                <div class="bracket-match ${isLive ? 'live' : ''}" id="match-${m.id}">
-                    ${isLive ? '<div class="match-live-badge">LIVE</div>' : ''}
-                    <div class="${p1Class}">
-                        <span class="team-name">${escapeHtml(team1.name)}</span>
-                        <span class="team-score">${p1Score}</span>
+            const matchCardsHtml = roundMatches.map(m => {
+                const team1 = participants.find(p => p.id == m.player1Id) || { name: 'TBD', seed: '' };
+                const team2 = participants.find(p => p.id == m.player2Id) || { name: 'TBD', seed: '' };
+
+                const scores = parseChallongeScores(m.scoresCsv);
+                const p1Score = scores.p1;
+                const p2Score = scores.p2;
+
+                const isComplete = m.state === 'complete';
+
+                let p1Class = 'team-row';
+                let p2Class = 'team-row';
+                if (team1.name === 'TBD') p1Class += ' tbd';
+                if (team2.name === 'TBD') p2Class += ' tbd';
+
+                if (isComplete && m.winnerId) {
+                    if (m.winnerId == m.player1Id) {
+                        p1Class += ' winner';
+                        p2Class += ' loser';
+                    } else if (m.winnerId == m.player2Id) {
+                        p2Class += ' winner';
+                        p1Class += ' loser';
+                    }
+                }
+
+                return `
+                    <div class="bracket-match" id="match-${m.id}">
+                        <div class="${p1Class}">
+                            <span class="team-name">${escapeHtml(team1.name)}</span>
+                            <span class="team-score">${p1Score}</span>
+                        </div>
+                        <div class="${p2Class}">
+                            <span class="team-name">${escapeHtml(team2.name)}</span>
+                            <span class="team-score">${p2Score}</span>
+                        </div>
                     </div>
-                    <div class="match-separator"></div>
-                    <div class="${p2Class}">
-                        <span class="team-name">${escapeHtml(team2.name)}</span>
-                        <span class="team-score">${p2Score}</span>
+                `;
+            }).join('');
+
+            return `
+                <div class="bracket-round" data-round="${rk}">
+                    <div class="round-header">
+                        <h2>${roundTitle}</h2>
+                    </div>
+                    <div class="round-matches-container">
+                        ${matchCardsHtml}
                     </div>
                 </div>
             `;
         }).join('');
+    }
 
-        return `
-            <div class="bracket-round" data-round="${rk}">
-                <div class="round-header">
-                    <h2>${roundTitle}</h2>
-                </div>
-                ${matchCardsHtml}
+    const upperHtml = buildColumnsHtml(upperRoundsMap, upperRoundKeys, true);
+    const lowerHtml = buildColumnsHtml(lowerRoundsMap, lowerRoundKeys, false);
+
+    board.innerHTML = `
+        <div class="bracket-section upper-section">
+            <div class="section-heading">UPPER BRACKET</div>
+            <div class="bracket-row" id="upper-row">
+                ${upperHtml}
             </div>
-        `;
-    }).join('');
+        </div>
+        <div class="bracket-section lower-section">
+            <div class="section-heading">LOWER BRACKET</div>
+            <div class="bracket-row" id="lower-row">
+                ${lowerHtml}
+            </div>
+        </div>
+    `;
 
     // Trigger SVG path connector calculations after DOM renders
     setTimeout(() => {
-        drawSVGConnectors(roundsMap, roundKeys);
+        drawSVGConnectors(upperRoundsMap, rawUpperKeys);
+        drawSVGConnectors(lowerRoundsMap, rawLowerKeys);
+        drawLowerFinalsToGrandFinalsConnector(matches, maxRound);
     }, 100);
 }
 
@@ -216,9 +347,6 @@ function renderBracketBoard(bracketData) {
 function drawSVGConnectors(roundsMap, roundKeys) {
     const canvas = document.getElementById('connector-svg-layer');
     if (!canvas) return;
-
-    // Reset old lines
-    canvas.querySelectorAll('.connector-path').forEach(el => el.remove());
 
     const board = document.getElementById('bracket-board');
     if (!board) return;
@@ -231,11 +359,18 @@ function drawSVGConnectors(roundsMap, roundKeys) {
 
         const sourceMatches = roundsMap[sourceRoundKey];
         const targetMatches = roundsMap[targetRoundKey];
+        if (!sourceMatches || !targetMatches) continue;
 
         sourceMatches.forEach((sm, index) => {
             // In a standard single-elimination binary tree, 
             // source match index J connects to target match index Math.floor(J / 2)
-            const targetIdx = Math.floor(index / 2);
+            // But if consecutive rounds have the same number of matches, J connects directly to J!
+            let targetIdx = Math.floor(index / 2);
+            if (sourceMatches.length === targetMatches.length) {
+                targetIdx = index;
+            } else if (targetMatches.length === 1 && sourceMatches.length === 1) {
+                targetIdx = 0;
+            }
             const tm = targetMatches[targetIdx];
             if (!tm) return;
 
@@ -259,7 +394,7 @@ function drawSVGConnectors(roundsMap, roundKeys) {
                 const pathD = `M ${x1} ${y1} L ${xm} ${y1} L ${xm} ${y2} L ${x2} ${y2}`;
 
                 // 4. Resolve path active glow
-                const isPathActive = sm.state === 'complete' || (sm.state === 'open' && tm.state === 'open');
+                const isPathActive = sm.state === 'complete';
 
                 // Create SVG path element
                 const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -268,6 +403,50 @@ function drawSVGConnectors(roundsMap, roundKeys) {
                 canvas.appendChild(path);
             }
         });
+    }
+}
+
+// ── Special Lower Finals to Grand Finals Connector Drawer ──
+function drawLowerFinalsToGrandFinalsConnector(matches, maxRound) {
+    const canvas = document.getElementById('connector-svg-layer');
+    if (!canvas) return;
+
+    const board = document.getElementById('bracket-board');
+    if (!board) return;
+    const boardRect = board.getBoundingClientRect();
+
+    const minLowerRound = Math.min(...matches.filter(m => m.round < 0).map(m => m.round));
+    const lowerFinalsMatch = matches.find(m => m.round === minLowerRound);
+    const grandFinalsMatch = matches.find(m => m.round === maxRound);
+
+    if (lowerFinalsMatch && grandFinalsMatch) {
+        const lfEl = document.getElementById(`match-${lowerFinalsMatch.id}`);
+        const gfEl = document.getElementById(`match-${grandFinalsMatch.id}`);
+
+        if (lfEl && gfEl) {
+            const lfRect = lfEl.getBoundingClientRect();
+            const gfRect = gfEl.getBoundingClientRect();
+
+            // 1. Output Pin (Right Center of Lower Finals match card)
+            const x1 = lfRect.right - boardRect.left;
+            const y1 = lfRect.top + lfRect.height / 2 - boardRect.top;
+
+            // 2. Input Pin (Left Center of Grand Finals match card)
+            const x2 = gfRect.left - boardRect.left;
+            const y2 = gfRect.top + gfRect.height / 2 - boardRect.top;
+
+            // 3. Orthogonal Bezier Slanted Path calculations (go right first by 20px, then up, then left, matching Challonge UI)
+            const pathD = `M ${x1} ${y1} L ${x1 + 20} ${y1} L ${x1 + 20} ${y2} L ${x2} ${y2}`;
+
+            // 4. Resolve path active glow
+            const isPathActive = lowerFinalsMatch.state === 'complete';
+
+            // Create SVG path element
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', pathD);
+            path.setAttribute('class', `connector-path ${isPathActive ? 'active' : ''}`);
+            canvas.appendChild(path);
+        }
     }
 }
 
@@ -318,7 +497,9 @@ function escapeHtml(str) {
         .replace(/'/g, "&#039;");
 }
 
-// Boot initial render
+// Boot initial render — only fallback to mock if ws hasn't loaded real bracket
 setTimeout(() => {
-    renderBracketBoard(MOCK_BRACKET_DATA);
-}, 200);
+    if (!hasLoadedRealData) {
+        renderBracketBoard(MOCK_BRACKET_DATA);
+    }
+}, 400);
