@@ -53,7 +53,7 @@ const app    = express();
 const server = http.createServer(app);
 const wss    = new WebSocketServer({ server });
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 /* ──────────────────────────────────────────────────────────
    VALORANT GAME RULES — Official mechanics (May 2026)
@@ -318,6 +318,35 @@ function isOvertimeCondition() {
    MIDDLEWARE
 ────────────────────────────────────────────────────────── */
 app.use(express.json());
+
+// ── Basic Authentication Middleware ──
+// Secures the admin control panel and all state-modifying POST requests
+app.use((req, res, next) => {
+    const isDestructiveApi = req.method === 'POST';
+    const isAdminPanel = req.path === '/' || req.path === '/admin.html';
+    
+    if (isAdminPanel || isDestructiveApi) {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            res.setHeader('WWW-Authenticate', 'Basic realm="ValorGG Admin"');
+            return res.status(401).send('Authentication required.');
+        }
+
+        const auth = Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':');
+        const user = auth[0];
+        const pass = auth[1];
+
+        if (user === 'hippo' && pass === 'Akinny1245@') {
+            next();
+        } else {
+            res.setHeader('WWW-Authenticate', 'Basic realm="ValorGG Admin"');
+            return res.status(401).send('Authentication failed. Invalid credentials.');
+        }
+    } else {
+        next();
+    }
+});
+
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use(express.static(__dirname));
 

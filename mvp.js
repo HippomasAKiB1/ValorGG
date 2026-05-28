@@ -1,7 +1,8 @@
 // mvp.js — VCT-Style Match MVP Overlay Controller
 'use strict';
 
-const ws = new WebSocket(`ws://${location.host}`);
+const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+const ws = new WebSocket(`${wsProto}//${location.host}`);
 let prevMvpJson = '';
 let prevMatchJson = '';
 let activeState = {};

@@ -1,7 +1,8 @@
 // caster.js — VCT-Style Full-Screen Caster Desk Controller
 'use strict';
 
-const ws = new WebSocket(`ws://${location.host}`);
+const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+const ws = new WebSocket(`${wsProto}//${location.host}`);
 let prevCastersJson = '';
 let prevMatchJson = '';
 

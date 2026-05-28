@@ -1,7 +1,8 @@
 // agent.js — VCT-Style Agent Selection Strip
 'use strict';
 
-const ws = new WebSocket(`ws://${location.host}`);
+const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+const ws = new WebSocket(`${wsProto}//${location.host}`);
 let state = null;
 let prevLockStates = {};
 

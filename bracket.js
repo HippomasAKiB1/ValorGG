@@ -1,7 +1,8 @@
 // bracket.js — VCT-Style Custom Tournament Bracket Controller
 'use strict';
 
-const ws = new WebSocket(`ws://${location.host}`);
+const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+const ws = new WebSocket(`${wsProto}//${location.host}`);
 let activeState = {};
 let prevBracketJson = '';
 let prevMatchJson = '';
