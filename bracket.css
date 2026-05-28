@@ -1,0 +1,311 @@
+/* ═══════════════════════════════════════════════════════════
+   VCT BROADCAST HUD  —  bracket.css
+   Premium Esports Custom Tournament Bracket Showcase Styles
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+    --vct-yellow:  #ece81a;
+    --vct-cyan:    #00f3c6;
+    --vct-dark:    #06080c;
+    --vct-card-bg: rgba(10, 14, 20, 0.94);
+    --vct-white:   #ffffff;
+    --vct-black:   #000000;
+    --border:      rgba(255, 255, 255, 0.08);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 1920px;
+    height: 1080px;
+    background: transparent !important; /* OBS transparent capture */
+    overflow: hidden;
+    font-family: 'Barlow Condensed', sans-serif;
+    color: var(--vct-white);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── Fullscreen Overlay Wrapper ── */
+.bracket-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* ── SVG Connector Backdrop Layer ── */
+.connector-svg-layer {
+    position: absolute;
+    top: 155px;
+    left: 130px;
+    width: 1660px;
+    height: 740px;
+    z-index: 5;
+    pointer-events: none; /* Clicks pass through */
+}
+
+.connector-path {
+    fill: none;
+    stroke: url(#connector-grad);
+    stroke-width: 2.5px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.85;
+    filter: url(#glow);
+}
+
+/* Active flowing dash effect for live match path flow */
+.connector-path.active {
+    stroke-dasharray: 6, 6;
+    animation: strokeMove 1s linear infinite;
+    stroke-width: 3px;
+    opacity: 1;
+}
+
+/* ── Central Custom Bracket Board ── */
+.bracket-board {
+    position: absolute;
+    top: 155px;
+    left: 130px;
+    width: 1660px;
+    height: 740px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 32px;
+}
+
+/* ── Round Column ── */
+.bracket-round {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    flex: 1;
+    height: 100%;
+    position: relative;
+}
+
+/* Round Header Title */
+.round-header {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: -36px;
+    left: 0;
+}
+
+.round-header h2 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--vct-yellow);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(232, 184, 75, 0.4);
+    border-bottom: 2px solid rgba(232, 184, 75, 0.2);
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+/* ── Match Cards (Esports Glassmorphic Design) ── */
+.bracket-match {
+    position: relative;
+    width: 240px;
+    height: 74px;
+    background: var(--vct-card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.7),
+        inset 0 0 10px rgba(255, 255, 255, 0.02);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 12;
+}
+
+/* Match Hover Glow */
+.bracket-match:hover {
+    transform: translateY(-2px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 10px 25px rgba(0, 0, 0, 0.8),
+        0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Blinking Neon Pulse for LIVE matches */
+.bracket-match.live {
+    border: 2px solid var(--vct-cyan) !important;
+    box-shadow: 
+        0 0 20px rgba(0, 243, 198, 0.3),
+        0 8px 25px rgba(0, 0, 0, 0.7);
+    animation: livePulse 2s ease-in-out infinite alternate;
+}
+
+/* Live Badge indicator at top right */
+.match-live-badge {
+    position: absolute;
+    top: -10px;
+    right: 12px;
+    background: #ff4655;
+    color: var(--vct-white);
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(255, 70, 85, 0.5);
+    z-index: 15;
+    animation: blinker 1.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Match rows structure */
+.team-row {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Side indicator slashes */
+.team-row::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--vct-cyan);
+    opacity: 0.8;
+}
+
+.team-row.winner::before {
+    background: var(--vct-yellow);
+}
+
+.team-row.loser::before {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Separator line inside the card */
+.match-separator {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+    width: 100%;
+}
+
+/* Team Text */
+.team-name {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--vct-white);
+    max-width: 170px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Team Score Block */
+.team-score {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--vct-white);
+    width: 28px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.015);
+    margin-right: -12px; /* Pull into border boundary */
+}
+
+/* Winner & Loser styles */
+.team-row.winner .team-name {
+    color: var(--vct-yellow);
+    font-weight: 800;
+}
+.team-row.winner .team-score {
+    color: var(--vct-yellow);
+    background: rgba(232, 184, 75, 0.06);
+}
+
+.team-row.loser .team-name {
+    color: rgba(255, 255, 255, 0.35);
+}
+.team-row.loser .team-score {
+    color: rgba(255, 255, 255, 0.25);
+    background: transparent;
+}
+
+/* TBD/Empty slots styles */
+.team-row.tbd .team-name {
+    color: rgba(255, 255, 255, 0.22);
+    font-style: italic;
+    font-weight: 400;
+}
+.team-row.tbd .team-score {
+    color: rgba(255, 255, 255, 0.12);
+}
+
+/* ── STAGGERED ENTRANCE ANIMATIONS ── */
+.bracket-round {
+    animation: roundFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.bracket-round:nth-child(1) { animation-delay: 0.05s; }
+.bracket-round:nth-child(2) { animation-delay: 0.20s; }
+.bracket-round:nth-child(3) { animation-delay: 0.35s; }
+.bracket-round:nth-child(4) { animation-delay: 0.50s; }
+
+/* ── KEYFRAMES ── */
+@keyframes roundFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes livePulse {
+    0% {
+        border-color: var(--vct-cyan);
+        box-shadow: 
+            0 0 15px rgba(0, 243, 198, 0.25),
+            0 8px 25px rgba(0, 0, 0, 0.7);
+    }
+    100% {
+        border-color: #00bfa3;
+        box-shadow: 
+            0 0 25px rgba(0, 243, 198, 0.55),
+            0 8px 30px rgba(0, 0, 0, 0.85);
+    }
+}
+
+@keyframes blinker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+@keyframes strokeMove {
+    0% {
+        stroke-dashoffset: 24;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}

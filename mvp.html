@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VCT Match MVP Overlay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mvp.css">
+</head>
+<body>
+
+    <div class="mvp-wrapper">
+        <!-- Top Header Banner -->
+        <header class="mvp-header animate-header">
+            <h1 class="v-event" id="header-tournament">VALORANT PRO SERIES</h1>
+            <div class="header-scene">MATCH MVP</div>
+        </header>
+
+        <!-- Left Vertical Side Accent -->
+        <aside class="mvp-side-accent side-left">
+            <div class="accent-text">ROAD TO CHAMPIONS</div>
+            <div class="accent-line"></div>
+            <div class="accent-year">— 2026</div>
+        </aside>
+
+        <!-- Right Vertical Side Accent -->
+        <aside class="mvp-side-accent side-right">
+            <div class="accent-text">ROAD TO CHAMPIONS</div>
+            <div class="accent-line"></div>
+            <div class="accent-year">— 2026</div>
+        </aside>
+
+        <!-- Centered Split MVP Content -->
+        <main class="mvp-container" id="mvp-container">
+            <!-- Dynamically injected split MVP panel (left portrait card, right stats box) -->
+        </main>
+
+        <!-- Bottom Scrolling Sponsor / Event Ticker -->
+        <footer class="mvp-footer">
+            <div class="ticker-label">PARTNERS</div>
+            <div class="ticker-wrap">
+                <div class="ticker-scroll" id="ticker-scroll">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="mvp.js"></script>
+</body>
+</html>

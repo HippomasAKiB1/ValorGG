@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VCT Match Winner Overlay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="winner.css">
+</head>
+<body>
+
+    <div class="winner-wrapper">
+        <!-- Top Header Banner -->
+        <header class="winner-header animate-header">
+            <h1 class="v-event" id="header-tournament">VALORANT PRO SERIES</h1>
+            <div class="header-scene">MATCH WINNER</div>
+        </header>
+
+        <!-- Left Vertical Side Accent -->
+        <aside class="winner-side-accent side-left">
+            <div class="accent-text">ROAD TO CHAMPIONS</div>
+            <div class="accent-line"></div>
+            <div class="accent-year">— 2026</div>
+        </aside>
+
+        <!-- Right Vertical Side Accent -->
+        <aside class="winner-side-accent side-right">
+            <div class="accent-text">ROAD TO CHAMPIONS</div>
+            <div class="accent-line"></div>
+            <div class="accent-year">— 2026</div>
+        </aside>
+
+        <!-- Centered Winner Content -->
+        <main class="winner-container" id="winner-container">
+            <!-- Dynamically injected winner content -->
+        </main>
+
+        <!-- Bottom Scrolling Sponsor / Event Ticker -->
+        <footer class="winner-footer">
+            <div class="ticker-label">PARTNERS</div>
+            <div class="ticker-wrap">
+                <div class="ticker-scroll" id="ticker-scroll">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="winner.js"></script>
+</body>
+</html>

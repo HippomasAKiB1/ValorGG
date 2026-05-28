@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VCT Tournament Bracket Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,800;0,900;1,900&family=Barlow:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="bracket.css">
+</head>
+<body>
+
+    <div class="bracket-wrapper">
+        <!-- Top Header Banner (Dynamic via WebSocket) -->
+        <header class="winner-header animate-header">
+            <h1 class="v-event" id="header-tournament">WARCITIES://VALORANT PRO SERIES</h1>
+            <div class="header-scene">PLAYOFFS BRACKET</div>
+        </header>
+
+        <!-- Left Vertical Side Accent -->
+        <aside class="winner-side-accent side-left">
+            <div class="accent-text">ROAD TO CHAMPIONS</div>
+            <div class="accent-line"></div>
+            <div class="accent-year">— 2026</div>
+        </aside>
+
+        <!-- Right Vertical Side Accent -->
+        <aside class="winner-side-accent side-right">
+            <div class="accent-text">ROAD TO CHAMPIONS</div>
+            <div class="accent-line"></div>
+            <div class="accent-year">— 2026</div>
+        </aside>
+
+        <!-- Dynamic SVG Connector Lines Layer (Draws glowing paths between match cards) -->
+        <svg class="connector-svg-layer" id="connector-svg-layer" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="connector-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#00f3c6" />
+                    <stop offset="100%" stop-color="#ece81a" />
+                </linearGradient>
+                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+            </defs>
+            <!-- Generated dynamically by bracket.js -->
+        </svg>
+
+        <!-- Central Custom Bracket Board -->
+        <main class="bracket-board" id="bracket-board">
+            <!-- Dynamically populated round columns containing VCT styled match cards -->
+        </main>
+
+        <!-- Bottom Scrolling Sponsor / Event Ticker -->
+        <footer class="winner-footer">
+            <div class="ticker-label">PARTNERS</div>
+            <div class="ticker-wrap">
+                <div class="ticker-scroll" id="ticker-scroll">
+                    <!-- Populated dynamically by WebSocket -->
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Live WebSocket Bridge & Bracket Engine -->
+    <script src="bracket.js"></script>
+</body>
+</html>

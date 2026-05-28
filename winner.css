@@ -1,0 +1,503 @@
+/* winner.css — Premium Full-Screen VCT-Style Match Winner Overlay */
+
+:root {
+    --bg-dark:    rgba(6, 8, 12, 0.95);
+    --bg-light:   rgba(16, 21, 29, 0.85);
+    --gold:       #e8b84b;
+    --red:        #ff4655;
+    --border:     rgba(255, 255, 255, 0.08);
+    --border-top: rgba(255, 255, 255, 0.15);
+    --text-main:  #ffffff;
+    --text-muted: #abb8c7;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 1920px;
+    height: 1080px;
+    background: transparent !important;
+    overflow: hidden;
+    font-family: 'Barlow', sans-serif;
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── Full-Screen Wrapper ── */
+.winner-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* ── Top Header Banner ── */
+.winner-header {
+    position: absolute;
+    top: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    z-index: 10;
+    text-align: center;
+    animation: slideDown 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.winner-header .v-event {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--text-main);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
+    text-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.15), 
+        0 4px 10px rgba(0, 0, 0, 0.7);
+}
+
+.winner-header .header-scene {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-top: 8px;
+    text-shadow: 
+        0 0 15px rgba(232, 184, 75, 0.45), 
+        0 3px 8px rgba(0, 0, 0, 0.6);
+    border-top: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.12);
+    padding: 6px 36px;
+    background: rgba(255, 255, 255, 0.015);
+    border-radius: 6px;
+}
+
+/* ── Vertical Side Accents ── */
+.winner-side-accent {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    color: rgba(255, 255, 255, 0.22);
+    z-index: 5;
+    animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.winner-side-accent.side-left { left: 60px; }
+.winner-side-accent.side-right { right: 60px; }
+
+.winner-side-accent .accent-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    writing-mode: vertical-rl;
+    text-transform: uppercase;
+}
+
+.winner-side-accent .accent-line {
+    width: 1px;
+    height: 120px;
+    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.15) 20%, rgba(255, 255, 255, 0.15) 80%, transparent);
+}
+
+.winner-side-accent .accent-year {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    writing-mode: vertical-rl;
+}
+
+/* ── Centered Main Container ── */
+.winner-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 1800px;
+    height: 750px;
+    z-index: 8;
+}
+
+/* ── Stage Stage ── */
+.winner-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Fallback Card ── */
+.winner-card.fallback-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: scaleUpIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Rotating Light Beams Background ── */
+.winner-stage-beams {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle, rgba(232, 184, 75, 0.12) 0%, transparent 60%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.winner-stage-beams::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-conic-gradient(
+        from 0deg,
+        rgba(232, 184, 75, 0.04) 0deg 15deg,
+        transparent 15deg 30deg
+    );
+    border-radius: 50%;
+    mask: radial-gradient(circle, black 20%, transparent 65%);
+    -webkit-mask: radial-gradient(circle, black 20%, transparent 65%);
+    animation: rotateBeams 24s linear infinite;
+}
+
+@keyframes rotateBeams {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ── Giant Background Team Logo ── */
+.winner-bg-logo-container {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1; /* behind agents */
+    opacity: 0.18; /* soft background blend */
+    filter: drop-shadow(0 0 50px rgba(232, 184, 75, 0.45));
+    animation: bgLogoPulse 4s infinite alternate ease-in-out;
+}
+
+@keyframes bgLogoPulse {
+    0% {
+        opacity: 0.15;
+        transform: translate(-50%, -50%) scale(0.97);
+    }
+    100% {
+        opacity: 0.22;
+        transform: translate(-50%, -50%) scale(1.03);
+    }
+}
+
+.winner-bg-logo-container .winner-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.winner-bg-logo-container #logo-text-fallback {
+    font-size: 160px;
+    font-weight: 950;
+    color: var(--gold);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    text-shadow: 0 0 45px rgba(232, 184, 75, 0.35);
+}
+
+/* ── Esports Agent Lineup (Symmetric V-Formation, No Blur) ── */
+.winner-agent-lineup {
+    position: absolute;
+    bottom: 150px;
+    width: 100%;
+    height: 520px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.agent-slot {
+    position: absolute;
+    height: 100%;
+    width: 320px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    bottom: 0;
+    opacity: 0;
+    transform: translateY(80px) scale(0.9);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: agentEnter 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.agent-art {
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.8));
+}
+
+/* Specific Staggered Slots Positioning */
+/* Slot 1: Far Left */
+.agent-slot.slot-1 {
+    left: 300px;
+    z-index: 3;
+    height: 380px;
+    filter: brightness(0.7);
+}
+
+/* Slot 2: Mid Left */
+.agent-slot.slot-2 {
+    left: 520px;
+    z-index: 4;
+    height: 440px;
+    filter: brightness(0.85);
+}
+
+/* Slot 3: Center (Standing forward, full brightness) */
+.agent-slot.slot-3 {
+    left: 740px;
+    z-index: 6; /* stands in front of side agents */
+    height: 500px;
+    filter: drop-shadow(0 0 35px rgba(232, 184, 75, 0.25)) brightness(1.15);
+}
+
+/* Slot 4: Mid Right */
+.agent-slot.slot-4 {
+    left: 960px;
+    z-index: 4;
+    height: 440px;
+    filter: brightness(0.85);
+}
+
+/* Slot 5: Far Right */
+.agent-slot.slot-5 {
+    left: 1180px;
+    z-index: 3;
+    height: 380px;
+    filter: brightness(0.7);
+}
+
+@keyframes agentEnter {
+    0% {
+        opacity: 0;
+        transform: translateY(80px) scale(0.85);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Foreground Branding ── */
+.winner-crest-wrapper {
+    position: absolute;
+    bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+}
+
+.winner-team-info {
+    text-align: center;
+    animation: infoEnter 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+.winner-team-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 84px;
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    line-height: 0.95;
+    margin-bottom: 6px;
+    font-style: italic;
+    text-shadow: 0 4px 14px rgba(0, 0, 0, 0.95);
+}
+
+.winner-team-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.85);
+}
+
+/* Legacy support styles */
+.winner-logo-frame {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.winner-ribbon {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 950;
+    color: #ffffff;
+    background: var(--red);
+    padding: 6px 24px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    box-shadow: 0 0 20px rgba(255, 70, 85, 0.5);
+}
+
+/* ── Bottom Scrolling Sponsor Ticker ── */
+.winner-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 1920px;
+    height: 60px;
+    background: rgba(5, 7, 10, 0.94);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    padding: 0 50px;
+    box-sizing: border-box;
+    animation: slideUpFooter 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.winner-footer .ticker-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--red);
+    letter-spacing: 3px;
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+    padding-right: 24px;
+    margin-right: 24px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.winner-footer .ticker-wrap {
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+}
+
+.winner-footer .ticker-scroll {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: ticker 32s linear infinite;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    gap: 40px;
+}
+
+.winner-footer .ticker-scroll .dot {
+    color: var(--gold);
+    font-size: 18px;
+    font-weight: 900;
+}
+
+/* ── Keyframes ── */
+@keyframes scaleUpIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+        filter: blur(5px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes slideUpFooter {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes ticker {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes infoEnter {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+        filter: blur(3px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}

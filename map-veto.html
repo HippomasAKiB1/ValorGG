@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>Map Veto Overlay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="veto.css">
+</head>
+<body>
+    
+    <div class="veto-wrapper">
+        <h1 class="veto-title">MAP VETO</h1>
+        
+        <div class="veto-cards-container" id="veto-cards-container">
+            <!-- Dynamically populated by map-veto.js -->
+        </div>
+
+        <div class="veto-footer" id="veto-footer">
+            <div class="tournament-bar">
+                <span id="tournament-label">WarCities://Valorant Pro Series</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="map-veto.js"></script>
+</body>
+</html>

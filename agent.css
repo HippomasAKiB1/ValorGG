@@ -1,0 +1,267 @@
+/* agent.css — VCT-Style Agent Selection Strip (Transparent for OBS) */
+
+/* ── Wrapper: horizontal strip pinned to bottom ── */
+.agent-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 1920px;
+    height: 380px;
+    background: transparent;
+    display: flex;
+    align-items: stretch;
+    font-family: var(--font-hud);
+    z-index: 10;
+}
+
+/* ── Team Block (left or right half) ── */
+.agent-team-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: rgba(10, 12, 18, 0.92);
+    position: relative;
+    overflow: hidden;
+}
+
+.agent-block-left {
+    border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+.agent-block-right {
+    border-left: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ── Team Label Row ── */
+.agent-team-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 24px;
+    background: rgba(5, 7, 12, 0.95);
+}
+
+.agent-block-left .agent-team-label {
+    justify-content: flex-start;
+}
+
+.agent-block-right .agent-team-label {
+    justify-content: flex-end;
+}
+
+.agent-team-name {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.agent-team-side {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--muted-light);
+    text-transform: uppercase;
+}
+
+/* ── Agent Cards Row ── */
+.agent-cards-row {
+    flex: 1;
+    display: flex;
+    gap: 0;
+}
+
+/* ── Individual Agent Card (vertical column) ── */
+.agent-card-vct {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid rgba(255,255,255,0.04);
+}
+
+.agent-card-vct:last-child {
+    border-right: none;
+}
+
+/* ── Portrait Area ── */
+.agent-card-portrait {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: rgba(20, 22, 30, 0.7);
+}
+
+.agent-card-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    opacity: 0;
+    transform: scale(1.15);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Agent revealed (selected) */
+.agent-card-vct.agent-revealed .agent-card-portrait img {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Agent locked in */
+.agent-card-vct.agent-locked .agent-card-portrait img {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ── Role Icon (top corner) ── */
+.agent-card-role {
+    position: absolute;
+    top: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.agent-block-left .agent-card-role { right: 8px; }
+.agent-block-right .agent-card-role { left: 8px; }
+
+.agent-card-role img {
+    width: 18px;
+    height: 18px;
+    opacity: 0.8;
+}
+
+/* ── Name Bar (bottom of each card) ── */
+.agent-card-nameplate {
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.agent-block-left .agent-card-nameplate {
+    align-items: flex-start;
+    background: rgba(255, 70, 85, 0.12);
+    border-top: 2px solid var(--attack);
+}
+
+.agent-block-right .agent-card-nameplate {
+    align-items: flex-end;
+    text-align: right;
+    background: rgba(0, 212, 170, 0.12);
+    border-top: 2px solid var(--defense);
+}
+
+.agent-card-vct.agent-locked .agent-card-nameplate {
+    background: rgba(232, 184, 75, 0.15);
+    border-top-color: var(--gold);
+}
+
+.nameplate-agent {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted-light);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.nameplate-player {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* ── LOCKED IN Badge (overlay on card) ── */
+.lock-in-badge {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.lock-in-badge span {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    text-shadow: 0 0 25px rgba(232, 184, 75, 0.8), 0 0 50px rgba(232, 184, 75, 0.4);
+}
+
+@keyframes lockInFlash {
+    0%   { opacity: 0; transform: scale(2); }
+    15%  { opacity: 1; transform: scale(1); }
+    70%  { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.8); }
+}
+
+.lock-in-badge.animate {
+    animation: lockInFlash 1.8s ease-out forwards;
+}
+
+@keyframes cardFlash {
+    0%   { box-shadow: inset 0 0 0 0 rgba(232, 184, 75, 0); }
+    20%  { box-shadow: inset 0 0 60px 10px rgba(232, 184, 75, 0.3); }
+    100% { box-shadow: none; }
+}
+
+.agent-card-vct.flash-lock {
+    animation: cardFlash 1.5s ease-out forwards;
+}
+
+/* ── Center VS Section ── */
+.agent-center-vs {
+    width: 180px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 10, 16, 0.95);
+    border-left: 1px solid rgba(255,255,255,0.06);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    gap: 10px;
+    position: relative;
+}
+
+.vs-badge {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--muted-light);
+    letter-spacing: 4px;
+}
+
+.vs-map-img-wrap {
+    width: 140px;
+    height: 140px;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.08);
+}
+
+.vs-map-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vs-map-name {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}

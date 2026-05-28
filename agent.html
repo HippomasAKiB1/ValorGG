@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>Agent Pick Overlay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="agent.css">
+</head>
+<body>
+    
+    <div class="agent-wrapper">
+        <!-- Left Team -->
+        <div class="agent-team-block agent-block-left" id="agent-block-left">
+            <div class="agent-team-label">
+                <h2 class="agent-team-name" id="at-name-left">TEAM SPAIN</h2>
+                <span class="agent-team-side" id="at-side-left">DEF</span>
+            </div>
+            <div class="agent-cards-row" id="agent-cards-left">
+                <!-- 5 agent cards injected by JS -->
+            </div>
+        </div>
+
+        <!-- Center: VS + Map -->
+        <div class="agent-center-vs">
+            <div class="vs-badge">&langle; VS &rangle;</div>
+            <div class="vs-map-img-wrap">
+                <img id="vs-map-img" src="" alt="">
+            </div>
+            <div class="vs-map-name" id="vs-map-name">ASCENT</div>
+        </div>
+
+        <!-- Right Team -->
+        <div class="agent-team-block agent-block-right" id="agent-block-right">
+            <div class="agent-team-label">
+                <span class="agent-team-side" id="at-side-right">ATK</span>
+                <h2 class="agent-team-name" id="at-name-right">TEAM INTERNATIONAL</h2>
+            </div>
+            <div class="agent-cards-row" id="agent-cards-right">
+                <!-- 5 agent cards injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="agent.js"></script>
+</body>
+</html>

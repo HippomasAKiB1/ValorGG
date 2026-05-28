@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>VCT HUD Overlay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ══════════════════════════════════════════════════
+         UNIFIED HEADER  —  maps | scoreboard | tournament
+    ══════════════════════════════════════════════════ -->
+    <div class="header-bar" id="header-bar">
+
+        <!-- Left: Map progression -->
+        <div class="header-left">
+            <div class="maps-strip" id="maps-strip">
+                <!-- Injected by HUD.renderMaps() -->
+            </div>
+        </div>
+
+        <!-- Center: Scoreboard -->
+        <div class="scoreboard" id="scoreboard">
+
+            <!-- Left team block -->
+            <div class="team-panel team-left" id="scoreboard-panel-left">
+                <div class="team-info team-info-left">
+                    <div class="team-logo-wrap">
+                        <img id="logo-left" src="" alt="Left team logo">
+                    </div>
+                    <div class="team-text-block text-right">
+                        <span class="team-name-big" id="name-left"></span>
+                        <span class="team-subtag"   id="tag-left"></span>
+                    </div>
+                </div>
+                <div class="score-box score-left" id="score-left">0</div>
+                <div class="pips-row pips-left" id="pips-left"></div>
+            </div>
+
+            <!-- Center: transparent cutout for native game timer -->
+            <div class="center-panel" id="center-panel">
+                <svg class="timer-bezel" viewBox="0 0 144 32">
+                    <polyline points="26,2 44,18 100,18 118,2" fill="none" stroke="#ffffff" stroke-width="2.5"/>
+                    <polyline points="52,18 58,25 86,25 92,18" fill="none" stroke="#ffffff" stroke-width="2.5"/>
+                    <polygon points="72,23 68,28 72,32 76,28" fill="#ffffff"/>
+                </svg>
+            </div>
+
+            <!-- Right team block -->
+            <div class="team-panel team-right" id="scoreboard-panel-right">
+                <div class="score-box score-right" id="score-right">0</div>
+                <div class="team-info team-info-right">
+                    <div class="team-text-block text-left">
+                        <span class="team-name-big" id="name-right"></span>
+                        <span class="team-subtag"   id="tag-right"></span>
+                    </div>
+                    <div class="team-logo-wrap">
+                        <img id="logo-right" src="" alt="Right team logo">
+                    </div>
+                </div>
+                <div class="pips-row pips-right" id="pips-right"></div>
+            </div>
+
+        </div>
+
+        <!-- Right: Tournament -->
+        <div class="header-right">
+            <div class="tournament-text-block">
+                <span class="tournament-label" id="tournament-label"></span>
+                <span class="tournament-subheading" id="tournament-subheading"></span>
+            </div>
+            <div class="tournament-logo-wrap">
+                <img id="tournament-logo" src="/assets/wvps/wvps-logo.png" alt="Tournament Logo" onerror="this.src='/assets/wvps/wvps/wvps-logo.png'">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         SPIKE PLANTED BANNER  —  shown on spike plant
+    ══════════════════════════════════════════════════ -->
+    <div class="spike-banner" id="spike-banner">
+        <svg width="13" height="13" viewBox="0 0 13 13"><polygon points="6.5,0 13,6.5 6.5,13 0,6.5" fill="#E8B84B"/></svg>
+        <span>SPIKE PLANTED</span>
+        <svg width="13" height="13" viewBox="0 0 13 13"><polygon points="6.5,0 13,6.5 6.5,13 0,6.5" fill="#E8B84B"/></svg>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════
+         PLAYER CARDS  —  left and right panels
+    ══════════════════════════════════════════════════ -->
+    <div class="side-panel panel-left"  id="panel-left"></div>
+    <div class="side-panel panel-right" id="panel-right"></div>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
