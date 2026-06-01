@@ -765,7 +765,8 @@ function updateAgent(side, id, agentName) {
     const p = localState.teams[side].players.find(x => x.id === id);
     if (p) {
         p.agent = agentName;
-        p.agentImg = agentName ? `/assets/agent/${agentName}.webp` : '';
+        const safeName = agentName ? agentName.replace('/', '').toLowerCase() : '';
+        p.agentImg = safeName ? `/assets/agent/${safeName}.webp` : '';
     }
     pushUpdate({
         teams: {
@@ -1170,7 +1171,8 @@ function agentSelChange(side, id, agentName) {
     const p = localState.teams[side].players.find(x => x.id === id);
     if (p) {
         p.agent = agentName;
-        p.agentImg = agentName ? `/assets/agent/${agentName}.webp` : '';
+        const safeName = agentName ? agentName.replace('/', '').toLowerCase() : '';
+        p.agentImg = safeName ? `/assets/agent/${safeName}.webp` : '';
     }
     pushUpdate({
         teams: {
