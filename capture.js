@@ -20,7 +20,7 @@ const CaptureEngine = {
     /* ── Top HUD regions (% of 1920×1080) ── */
     topHud: {
         left:  { top: 1.5, left: 42.5, width: 3.5, height: 5.5 },
-        right: { top: 1.5, left: 54.5, width: 3.5, height: 5.5 },
+        right: { top: 1.5, left: 54.5, width: 3.5, height: 5.5 }
     }
 };
 
@@ -81,7 +81,7 @@ async function extractTopHud(vW, vH) {
         const lCrop = cropRegion(vW, vH, CaptureEngine.topHud.left.left, CaptureEngine.topHud.left.top, CaptureEngine.topHud.left.width, CaptureEngine.topHud.left.height);
         binarize(lCrop.ctx, lCrop.canvas.width, lCrop.canvas.height, 160, false);
         updatePreviewCanvas('crop-left', lCrop.canvas);
-        const lText = await ocrCanvas(lCrop.canvas, 'kda'); // whitelist numeric
+        const lText = await ocrCanvas(lCrop.canvas, 'kda');
         const lScore = parseInt(lText.replace(/\D/g,''), 10);
         setResText('res-left', isNaN(lScore) ? '--' : lScore);
         if (!isNaN(lScore) && lScore >= 0 && lScore <= 13) {
@@ -96,7 +96,7 @@ async function extractTopHud(vW, vH) {
         const rCrop = cropRegion(vW, vH, CaptureEngine.topHud.right.left, CaptureEngine.topHud.right.top, CaptureEngine.topHud.right.width, CaptureEngine.topHud.right.height);
         binarize(rCrop.ctx, rCrop.canvas.width, rCrop.canvas.height, 160, false);
         updatePreviewCanvas('crop-right', rCrop.canvas);
-        const rText = await ocrCanvas(rCrop.canvas, 'kda'); // whitelist numeric
+        const rText = await ocrCanvas(rCrop.canvas, 'kda');
         const rScore = parseInt(rText.replace(/\D/g,''), 10);
         setResText('res-right', isNaN(rScore) ? '--' : rScore);
         if (!isNaN(rScore) && rScore >= 0 && rScore <= 13) {
@@ -171,7 +171,7 @@ function syncAdminFields(patch) {
  ══════════════════════════════════════════════════════════ */
 function setupRoiInteractions() {
     const container = document.getElementById('preview-container');
-    const allKeys = ['left','right'];
+    const allKeys = ['left', 'right'];
 
     allKeys.forEach(key => {
         const el = document.getElementById(`roi-box-${key}`);
@@ -301,7 +301,22 @@ function logConsole(msg, type = '') {
 /* ══════════════════════════════════════════════════════════
    BOOT
  ══════════════════════════════════════════════════════════ */
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const res = await fetch('/api/roi-config');
+        if (res.ok) {
+            const config = await res.json();
+            const allKeys = ['left', 'right'];
+            allKeys.forEach(key => {
+                if (config[key]) {
+                    CaptureEngine.topHud[key] = config[key];
+                }
+            });
+            logConsole('[ENGINE] Custom ROI positions loaded from server defaults.', 'success');
+        }
+    } catch (e) {
+        logConsole('[ENGINE] Failed to fetch ROI defaults. Using static defaults.', 'info');
+    }
     setupRoiInteractions();
     logConsole('[ENGINE] Optimized Top HUD OCR Score engine loaded. Ready.', 'success');
 });

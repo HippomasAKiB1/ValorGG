@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VCT HUD — Roster Telemetry Companion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #07090e;
+            --panel-bg: rgba(13, 17, 26, 0.75);
+            --border-light: rgba(255, 255, 255, 0.06);
+            --gold: #e8b84b;
+            --gold-glow: rgba(232, 184, 75, 0.35);
+            --red: #ff4655;
+            --red-glow: rgba(255, 70, 85, 0.4);
+            --green: #00d4aa;
+            --green-glow: rgba(0, 212, 170, 0.35);
+            --muted: #6b7a90;
+            --font-outfit: 'Outfit', sans-serif;
+            --font-rajdhani: 'Rajdhani', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-drag: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #0e121e 0%, #05060a 100%);
+            color: #ffffff;
+            font-family: var(--font-outfit);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        /* ── Header ── */
+        header {
+            padding: 16px 20px;
+            background: rgba(8, 10, 16, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .title-area h1 {
+            font-family: var(--font-rajdhani);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        .title-area p {
+            font-size: 10px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--red);
+            box-shadow: 0 0 8px var(--red-glow);
+            transition: all 0.3s ease;
+        }
+
+        .status-dot.connected {
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green-glow);
+        }
+
+        /* ── Main Container ── */
+        main {
+            flex: 1;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ── Teams Layout Grid ── */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            flex: 1;
+        }
+
+        @media (min-width: 600px) {
+            .teams-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .team-column {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 10px;
+            margin-bottom: 4px;
+        }
+
+        .team-name {
+            font-family: var(--font-rajdhani);
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .team-column.left-side .team-name { color: #00f3c6; }
+        .team-column.right-side .team-name { color: var(--red); }
+
+        .team-score-badge {
+            font-family: var(--font-rajdhani);
+            font-size: 18px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 10px;
+            border-radius: 6px;
+        }
+
+        /* ── Large Mobile Tactile Cards ── */
+        .player-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .player-row {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            height: 68px;
+        }
+
+        .player-row:active {
+            transform: scale(0.97);
+        }
+
+        /* Alive Styling (Tactile Glow Green) */
+        .player-row.alive {
+            border-color: rgba(0, 212, 170, 0.25);
+            background: linear-gradient(90deg, rgba(0, 212, 170, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+            box-shadow: 0 0 15px rgba(0, 212, 170, 0.05);
+        }
+
+        /* Dead Styling (Tactile Dimmed Red) */
+        .player-row.dead {
+            border-color: rgba(255, 70, 85, 0.25);
+            background: linear-gradient(90deg, rgba(255, 70, 85, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%);
+            box-shadow: 0 0 15px rgba(255, 70, 85, 0.03);
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .agent-pfp-wrap {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border-light);
+            background: #111520;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .player-row.alive .agent-pfp-wrap {
+            border-color: var(--green);
+            box-shadow: 0 0 10px var(--green-glow);
+        }
+
+        .player-row.dead .agent-pfp-wrap {
+            border-color: var(--red);
+            filter: grayscale(1);
+            opacity: 0.5;
+        }
+
+        .agent-pfp-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .name-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .p-name {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+
+        .player-row.dead .p-name {
+            color: var(--muted);
+            text-decoration: line-through rgba(255,70,85,0.4);
+        }
+
+        .p-agent-name {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        .player-row.alive .p-agent-name {
+            color: var(--gold);
+        }
+
+        /* State Indicator Badge */
+        .state-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1.5px solid var(--border-light);
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .player-row.alive .state-indicator {
+            background: rgba(0, 212, 170, 0.1);
+            border-color: var(--green);
+            color: var(--green);
+            box-shadow: inset 0 0 8px rgba(0, 212, 170, 0.2);
+        }
+
+        .player-row.dead .state-indicator {
+            background: rgba(255, 70, 85, 0.1);
+            border-color: var(--red);
+            color: var(--red);
+            box-shadow: inset 0 0 8px rgba(255, 70, 85, 0.2);
+        }
+
+        /* ── Giant Tactile Reset Button ── */
+        .reset-bar {
+            margin-top: 8px;
+        }
+
+        .btn-reset-round {
+            width: 100%;
+            background: linear-gradient(135deg, var(--gold) 0%, #dca32e 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-family: var(--font-rajdhani);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: #000;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(232, 184, 75, 0.3);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-reset-round:active {
+            transform: scale(0.96);
+            box-shadow: 0 2px 8px rgba(232, 184, 75, 0.25);
+        }
+
+        /* ── Fullscreen Overlay for disconnection ── */
+        #discon-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 6, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        #discon-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .discon-box {
+            background: rgba(20, 24, 35, 0.85);
+            border: 1px solid var(--red);
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            max-width: 90%;
+            width: 320px;
+            box-shadow: 0 10px 30px rgba(255, 70, 85, 0.15);
+        }
+
+        .discon-box h3 {
+            font-family: var(--font-rajdhani);
+            font-size: 20px;
+            color: var(--red);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .discon-box p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Disconnected Alert Overlay -->
+    <div id="discon-overlay">
+        <div class="discon-box">
+            <h3>🔴 Telemetry Offline</h3>
+            <p>Disconnected from VCT local server. Reconnecting automatically when stream feed goes online...</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="title-area">
+            <h1>VALORANT companion</h1>
+            <p>Roster Telemetry Desk</p>
+        </div>
+        <div class="status-badge">
+            <span class="status-dot" id="ws-dot"></span>
+            <span id="ws-status">Offline</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="teams-grid">
+            <!-- Team Left (Team A) -->
+            <div class="team-column left-side">
+                <div class="team-header">
+                    <span class="team-name" id="t-left-name">TEAM A</span>
+                    <span class="team-score-badge" id="t-left-score">0</span>
+                </div>
+                <div class="player-list" id="players-left">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- Team Right (Team B) -->
+            <div class="team-column right-side">
+                <div class="team-header">
+                    <span class="team-name" id="t-right-name">TEAM B</span>
+                    <span class="team-score-badge" id="t-right-score">0</span>
+                </div>
+                <div class="player-list" id="players-right">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="reset-bar">
+            <button class="btn-reset-round" onclick="resetRound()">
+                🔄 Reset Players for New Round
+            </button>
+        </div>
+    </main>
+
+    <script>
+        let localState = null;
+        let ws = null;
+
+        // Establish WebSocket connection with auto-reconnection
+        function connectWS() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}`;
+            
+            console.log(`[WS] Connecting to ${wsUrl}...`);
+            ws = new WebSocket(wsUrl);
+
+            ws.onopen = () => {
+                console.log('[WS] Connected successfully.');
+                document.getElementById('ws-dot').className = 'status-dot connected';
+                document.getElementById('ws-status').textContent = 'Live Desk';
+                document.getElementById('discon-overlay').classList.remove('visible');
+            };
+
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data && typeof data === 'object') {
+                        if (!localState) {
+                            localState = data;
+                        } else {
+                            deepMerge(localState, data);
+                        }
+                        renderCompanionUI();
+                    }
+                } catch(e) {
+                    console.error('[WS] Error processing message:', e);
+                }
+            };
+
+            ws.onclose = () => {
+                console.warn('[WS] Connection lost. Retrying in 3 seconds...');
+                document.getElementById('ws-dot').className = 'status-dot';
+                document.getElementById('ws-status').textContent = 'Offline';
+                document.getElementById('discon-overlay').classList.add('visible');
+                setTimeout(connectWS, 3000);
+            };
+
+            ws.onerror = (err) => {
+                console.error('[WS] Error encountered:', err);
+                ws.close();
+            };
+        }
+
+        // Deep merge helper
+        function deepMerge(target, src) {
+            if (!src || typeof src !== 'object') return;
+            for (const key of Object.keys(src)) {
+                const srcVal = src[key];
+                const tgtVal = target[key];
+                if (key === 'casters') {
+                    target[key] = srcVal;
+                    continue;
+                }
+                if (Array.isArray(srcVal)) {
+                    if (Array.isArray(tgtVal) && tgtVal.length && tgtVal[0] && tgtVal[0].id !== undefined) {
+                        for (const srcItem of srcVal) {
+                            const tgtItem = tgtVal.find(x => x.id === srcItem.id);
+                            if (tgtItem) deepMerge(tgtItem, srcItem);
+                            else tgtVal.push(srcItem);
+                        }
+                    } else {
+                        target[key] = srcVal;
+                    }
+                } else if (srcVal && typeof srcVal === 'object') {
+                    if (!tgtVal || typeof tgtVal !== 'object') target[key] = {};
+                    deepMerge(target[key], srcVal);
+                } else {
+                    target[key] = srcVal;
+                }
+            }
+        }
+
+        // Render tactile lists
+        function renderCompanionUI() {
+            if (!localState) return;
+
+            // Render Info
+            document.getElementById('t-left-name').textContent = localState.teams.left.name || 'TEAM A';
+            document.getElementById('t-left-score').textContent = localState.teams.left.score ?? 0;
+            document.getElementById('t-right-name').textContent = localState.teams.right.name || 'TEAM B';
+            document.getElementById('t-right-score').textContent = localState.teams.right.score ?? 0;
+
+            // Render Player Cards Left
+            renderTeamPlayers('left', 'players-left');
+            // Render Player Cards Right
+            renderTeamPlayers('right', 'players-right');
+        }
+
+        function renderTeamPlayers(side, containerId) {
+            const container = document.getElementById(containerId);
+            const players = localState.teams[side].players || [];
+
+            container.innerHTML = players.map(p => {
+                const alive = p.alive !== false;
+                const safeAgent = p.agent ? p.agent.replace('/', '').toLowerCase() : 'veto';
+                const pfp = `/assets/agent/${safeAgent}.webp`;
+
+                return `
+                    <div class="player-row ${alive ? 'alive' : 'dead'}" onclick="togglePlayerAlive('${side}', '${p.id}')">
+                        <div class="player-info">
+                            <div class="agent-pfp-wrap">
+                                <img src="${pfp}" alt="${p.agent || 'None'}">
+                            </div>
+                            <div class="name-details">
+                                <span class="p-name">${p.name || 'Player'}</span>
+                                <span class="p-agent-name">${p.agent || 'No Agent'}</span>
+                            </div>
+                        </div>
+                        <div class="state-indicator">
+                            ${alive ? '🟢' : '💀'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Tactile tap toggle handler
+        function togglePlayerAlive(side, playerId) {
+            const p = localState.teams[side].players.find(x => x.id === playerId);
+            if (!p) return;
+            const nextAlive = !p.alive;
+            p.alive = nextAlive;
+
+            // Optimistic local update
+            renderCompanionUI();
+
+            // Push status update via WebSocket
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    teams: {
+                        [side]: {
+                            players: [{ id: playerId, alive: nextAlive }]
+                        }
+                    }
+                }));
+            }
+        }
+
+        // Trigger New Round Reset
+        async function resetRound() {
+            if (!confirm('Are you sure you want to reset all players to ALIVE for the next round?')) return;
+            try {
+                // Post to reset-round API
+                const res = await fetch('/api/reset-round', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                if (res.ok) {
+                    console.log('[COMPANION] Round reset successfully.');
+                }
+            } catch(e) {
+                console.error('[COMPANION] Reset failed:', e);
+            }
+        }
+
+        // Boot
+        window.addEventListener('DOMContentLoaded', () => {
+            connectWS();
+        });
+    </script>
+</body>
+</html>

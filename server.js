@@ -330,8 +330,9 @@ app.use(express.json());
 app.use((req, res, next) => {
     const isDestructiveApi = req.method === 'POST';
     const isAdminPanel = req.path === '/' || req.path === '/admin.html';
+    const isBypassPath = req.path === '/api/reset-round' || req.path === '/api/update';
     
-    if (isAdminPanel || isDestructiveApi) {
+    if ((isAdminPanel || isDestructiveApi) && !isBypassPath) {
         const authHeader = req.headers.authorization;
         if (!authHeader) {
             res.setHeader('WWW-Authenticate', 'Basic realm="ValorGG Admin"');
@@ -462,6 +463,44 @@ app.get('/api/rosters', (req, res) => {
         } catch(e) {
             res.status(500).json({ error: 'Failed to parse rosters JSON' });
         }
+    });
+});
+
+// Companion Dashboard Route
+app.get('/aliveordead', (req, res) => {
+    res.sendFile(path.join(__dirname, 'companion.html'));
+});
+
+// ── ROI Config Persistence ──
+const defaultRoi = {
+    left:  { top: 1.5, left: 42.5, width: 3.5, height: 5.5 },
+    right: { top: 1.5, left: 54.5, width: 3.5, height: 5.5 }
+};
+
+app.get('/api/roi-config', (req, res) => {
+    const roiPath = path.join(__dirname, 'roi_config.json');
+    if (!fs.existsSync(roiPath)) {
+        return res.json(defaultRoi);
+    }
+    fs.readFile(roiPath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to read ROI config file' });
+        }
+        try {
+            res.json(JSON.parse(data));
+        } catch (e) {
+            res.json(defaultRoi);
+        }
+    });
+});
+
+app.post('/api/roi-config', (req, res) => {
+    const roiPath = path.join(__dirname, 'roi_config.json');
+    fs.writeFile(roiPath, JSON.stringify(req.body, null, 4), 'utf8', (err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to write ROI config file' });
+        }
+        res.json({ ok: true });
     });
 });
 
