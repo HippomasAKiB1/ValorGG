@@ -373,7 +373,7 @@ html, body {
 /* ── Center panel (cutout timer frame) ── */
 .center-panel {
     width: 144px;
-    background: rgba(12, 17, 23, 0.45) !important; /* Tinted semi-transparent glass backdrop to match game feed layout */
+    background: transparent !important; /* Completely clear cutout center-panel to display native observer clock perfectly */
     position: relative;
     z-index: 5;
 }
