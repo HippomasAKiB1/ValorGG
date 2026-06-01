@@ -270,10 +270,6 @@ function broadcast(patch) {
 }
 
 function swapTeamsFull() {
-    const tmp = state.teams.left;
-    state.teams.left = state.teams.right;
-    state.teams.right = tmp;
-    
     // Flip roles so the UI attack/defense assignments flip as well
     state.teams.left.side = state.teams.left.side === 'attack' ? 'defense' : 'attack';
     state.teams.right.side = state.teams.right.side === 'attack' ? 'defense' : 'attack';
