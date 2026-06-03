@@ -405,6 +405,68 @@
     </section>
 
     <!-- ════════════════════════════════════════════
+         BRB & STREAM ENDING OVERLAY CONTROL PANEL [NEW]
+    ════════════════════════════════════════════ -->
+    <section class="panel brb-end-panel-admin" style="margin: 0 24px 24px; padding: 24px;">
+        <h2>☕ Break & Stream Ending Overlays</h2>
+        <p style="color: #8a97a4; margin-bottom: 20px; font-size: 13px;">Manage Be Right Back (intermission) countdowns and ending screens. Real-time timer and messages propagate to /brb and /end overlays.</p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <!-- BRB Control Column -->
+            <div style="border-right: 1px solid #252b38; padding-right: 24px;">
+                <h3 style="color: var(--accent); margin-bottom: 14px; font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase;">☕ Be Right Back (Break) Controls</h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <!-- Timer Controls -->
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button id="btn-brb-timer-toggle" class="btn btn-primary" onclick="toggleBrbTimer()" style="padding: 10px 20px; font-size: 13px; font-weight: 700; min-width: 140px;">
+                            ▶ START TIMER
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetBrbTimer()" style="padding: 10px 20px; font-size: 13px; font-weight: 700;">
+                            🔄 RESET TIMER
+                        </button>
+                    </div>
+
+                    <!-- Preset Picker -->
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <span style="color: #8a97a4; font-size: 12px; font-weight: 700;">DURATION:</span>
+                        <select id="f-brb-timer-duration" onchange="changeBrbTimerDuration(this.value)" style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 13px; font-weight: 700; outline: none; cursor: pointer;">
+                            <option value="120">2 Minutes</option>
+                            <option value="300" selected>5 Minutes</option>
+                            <option value="600">10 Minutes</option>
+                            <option value="custom">Custom (sec)</option>
+                        </select>
+                        <input type="number" id="f-brb-timer-custom" oninput="changeBrbTimerCustom(this.value)" placeholder="Seconds" style="display: none; background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 13px; width: 90px; outline: none;">
+                    </div>
+
+                    <!-- Custom Message -->
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <span style="color: #8a97a4; font-size: 12px; font-weight: 700;">BREAK MESSAGE:</span>
+                        <input type="text" id="f-brb-message" oninput="updateBrbMessage(this.value)" placeholder="e.g. STREAM WILL RESUME SHORTLY" style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; outline: none;">
+                    </div>
+
+                    <span style="color: #8a97a4; font-size: 12px;">Open overlay: <a href="/brb" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 700;">/brb</a></span>
+                </div>
+            </div>
+
+            <!-- Ending Control Column -->
+            <div>
+                <h3 style="color: var(--accent); margin-bottom: 14px; font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase;">🎬 Stream Ending Controls</h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <!-- Ending Message -->
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <span style="color: #8a97a4; font-size: 12px; font-weight: 700;">ENDING MESSAGE / SIGN-OFF:</span>
+                        <textarea id="f-end-message" oninput="updateEndMessage(this.value)" rows="4" placeholder="e.g. THANKS FOR WATCHING! MATCH COVERAGE WILL RESUME TOMORROW." style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; outline: none; resize: none;"></textarea>
+                    </div>
+
+                    <span style="color: #8a97a4; font-size: 12px;">Open overlay: <a href="/end" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 700;">/end</a></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
          CHALLONGE BRACKET INTEGRATION PANEL
     ════════════════════════════════════════════ -->
     <section class="panel challonge-panel-admin" style="margin: 0 24px 24px; padding: 24px;">
@@ -959,6 +1021,36 @@ function populateAll() {
     const videoUrlContainer = document.getElementById('start-video-url-container');
     if (videoUrlContainer) {
         videoUrlContainer.style.display = scr.videoType === 'url' ? 'flex' : 'none';
+    }
+
+    // BRB and Ending Overlays [NEW]
+    if (!localState.brb) {
+        localState.brb = { timer: 300, timerActive: false, message: 'STREAM WILL RESUME SHORTLY' };
+    }
+    const brb = localState.brb;
+    updateBrbTimerButton(brb.timerActive);
+    populateFieldSafe('f-brb-message', brb.message || '');
+    
+    const brbDurSelect = document.getElementById('f-brb-timer-duration');
+    const brbCustomInput = document.getElementById('f-brb-timer-custom');
+    if (brbDurSelect && brbCustomInput) {
+        const standardValues = ['120', '300', '600'];
+        if (standardValues.includes(String(brb.timer))) {
+            if (document.activeElement !== brbDurSelect) {
+                brbDurSelect.value = String(brb.timer);
+            }
+            brbCustomInput.style.display = 'none';
+        } else {
+            if (document.activeElement !== brbDurSelect) {
+                brbDurSelect.value = 'custom';
+            }
+            brbCustomInput.style.display = 'inline-block';
+            populateFieldSafe('f-brb-timer-custom', String(brb.timer));
+        }
+    }
+
+    if (localState.endMessage !== undefined) {
+        populateFieldSafe('f-end-message', localState.endMessage || '');
     }
 
     populateRosterDropdowns();
@@ -1651,6 +1743,81 @@ function updateStartVideoUrl(url) {
     
     // Send to WebSocket
     pushUpdate({ startScreen: { videoUrl: url } });
+}
+
+/* ══════════════════════════════════════════════════════════
+   ☕ BRB & STREAM ENDING OVERLAY CONTROL FUNCTIONS
+   ══════════════════════════════════════════════════════════ */
+function toggleBrbTimer() {
+    if (!localState.brb) {
+        localState.brb = { timer: 300, timerActive: false, message: 'STREAM WILL RESUME SHORTLY' };
+    }
+    const nextVal = !localState.brb.timerActive;
+    localState.brb.timerActive = nextVal;
+    
+    updateBrbTimerButton(nextVal);
+    pushUpdate({ brb: { timerActive: nextVal } });
+}
+
+function updateBrbTimerButton(active) {
+    const btn = document.getElementById('btn-brb-timer-toggle');
+    if (!btn) return;
+    if (active) {
+        btn.className = 'btn btn-gold';
+        btn.textContent = '⏸️ PAUSE TIMER';
+        btn.style.boxShadow = '0 0 15px rgba(232, 184, 75, 0.4)';
+    } else {
+        btn.className = 'btn btn-primary';
+        btn.textContent = '▶ START TIMER';
+        btn.style.boxShadow = 'none';
+    }
+}
+
+function resetBrbTimer() {
+    if (!localState.brb) {
+        localState.brb = { timer: 300, timerActive: false, message: 'STREAM WILL RESUME SHORTLY' };
+    }
+    
+    localState.brb.timerActive = false;
+    updateBrbTimerButton(false);
+
+    const durSelect = document.getElementById('f-brb-timer-duration').value;
+    let targetSec = 300;
+    if (durSelect === 'custom') {
+        targetSec = parseInt(document.getElementById('f-brb-timer-custom').value) || 300;
+    } else {
+        targetSec = parseInt(durSelect) || 300;
+    }
+
+    localState.brb.timer = targetSec;
+    pushUpdate({ brb: { timer: targetSec, timerActive: false } });
+}
+
+function changeBrbTimerDuration(val) {
+    const customInput = document.getElementById('f-brb-timer-custom');
+    if (val === 'custom') {
+        customInput.style.display = 'inline-block';
+    } else {
+        customInput.style.display = 'none';
+        resetBrbTimer();
+    }
+}
+
+function changeBrbTimerCustom(val) {
+    resetBrbTimer();
+}
+
+function updateBrbMessage(msg) {
+    if (!localState.brb) {
+        localState.brb = { timer: 300, timerActive: false, message: 'STREAM WILL RESUME SHORTLY' };
+    }
+    localState.brb.message = msg;
+    pushUpdate({ brb: { message: msg } });
+}
+
+function updateEndMessage(msg) {
+    localState.endMessage = msg;
+    pushUpdate({ endMessage: msg });
 }
 
 /* ══════════════════════════════════════════════════════════

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>VCT Intermissions - Be Right Back</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Rajdhani:wght@600;700&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent-purple: #9b51e0;
+            --accent-cyan: #00f3c6;
+            --accent-gold: #ece81a;
+            --bg-dark-glass: rgba(15, 8, 28, 0.75);
+            --font-outfit: 'Outfit', sans-serif;
+            --font-rajdhani: 'Rajdhani', sans-serif;
+            --font-barlow: 'Barlow Condensed', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: transparent !important;
+            color: #ffffff;
+            font-family: var(--font-outfit);
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ── Cybernetic Tech Grid ── */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(155, 81, 224, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(155, 81, 224, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(155, 81, 224, 0.08) 0%, transparent 65%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ── Left & Right Vertical Accent Banners ── */
+        .sidebar {
+            position: absolute;
+            top: 0;
+            width: 220px;
+            height: 1080px;
+            background: linear-gradient(to bottom, rgba(20, 10, 36, 0.82) 0%, rgba(10, 5, 20, 0.88) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px;
+            z-index: 50;
+            overflow: hidden;
+        }
+
+        .sidebar.left {
+            left: 0;
+            border-right: 2px solid rgba(155, 81, 224, 0.35);
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar.right {
+            right: 0;
+            border-left: 2px solid rgba(155, 81, 224, 0.35);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar-logo {
+            width: 140px;
+            height: 60px;
+            object-fit: contain;
+            z-index: 100;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+        }
+
+        .sidebar-agent-art {
+            position: absolute;
+            bottom: -20px;
+            height: 80%;
+            width: auto;
+            object-fit: contain;
+            opacity: 0.16;
+            mix-blend-mode: screen;
+            filter: drop-shadow(0 0 25px rgba(155, 81, 224, 0.4)) saturate(0.8) brightness(0.9);
+            pointer-events: none;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+        }
+        .sidebar.left .sidebar-agent-art { left: 50%; transform: translateX(-50%); }
+        .sidebar.right .sidebar-agent-art { left: 50%; transform: translateX(-50%) scaleX(-1); }
+
+        /* ── Screen Accent Brackets (All 4 Corners of Main Viewport) ── */
+        .corner-accent {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            z-index: 1000;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(155, 81, 224, 0.35));
+        }
+        .corner-accent.tl { left: 240px; top: 30px; }
+        .corner-accent.tr { right: 240px; top: 30px; transform: scaleX(-1); }
+        .corner-accent.bl { left: 240px; bottom: 30px; transform: scaleY(-1); }
+        .corner-accent.br { right: 240px; bottom: 30px; transform: scale(-1); }
+
+        /* ── Center Content Section ── */
+        .center-content {
+            position: absolute;
+            left: 220px;
+            width: 1480px;
+            height: 1080px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 100px;
+            z-index: 10;
+        }
+
+        .tournament-logo-large {
+            height: 220px;
+            max-width: 600px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 25px rgba(155, 81, 224, 0.45));
+            margin-bottom: 30px;
+            animation: logoGlow 4s infinite ease-in-out;
+        }
+
+        /* ── Stream Ended Hero Typography ── */
+        .text-stream {
+            font-family: var(--font-barlow);
+            font-size: 145px;
+            font-weight: 800;
+            font-style: italic;
+            color: #ffffff;
+            -webkit-text-stroke: 2px #000000;
+            text-shadow: 6px 6px 0px rgba(0, 0, 0, 0.95);
+            letter-spacing: 4px;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .text-state {
+            font-family: var(--font-barlow);
+            font-size: 105px;
+            font-weight: 800;
+            font-style: italic;
+            color: transparent;
+            -webkit-text-stroke: 3px #ffffff;
+            text-shadow: 4px 4px 15px rgba(155, 81, 224, 0.25);
+            letter-spacing: 4px;
+            line-height: 0.9;
+            text-transform: uppercase;
+            margin-bottom: 45px;
+        }
+
+        /* ── Intermission HUD panel ── */
+        .hud-glass-block {
+            background: var(--bg-dark-glass);
+            border: 1.5px solid rgba(155, 81, 224, 0.3);
+            border-radius: 20px;
+            padding: 24px 40px;
+            width: 580px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5),
+                        0 0 30px rgba(155, 81, 224, 0.08);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hud-glass-block::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+        }
+
+        /* Glass Box Corner Brackets */
+        .box-corner {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            z-index: 15;
+            pointer-events: none;
+            filter: drop-shadow(0 0 4px rgba(155, 81, 224, 0.6));
+        }
+        .box-corner.tl { left: -3px; top: -3px; }
+        .box-corner.tr { right: -3px; top: -3px; transform: scaleX(-1); }
+        .box-corner.bl { left: -3px; bottom: -3px; transform: scaleY(-1); }
+        .box-corner.br { right: -3px; bottom: -3px; transform: scale(-1); }
+
+        .clock-display {
+            font-family: var(--font-barlow);
+            font-size: 84px;
+            font-weight: 800;
+            font-style: italic;
+            color: #ffffff;
+            letter-spacing: 3px;
+            text-shadow: 0 0 25px rgba(155, 81, 224, 0.45);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .progress-box {
+            width: 320px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+            box-shadow: 0 0 8px var(--accent-purple);
+            transition: width 1s linear;
+        }
+
+        .telemetry-status {
+            font-family: var(--font-rajdhani);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 6px rgba(0, 243, 198, 0.35);
+            text-transform: uppercase;
+        }
+
+        /* ── Bottom scrolling partners strip ── */
+        .bottom-partners {
+            position: absolute;
+            bottom: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 80px;
+            opacity: 0.3;
+            z-index: 5;
+        }
+
+        .partner-logo {
+            height: 28px;
+            object-fit: contain;
+            filter: grayscale(1) brightness(2);
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 0 25px rgba(155, 81, 224, 0.4)); }
+            50% { filter: drop-shadow(0 0 35px rgba(155, 81, 224, 0.65)); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Left sidebar containing WC Logo and Jett -->
+    <div class="sidebar left">
+        <img src="/assets/Warcities logo.png" class="sidebar-logo" alt="WarCities Logo" onerror="this.src='/assets/Warcities logo.png'">
+        <img src="/assets/agent/jett.webp" class="sidebar-agent-art" alt="Jett">
+    </div>
+
+    <!-- Right sidebar containing Valorant Logo and Reyna -->
+    <div class="sidebar right">
+        <img src="/assets/Valorant Logo.png" class="sidebar-logo" alt="Valorant Logo" onerror="this.src='/assets/Valorant Logo.png'">
+        <img src="/assets/agent/reyna.webp" class="sidebar-agent-art" alt="Reyna">
+    </div>
+
+    <!-- Screen Accent Brackets (Aligned with sidebars margins) -->
+    <div class="corner-accent tl">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#9b51e0" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(155, 81, 224, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+        </svg>
+    </div>
+    <div class="corner-accent tr">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#9b51e0" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(155, 81, 224, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+        </svg>
+    </div>
+    <div class="corner-accent bl">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#9b51e0" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(155, 81, 224, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+        </svg>
+    </div>
+    <div class="corner-accent br">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#9b51e0" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(155, 81, 224, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+        </svg>
+    </div>
+
+    <!-- Center Display Section -->
+    <div class="center-content">
+        <!-- Center shield Logo -->
+        <img src="/assets/wvps logo.png" class="tournament-logo-large" alt="WVPS Shield Logo" onerror="this.src='/assets/wvps logo.png'">
+
+        <!-- Center Typography ending style -->
+        <div class="text-stream">STREAM</div>
+        <div class="text-state">PAUSED</div>
+
+        <!-- Digital clock frame -->
+        <div class="hud-glass-block">
+            <!-- Decorative Box Brackets -->
+            <div class="box-corner tl"><svg width="100%" height="100%" viewBox="0 0 20 20" fill="none"><path d="M2,12 L2,2 L12,2" stroke="#9b51e0" stroke-width="2.5" stroke-linecap="square"/></svg></div>
+            <div class="box-corner tr"><svg width="100%" height="100%" viewBox="0 0 20 20" fill="none"><path d="M2,12 L2,2 L12,2" stroke="#9b51e0" stroke-width="2.5" stroke-linecap="square"/></svg></div>
+            <div class="box-corner bl"><svg width="100%" height="100%" viewBox="0 0 20 20" fill="none"><path d="M2,12 L2,2 L12,2" stroke="#9b51e0" stroke-width="2.5" stroke-linecap="square"/></svg></div>
+            <div class="box-corner br"><svg width="100%" height="100%" viewBox="0 0 20 20" fill="none"><path d="M2,12 L2,2 L12,2" stroke="#9b51e0" stroke-width="2.5" stroke-linecap="square"/></svg></div>
+
+            <div class="clock-display" id="brb-timer">05:00</div>
+            <div class="progress-box">
+                <div class="progress-bar-fill" id="brb-progress"></div>
+            </div>
+            <div class="telemetry-status" id="brb-message">STREAM WILL RESUME SHORTLY</div>
+        </div>
+
+        <!-- Scrolling sponsors logo bar -->
+        <div class="bottom-partners">
+            <img src="/assets/Warcities logo.png" class="partner-logo" alt="Sponsor">
+            <img src="/assets/Valorant Logo.png" class="partner-logo" alt="Sponsor">
+            <img src="/assets/wvps logo.png" class="partner-logo" alt="Sponsor">
+        </div>
+    </div>
+
+    <script>
+        const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const ws = new WebSocket(`${wsProto}//${location.host}`);
+        let state = null;
+        let maxDuration = 300;
+
+        function formatTime(sec) {
+            const m = Math.floor(sec / 60);
+            const s = sec % 60;
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function deepMerge(target, src) {
+            if (!src || typeof src !== 'object') return;
+            for (const key of Object.keys(src)) {
+                const srcVal = src[key];
+                const tgtVal = target[key];
+                if (Array.isArray(srcVal)) {
+                    target[key] = srcVal;
+                } else if (srcVal && typeof srcVal === 'object') {
+                    if (!tgtVal || typeof tgtVal !== 'object') target[key] = {};
+                    deepMerge(target[key], srcVal);
+                } else {
+                    target[key] = srcVal;
+                }
+            }
+        }
+
+        ws.onmessage = (event) => {
+            try {
+                const patch = JSON.parse(event.data);
+                if (!patch) return;
+
+                if (!state) {
+                    state = patch;
+                } else {
+                    deepMerge(state, patch);
+                }
+                render();
+            } catch (err) {
+                console.error('[WS] Error processing message:', err);
+            }
+        };
+
+        ws.onopen = () => console.log('[WS] Connected to BRB Intermission');
+        ws.onclose = () => setTimeout(() => location.reload(), 3000);
+
+        function render() {
+            if (!state) return;
+
+            const brb = state.brb || { timer: 300, timerActive: false, message: 'STREAM WILL RESUME SHORTLY' };
+            document.getElementById('brb-timer').textContent = formatTime(brb.timer);
+            document.getElementById('brb-message').textContent = brb.message;
+
+            // Handle progress calculation dynamically
+            if (brb.timer > maxDuration) {
+                maxDuration = brb.timer;
+            }
+            if (brb.timer === 0) {
+                maxDuration = 0;
+            }
+            const pct = maxDuration > 0 ? (brb.timer / maxDuration) * 100 : 0;
+            document.getElementById('brb-progress').style.width = `${pct}%`;
+        }
+    </script>
+</body>
+</html>

@@ -231,7 +231,13 @@ const state = {
         videoVisible: true,
         videoType: 'chromakey',
         videoUrl: ''
-    }
+    },
+    brb: {
+        timer: 300,
+        timerActive: false,
+        message: 'STREAM WILL RESUME SHORTLY'
+    },
+    endMessage: 'THANKS FOR TUNING IN! PLAYOFFS COVERAGE RESUMES TOMORROW.'
 };
 
 /* ──────────────────────────────────────────────────────────
@@ -431,6 +437,16 @@ app.get('/pause', (req, res) => {
     res.sendFile(path.join(__dirname, 'pause.html'));
 });
 
+// Be Right Back Overlay
+app.get('/brb', (req, res) => {
+    res.sendFile(path.join(__dirname, 'brb.html'));
+});
+
+// Stream Ending Overlay
+app.get('/end', (req, res) => {
+    res.sendFile(path.join(__dirname, 'end.html'));
+});
+
 // Endpoint to list MVP images from assets/mvp
 app.get('/api/mvp-images', (req, res) => {
     fs.readdir(mvpAssetsPath, (err, files) => {
@@ -549,6 +565,33 @@ function stopStartScreenTimer() {
     }
 }
 
+// BRB Countdown Timer Ticker [NEW]
+let brbInterval = null;
+function startBrbTimer() {
+    if (brbInterval) return;
+    brbInterval = setInterval(() => {
+        if (state.brb && state.brb.timerActive) {
+            if (state.brb.timer > 0) {
+                state.brb.timer -= 1;
+                broadcast({ brb: { timer: state.brb.timer } });
+            } else {
+                state.brb.timerActive = false;
+                broadcast({ brb: { timerActive: false } });
+                stopBrbTimer();
+            }
+        } else {
+            stopBrbTimer();
+        }
+    }, 1000);
+}
+
+function stopBrbTimer() {
+    if (brbInterval) {
+        clearInterval(brbInterval);
+        brbInterval = null;
+    }
+}
+
 // Partial update — merge and broadcast
 app.post('/api/update', (req, res) => {
     const patch = req.body;
@@ -560,6 +603,15 @@ app.post('/api/update', (req, res) => {
             startStartScreenTimer();
         } else if (patch.startScreen.timerActive === false) {
             stopStartScreenTimer();
+        }
+    }
+
+    // Check if brb timer is activated
+    if (patch.brb) {
+        if (patch.brb.timerActive === true) {
+            startBrbTimer();
+        } else if (patch.brb.timerActive === false) {
+            stopBrbTimer();
         }
     }
 
@@ -872,6 +924,15 @@ wss.on('connection', (ws) => {
                         startStartScreenTimer();
                     } else if (data.startScreen.timerActive === false) {
                         stopStartScreenTimer();
+                    }
+                }
+
+                // Check if brb timer is activated
+                if (data.brb) {
+                    if (data.brb.timerActive === true) {
+                        startBrbTimer();
+                    } else if (data.brb.timerActive === false) {
+                        stopBrbTimer();
                     }
                 }
 
