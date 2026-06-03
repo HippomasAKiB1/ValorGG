@@ -1296,6 +1296,22 @@ window.addEventListener('DOMContentLoaded', async () => {
     await loadTeamLogos();
     await loadState();
     await loadRosters();
+
+    // Fallback: If Challonge inputs are still empty, fetch from challonge.json directly
+    if (!document.getElementById('f-challonge-username').value || !document.getElementById('f-challonge-apikey').value) {
+        try {
+            const cRes = await fetch('/challonge.json');
+            if (cRes.ok) {
+                const cData = await cRes.json();
+                if (cData.username) document.getElementById('f-challonge-username').value = cData.username;
+                if (cData.apiKey) document.getElementById('f-challonge-apikey').value = cData.apiKey;
+                if (cData.tournamentUrl) document.getElementById('f-challonge-tournament').value = cData.tournamentUrl;
+            }
+        } catch (err) {
+            console.warn('Could not fetch challonge.json fallback config:', err);
+        }
+    }
+
     checkConnection();
     connectWS();
     setInterval(checkConnection, 5000);

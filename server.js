@@ -240,6 +240,20 @@ const state = {
     endMessage: 'Thanks For Watching The Stream'
 };
 
+// Load Challonge credentials from json file on startup if available
+const challongePath = path.join(__dirname, 'challonge.json');
+if (fs.existsSync(challongePath)) {
+    try {
+        const config = JSON.parse(fs.readFileSync(challongePath, 'utf8'));
+        if (config.username) state.bracket.username = config.username;
+        if (config.apiKey) state.bracket.apiKey = config.apiKey;
+        if (config.tournamentUrl) state.bracket.tournamentUrl = config.tournamentUrl;
+        console.log('[CHALLONGE] Successfully loaded default credentials from challonge.json');
+    } catch (e) {
+        console.error('[CHALLONGE] Error loading challonge.json:', e);
+    }
+}
+
 /* ──────────────────────────────────────────────────────────
    DEEP MERGE — same logic as the client
    Overwrites 'casters' directly, deep merges other objects.
@@ -335,10 +349,10 @@ function isOvertimeCondition() {
 app.use(express.json());
 
 // ── Basic Authentication Middleware ──
-// Secures the admin control panel and all state-modifying POST requests
+// Secures the admin control panel, challonge credentials, and all state-modifying POST requests
 app.use((req, res, next) => {
     const isDestructiveApi = req.method === 'POST';
-    const isAdminPanel = req.path === '/' || req.path === '/admin.html';
+    const isAdminPanel = req.path === '/' || req.path === '/admin.html' || req.path === '/challonge.json';
     const isBypassPath = req.path === '/api/reset-round' || req.path === '/api/update';
     
     if ((isAdminPanel || isDestructiveApi) && !isBypassPath) {
