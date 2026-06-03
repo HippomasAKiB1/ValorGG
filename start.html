@@ -1031,6 +1031,13 @@
             }, PROGRESS_TICK);
         }
 
+        function getYouTubeId(url) {
+            if (!url) return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
         let currentVideoType = null;
         let currentVideoUrl = null;
 
@@ -1100,12 +1107,9 @@
                 viewport.innerHTML = ''; // reset
 
                 if (scr.videoType === 'url' && scr.videoUrl) {
-                    if (scr.videoUrl.includes('youtube.com') || scr.videoUrl.includes('youtu.be')) {
-                        let embedUrl = scr.videoUrl;
-                        if (scr.videoUrl.includes('watch?v=')) {
-                            embedUrl = scr.videoUrl.replace('watch?v=', 'embed/');
-                        }
-                        viewport.innerHTML = `<iframe src="${embedUrl}?autoplay=1&mute=1&loop=1&controls=0" allow="autoplay"></iframe>`;
+                    const ytId = getYouTubeId(scr.videoUrl);
+                    if (ytId) {
+                        viewport.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                     } else {
                         viewport.innerHTML = `<video src="${scr.videoUrl}" autoplay loop muted></video>`;
                     }
