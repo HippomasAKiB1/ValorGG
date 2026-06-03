@@ -442,7 +442,7 @@
                     <!-- Custom Message -->
                     <div style="display: flex; flex-direction: column; gap: 6px;">
                         <span style="color: #8a97a4; font-size: 12px; font-weight: 700;">BREAK MESSAGE:</span>
-                        <input type="text" id="f-brb-message" oninput="updateBrbMessage(this.value)" placeholder="e.g. STREAM WILL RESUME SHORTLY" style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; outline: none;">
+                        <input type="text" id="f-brb-message" oninput="updateBrbMessage(this.value)" placeholder="e.g. Be Right Back" style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; outline: none;">
                     </div>
 
                     <span style="color: #8a97a4; font-size: 12px;">Open overlay: <a href="/brb" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 700;">/brb</a></span>
@@ -457,7 +457,7 @@
                     <!-- Ending Message -->
                     <div style="display: flex; flex-direction: column; gap: 6px;">
                         <span style="color: #8a97a4; font-size: 12px; font-weight: 700;">ENDING MESSAGE / SIGN-OFF:</span>
-                        <textarea id="f-end-message" oninput="updateEndMessage(this.value)" rows="4" placeholder="e.g. THANKS FOR WATCHING! MATCH COVERAGE WILL RESUME TOMORROW." style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; outline: none; resize: none;"></textarea>
+                        <textarea id="f-end-message" oninput="updateEndMessage(this.value)" rows="4" placeholder="e.g. Thanks For Watching The Stream" style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; outline: none; resize: none;"></textarea>
                     </div>
 
                     <span style="color: #8a97a4; font-size: 12px;">Open overlay: <a href="/end" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 700;">/end</a></span>
@@ -1025,7 +1025,7 @@ function populateAll() {
 
     // BRB and Ending Overlays [NEW]
     if (!localState.brb) {
-        localState.brb = { timer: 300, timerActive: false, message: 'STREAM WILL RESUME SHORTLY' };
+        localState.brb = { timer: 300, timerActive: false, message: 'Be Right Back' };
     }
     const brb = localState.brb;
     updateBrbTimerButton(brb.timerActive);
@@ -1750,7 +1750,7 @@ function updateStartVideoUrl(url) {
    ══════════════════════════════════════════════════════════ */
 function toggleBrbTimer() {
     if (!localState.brb) {
-        localState.brb = { timer: 300, timerActive: false, message: 'STREAM WILL RESUME SHORTLY' };
+        localState.brb = { timer: 300, timerActive: false, message: 'Be Right Back' };
     }
     const nextVal = !localState.brb.timerActive;
     localState.brb.timerActive = nextVal;
@@ -1775,7 +1775,7 @@ function updateBrbTimerButton(active) {
 
 function resetBrbTimer() {
     if (!localState.brb) {
-        localState.brb = { timer: 300, timerActive: false, message: 'STREAM WILL RESUME SHORTLY' };
+        localState.brb = { timer: 300, timerActive: false, message: 'Be Right Back' };
     }
     
     localState.brb.timerActive = false;
@@ -1809,7 +1809,7 @@ function changeBrbTimerCustom(val) {
 
 function updateBrbMessage(msg) {
     if (!localState.brb) {
-        localState.brb = { timer: 300, timerActive: false, message: 'STREAM WILL RESUME SHORTLY' };
+        localState.brb = { timer: 300, timerActive: false, message: 'Be Right Back' };
     }
     localState.brb.message = msg;
     pushUpdate({ brb: { message: msg } });

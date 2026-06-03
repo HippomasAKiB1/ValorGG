@@ -347,7 +347,7 @@
             <div class="progress-box">
                 <div class="progress-bar-fill" id="brb-progress"></div>
             </div>
-            <div class="telemetry-status" id="brb-message">STREAM WILL RESUME SHORTLY</div>
+            <div class="telemetry-status" id="brb-message">Be Right Back</div>
         </div>
 
         <!-- Scrolling sponsors logo bar -->
@@ -408,7 +408,7 @@
         function render() {
             if (!state) return;
 
-            const brb = state.brb || { timer: 300, timerActive: false, message: 'STREAM WILL RESUME SHORTLY' };
+            const brb = state.brb || { timer: 300, timerActive: false, message: 'Be Right Back' };
             document.getElementById('brb-timer').textContent = formatTime(brb.timer);
             document.getElementById('brb-message').textContent = brb.message;
 

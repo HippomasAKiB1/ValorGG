@@ -235,9 +235,9 @@ const state = {
     brb: {
         timer: 300,
         timerActive: false,
-        message: 'STREAM WILL RESUME SHORTLY'
+        message: 'Be Right Back'
     },
-    endMessage: 'THANKS FOR TUNING IN! PLAYOFFS COVERAGE RESUMES TOMORROW.'
+    endMessage: 'Thanks For Watching The Stream'
 };
 
 /* ──────────────────────────────────────────────────────────
