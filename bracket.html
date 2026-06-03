@@ -11,6 +11,60 @@
 </head>
 <body>
 
+    <!-- Left sidebar containing WC Logo and Jett -->
+    <div class="sidebar left">
+        <img src="/assets/Warcities logo.png" class="sidebar-logo" alt="WarCities Logo" onerror="this.src='/assets/Warcities logo.png'">
+        <img src="/assets/agent/jett.webp" class="sidebar-agent-art" alt="Jett">
+    </div>
+
+    <!-- Right sidebar containing Valorant Logo and Reyna -->
+    <div class="sidebar right">
+        <img src="/assets/Valorant Logo.png" class="sidebar-logo" alt="Valorant Logo" onerror="this.src='/assets/Valorant Logo.png'">
+        <img src="/assets/agent/reyna.webp" class="sidebar-agent-art" alt="Reyna">
+    </div>
+
+    <!-- Screen Accent Brackets -->
+    <div class="corner-accent tl">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#ece81a"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#ece81a"/>
+        </svg>
+    </div>
+    <div class="corner-accent tr">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#ece81a"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#ece81a"/>
+        </svg>
+    </div>
+    <div class="corner-accent bl">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#ece81a"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#ece81a"/>
+        </svg>
+    </div>
+    <div class="corner-accent br">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#ece81a"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#ece81a"/>
+        </svg>
+    </div>
+
     <div class="bracket-wrapper">
         <!-- Top Header Banner (Dynamic via WebSocket) -->
         <header class="winner-header animate-header">
@@ -43,6 +97,13 @@
         <main class="bracket-board" id="bracket-board">
             <!-- Dynamically populated round columns containing VCT styled match cards -->
         </main>
+
+        <!-- Scrolling sponsors logo bar -->
+        <div class="bottom-partners">
+            <img src="/assets/Warcities logo.png" class="partner-logo" alt="Sponsor">
+            <img src="/assets/Valorant Logo.png" class="partner-logo" alt="Sponsor">
+            <img src="/assets/wvps logo.png" class="partner-logo" alt="Sponsor">
+        </div>
     </div>
 
     <!-- Live WebSocket Bridge & Bracket Engine -->

@@ -1,16 +1,23 @@
 /* ═══════════════════════════════════════════════════════════
    VCT BROADCAST HUD  —  bracket.css
    Premium Esports Custom Tournament Bracket Showcase Styles
+   (Champions Theme: Red & Gold Layout)
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-    --vct-yellow:  #ece81a;
-    --vct-cyan:    #00f3c6;
-    --vct-dark:    #05070a;
-    --vct-card-bg: linear-gradient(135deg, #111625 0%, #070910 100%);
-    --vct-white:   #ffffff;
-    --vct-black:   #000000;
-    --border:      rgba(255, 255, 255, 0.05);
+    --accent-red:    #ff4655;
+    --accent-gold:   #ece81a;
+    --bg-dark-glass: rgba(18, 10, 15, 0.82);
+    
+    --vct-yellow:    #ece81a;
+    --vct-cyan:      #ff4655; /* Re-mapped VCT accent to red for active states */
+    --vct-white:     #ffffff;
+    --vct-black:     #000000;
+    --border:        rgba(255, 70, 85, 0.08);
+    
+    --font-outfit:   'Outfit', sans-serif;
+    --font-rajdhani: 'Rajdhani', sans-serif;
+    --font-barlow:   'Barlow Condensed', sans-serif;
 }
 
 body {
@@ -18,39 +25,100 @@ body {
     padding: 0;
     width: 1920px;
     height: 1080px;
-    background: radial-gradient(circle at center, #0e1422 0%, #05070a 100%) !important;
+    background: transparent !important;
     overflow: hidden;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: var(--font-barlow);
     color: var(--vct-white);
     -webkit-font-smoothing: antialiased;
     position: relative;
 }
 
-/* Premium Cybernetic Grid Overlay */
+/* Premium Cybernetic Grid Overlay (Red grid theme) */
 body::before {
-    content: '';
+    content: "";
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-    background-size: 45px 45px;
-    background-position: center center;
-    pointer-events: none;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: linear-gradient(rgba(255, 70, 85, 0.02) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255, 70, 85, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
     z-index: 1;
+    pointer-events: none;
 }
 
-/* Subtle Scanline Overlay for Broadcast Texture */
+/* Subtle Scanline Overlay for Broadcast Texture (Red radial glow) */
 body::after {
-    content: '';
+    content: "";
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.12) 50%);
-    background-size: 100% 4px;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 70, 85, 0.07) 0%, transparent 68%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* ── Left & Right Vertical Accent Banners ── */
+.sidebar {
+    position: absolute;
+    top: 0;
+    width: 220px;
+    height: 1080px;
+    background: linear-gradient(to bottom, rgba(24, 10, 15, 0.88) 0%, rgba(14, 5, 8, 0.94) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+    z-index: 50;
+    overflow: hidden;
+}
+
+.sidebar.left {
+    left: 0;
+    border-right: 2px solid rgba(255, 70, 85, 0.35);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar.right {
+    right: 0;
+    border-left: 2px solid rgba(255, 70, 85, 0.35);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar-logo {
+    width: 140px;
+    height: 60px;
+    object-fit: contain;
+    z-index: 100;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+}
+
+.sidebar-agent-art {
+    position: absolute;
+    bottom: -20px;
+    height: 80%;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.16;
+    mix-blend-mode: screen;
+    filter: drop-shadow(0 0 25px rgba(255, 70, 85, 0.45)) saturate(0.85) brightness(0.85);
     pointer-events: none;
     z-index: 2;
-    opacity: 0.8;
+    transition: opacity 0.3s ease;
 }
+.sidebar.left .sidebar-agent-art { left: 50%; transform: translateX(-50%); }
+.sidebar.right .sidebar-agent-art { left: 50%; transform: translateX(-50%) scaleX(-1); }
+
+/* ── Screen Accent Brackets (All 4 Corners of Main Viewport) ── */
+.corner-accent {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    z-index: 1000;
+    pointer-events: none;
+    filter: drop-shadow(0 0 10px rgba(255, 70, 85, 0.35));
+}
+.corner-accent.tl { left: 240px; top: 30px; }
+.corner-accent.tr { right: 240px; top: 30px; transform: scaleX(-1); }
+.corner-accent.bl { left: 240px; bottom: 30px; transform: scaleY(-1); }
+.corner-accent.br { right: 240px; bottom: 30px; transform: scale(-1); }
 
 /* ── Fullscreen Overlay Wrapper ── */
 .bracket-wrapper {
@@ -72,21 +140,20 @@ body::after {
     transform: translate(-50%, -50%) rotate(-12deg);
     font-size: 280px;
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.006);
+    color: rgba(255, 70, 85, 0.005);
     letter-spacing: 25px;
     text-transform: uppercase;
     user-select: none;
     pointer-events: none;
     z-index: 2;
-    font-family: 'Barlow Condensed', sans-serif;
 }
 
 /* ── SVG Connector Backdrop Layer ── */
 .connector-svg-layer {
     position: absolute;
     top: 155px;
-    left: 45px;
-    width: 1830px;
+    left: 240px;
+    width: 1440px;
     height: 880px;
     z-index: 5;
     pointer-events: none;
@@ -94,11 +161,11 @@ body::after {
 
 .connector-path {
     fill: none;
-    stroke: rgba(255, 255, 255, 0.08);
-    stroke-width: 2.2px;
+    stroke: rgba(255, 70, 85, 0.08);
+    stroke-width: 2px;
     stroke-linecap: round;
     stroke-linejoin: round;
-    opacity: 0.5;
+    opacity: 0.4;
     transition: all 0.3s ease;
 }
 
@@ -113,8 +180,8 @@ body::after {
 .bracket-board {
     position: absolute;
     top: 155px;
-    left: 45px;
-    width: 1830px;
+    left: 240px;
+    width: 1440px;
     height: 880px;
     z-index: 10;
     display: flex;
@@ -135,17 +202,18 @@ body::after {
 
 .bracket-section.lower-section {
     height: 380px;
-    border-top: 1.5px solid rgba(255, 255, 255, 0.03);
+    border-top: 1.5px solid rgba(255, 70, 85, 0.18);
     padding-top: 16px;
 }
 
 .section-heading {
+    font-family: var(--font-rajdhani);
     font-size: 13px;
     font-weight: 800;
-    color: var(--vct-yellow);
+    color: var(--accent-gold);
     letter-spacing: 3px;
     text-transform: uppercase;
-    border-left: 3px solid var(--vct-yellow);
+    border-left: 3px solid var(--accent-gold);
     padding-left: 8px;
     margin-bottom: 2px;
     text-shadow: 0 0 10px rgba(232, 184, 75, 0.2);
@@ -155,7 +223,7 @@ body::after {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-    gap: 32px;
+    gap: 24px;
     height: 100%;
     position: relative;
     flex: 1;
@@ -178,12 +246,13 @@ body::after {
 }
 
 .round-header h2 {
+    font-family: var(--font-rajdhani);
     font-size: 11px;
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.6);
     letter-spacing: 2px;
     text-transform: uppercase;
-    border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1.5px solid rgba(255, 70, 85, 0.18);
     display: block;
     width: 100%;
     padding: 3px 0;
@@ -199,18 +268,19 @@ body::after {
     position: relative;
 }
 
-/* ── Match Cards (Highly Compact & Elegant Esports Nodes) ── */
+/* ── Match Cards ── */
 .bracket-match {
     position: relative;
     width: 220px;
     height: 40px;
-    background: var(--vct-card-bg);
-    border: 1.5px solid rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
+    background: var(--bg-dark-glass);
+    backdrop-filter: blur(15px);
+    border: 1.5px solid rgba(255, 70, 85, 0.25);
+    border-radius: 6px;
     display: flex;
     flex-direction: column;
     justify-content: stretch;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 12;
     overflow: hidden;
@@ -223,17 +293,28 @@ body::after {
     top: 0;
     bottom: 0;
     width: 3px;
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--accent-red);
     z-index: 10;
 }
 
 /* Match Hover Glow */
 .bracket-match:hover {
     transform: translateY(-1px);
-    border-color: rgba(232, 184, 75, 0.25);
+    border-color: var(--accent-gold);
     box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.6),
-        0 0 10px rgba(232, 184, 75, 0.05);
+        0 8px 20px rgba(0, 0, 0, 0.5),
+        0 0 10px rgba(232, 184, 75, 0.15);
+}
+
+/* Live Match Pulse Indicator */
+.bracket-match.live {
+    border-color: var(--accent-gold);
+    animation: livePulse 2s infinite ease-in-out;
+}
+
+@keyframes livePulse {
+    0%, 100% { box-shadow: 0 0 6px rgba(232, 184, 75, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(232, 184, 75, 0.6); }
 }
 
 /* Match rows structure */
@@ -248,11 +329,12 @@ body::after {
 }
 
 .team-row:first-child {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 70, 85, 0.15);
 }
 
 /* Team Text */
 .team-name {
+    font-family: var(--font-barlow);
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.6px;
@@ -266,6 +348,7 @@ body::after {
 
 /* Team Score Block */
 .team-score {
+    font-family: var(--font-rajdhani);
     font-size: 13px;
     font-weight: 800;
     color: var(--vct-white);
@@ -274,25 +357,25 @@ body::after {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-left: 1px solid rgba(255, 255, 255, 0.04);
+    border-left: 1px solid rgba(255, 70, 85, 0.15);
     background: rgba(255, 255, 255, 0.01);
-    margin-right: -10px; /* Pull into border boundary */
+    margin-right: -10px;
 }
 
 /* Winner & Loser styles */
 .team-row.winner {
-    background: rgba(232, 184, 75, 0.02);
+    background: rgba(232, 184, 75, 0.05);
 }
 
 .team-row.winner .team-name {
-    color: var(--vct-yellow);
+    color: var(--accent-gold);
     font-weight: 800;
-    text-shadow: 0 0 6px rgba(232, 184, 75, 0.15);
+    text-shadow: 0 0 6px rgba(232, 184, 75, 0.2);
 }
 
 .team-row.winner .team-score {
-    color: var(--vct-yellow);
-    background: rgba(232, 184, 75, 0.06);
+    color: var(--accent-gold);
+    background: rgba(232, 184, 75, 0.08);
 }
 
 .team-row.loser .team-name {
@@ -319,24 +402,26 @@ body::after {
 .winner-header {
     position: absolute;
     top: 35px;
-    left: 45px;
-    right: 45px;
+    left: 240px;
+    right: 240px;
     height: 90px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(180deg, rgba(10, 14, 20, 0.95) 0%, rgba(5, 7, 11, 0.98) 100%);
-    border-left: 5px solid var(--vct-yellow);
-    border-right: 5px solid var(--vct-yellow);
-    border-bottom: 2px solid rgba(232, 184, 75, 0.2);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    background: rgba(20, 10, 15, 0.88);
+    backdrop-filter: blur(20px);
+    border-left: 5px solid var(--accent-red);
+    border-right: 5px solid var(--accent-gold);
+    border-bottom: 2px solid rgba(255, 70, 85, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     z-index: 100;
     padding: 0 40px;
     clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
 }
 
 .winner-header h1.v-event {
+    font-family: var(--font-barlow);
     font-size: 30px;
     font-weight: 900;
     letter-spacing: 4px;
@@ -347,16 +432,37 @@ body::after {
 }
 
 .winner-header .header-scene {
+    font-family: var(--font-rajdhani);
     font-size: 13px;
     font-weight: 900;
     letter-spacing: 6px;
-    color: var(--vct-yellow);
+    color: var(--accent-gold);
     text-transform: uppercase;
     margin-top: 4px;
     background: rgba(232, 184, 75, 0.12);
     padding: 2px 18px;
     border-radius: 20px;
     border: 1px solid rgba(232, 184, 75, 0.25);
+}
+
+/* ── Bottom scrolling partners strip ── */
+.bottom-partners {
+    position: absolute;
+    bottom: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    opacity: 0.3;
+    z-index: 5;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.partner-logo {
+    height: 28px;
+    object-fit: contain;
+    filter: grayscale(1) brightness(2);
 }
 
 /* ── STAGGERED ENTRANCE ANIMATIONS ── */
