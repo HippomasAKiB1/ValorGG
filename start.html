@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>VCT Pre-Show Starting Screen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Rajdhani:wght@600;700&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #02060d;
+            --accent-red: #ff4655;
+            --accent-cyan: #00f3c6;
+            --accent-gold: #ece81a;
+            --purple-placeholder: #7f00ff;
+            --font-outfit: 'Outfit', sans-serif;
+            --font-rajdhani: 'Rajdhani', sans-serif;
+            --font-barlow: 'Barlow Condensed', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: transparent !important;
+            color: #ffffff;
+            font-family: var(--font-outfit);
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ── Cybernetic Background Grid & Gradients ── */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(18, 24, 43, 0.45) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(18, 24, 43, 0.45) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 60% 50%, rgba(0, 243, 198, 0.08) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ── Broadcast Corner Accents ── */
+        .corner-accent {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            z-index: 1000;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(255, 70, 85, 0.35));
+        }
+
+        .corner-accent.tl {
+            left: 30px;
+            top: 30px;
+        }
+
+        .corner-accent.tr {
+            right: 30px;
+            top: 30px;
+            transform: scaleX(-1);
+        }
+
+        .corner-accent.bl {
+            left: 30px;
+            bottom: 30px;
+            transform: scaleY(-1);
+        }
+
+        .corner-accent.br {
+            right: 30px;
+            bottom: 30px;
+            transform: scale(-1);
+        }
+
+
+        /* ── Branding Container (Top-Left) ── */
+        .branding-container {
+            position: absolute;
+            left: 80px;
+            top: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .brand-logo-wc {
+            height: 52px;
+            object-fit: contain;
+        }
+
+        .brand-separator {
+            width: 2px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .brand-logo-val {
+            height: 44px;
+            object-fit: contain;
+        }
+
+        /* ── Floating Video Container ── */
+        .video-wrapper {
+            position: absolute;
+            left: 80px;
+            top: 360px;
+            width: 480px;
+            height: 270px;
+            padding: 6px;
+            background: rgba(2, 6, 13, 0.75);
+            border: 1.5px solid rgba(0, 243, 198, 0.35);
+            border-radius: 20px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), 
+                        0 0 30px rgba(0, 243, 198, 0.12);
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(15px);
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .video-wrapper.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            animation: floatContainer 5s ease-in-out infinite 0.5s;
+        }
+
+        .video-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+            background-color: #000000;
+            position: relative;
+        }
+
+        /* Tactical CRT Scanlines for Observer Feed */
+        .video-container::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.25) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.03),
+                rgba(0, 255, 0, 0.01),
+                rgba(0, 0, 255, 0.03)
+            );
+            background-size: 100% 4px, 6px 100%;
+            z-index: 11;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .video-header-overlay {
+            position: absolute;
+            top: 14px;
+            left: 16px;
+            background: rgba(2, 6, 13, 0.9);
+            padding: 5px 12px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 243, 198, 0.45);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 12;
+            font-family: var(--font-rajdhani);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 6px rgba(0, 243, 198, 0.3);
+            text-transform: uppercase;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-red);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--accent-red);
+            animation: blink 1.2s infinite;
+        }
+
+        .video-viewport {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .video-viewport.style-chromakey {
+            background-color: var(--purple-placeholder);
+        }
+
+        .video-viewport.style-transparent {
+            background-color: transparent !important;
+        }
+
+        .video-viewport iframe, 
+        .video-viewport video {
+            width: 100%;
+            height: 100%;
+            border: none;
+            object-fit: cover;
+        }
+
+        /* ── Right Column Containers ── */
+        .timer-header {
+            position: absolute;
+            right: 80px;
+            top: 140px;
+            width: 480px;
+            height: 190px;
+            background: rgba(2, 6, 13, 0.75);
+            border: 1.5px solid rgba(0, 243, 198, 0.35);
+            border-radius: 20px;
+            backdrop-filter: blur(16px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 
+                        0 0 30px rgba(0, 243, 198, 0.12);
+            z-index: 10;
+        }
+
+        .timer-top-label {
+            font-family: var(--font-rajdhani);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            color: var(--accent-red);
+            text-shadow: 0 0 6px rgba(255, 70, 85, 0.4);
+            margin-bottom: 2px;
+            text-transform: uppercase;
+        }
+
+        .timer-display {
+            font-family: var(--font-rajdhani);
+            font-size: 64px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(0, 243, 198, 0.35);
+            margin-bottom: -4px;
+        }
+
+        .match-stage {
+            font-family: var(--font-outfit);
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.65);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-panel {
+            position: absolute;
+            right: 80px;
+            top: 360px;
+            width: 480px;
+            height: 270px;
+            background: rgba(4, 11, 22, 0.86);
+            backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(0, 243, 198, 0.35);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4),
+                        0 0 30px rgba(0, 243, 198, 0.08);
+            z-index: 10;
+        }
+
+        .team-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+        }
+
+        .team-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            width: 160px;
+        }
+
+        .team-logo-frame {
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-logo-frame img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+        }
+
+        .team-block:hover .team-logo-frame img {
+            transform: scale(1.08);
+            filter: drop-shadow(0 12px 24px rgba(0, 243, 198, 0.35));
+        }
+
+        .team-tag {
+            font-family: var(--font-barlow);
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            text-align: center;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .vs-divider {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 120px;
+        }
+
+        .vs-line-vert {
+            width: 1.5px;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, rgba(0, 243, 198, 0.4), transparent);
+        }
+
+        .vs-text {
+            font-family: var(--font-rajdhani);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(0, 243, 198, 0.4);
+        }
+
+        /* ── Roster Loop Card ── */
+        .roster-loop-container {
+            position: absolute;
+            right: 80px;
+            top: 660px;
+            width: 480px;
+            height: 340px;
+            background: rgba(4, 11, 22, 0.86);
+            backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(0, 243, 198, 0.35);
+            border-radius: 20px;
+            padding: 20px 24px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4),
+                        0 0 30px rgba(0, 243, 198, 0.08);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .roster-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 8px;
+            margin-bottom: 4px;
+        }
+
+        .roster-title {
+            font-family: var(--font-rajdhani);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+        }
+
+        #roster-team-tag {
+            font-family: var(--font-barlow);
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(0, 243, 198, 0.3);
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .roster-players-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .roster-player-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .roster-player-row:hover {
+            background: rgba(0, 243, 198, 0.05);
+            border-color: rgba(0, 243, 198, 0.15);
+        }
+
+        .roster-player-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .roster-player-avatar-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .generic-user-svg {
+            width: 15px;
+            height: 15px;
+            opacity: 0.7;
+        }
+
+        .roster-player-name {
+            font-family: var(--font-barlow);
+            font-size: 17px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .roster-player-role-tag {
+            font-family: var(--font-rajdhani);
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .roster-progress-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+
+        .roster-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-gold));
+        }
+
+        /* Unified Glass Box Corner Brackets */
+        .box-corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            z-index: 15;
+            pointer-events: none;
+            filter: drop-shadow(0 0 6px rgba(0, 243, 198, 0.5));
+        }
+        .box-corner.tl {
+            left: -4px;
+            top: -4px;
+        }
+        .box-corner.tr {
+            right: -4px;
+            top: -4px;
+            transform: scaleX(-1);
+        }
+        .box-corner.bl {
+            left: -4px;
+            bottom: -4px;
+            transform: scaleY(-1);
+        }
+        .box-corner.br {
+            right: -4px;
+            bottom: -4px;
+            transform: scale(-1);
+        }
+
+        /* Premium VCT Status Window Control Dots */
+        .video-status-dots {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            display: flex;
+            gap: 5px;
+            z-index: 12;
+        }
+        .vdot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+        }
+        .vdot.cyan { background-color: var(--accent-cyan); box-shadow: 0 0 5px var(--accent-cyan); }
+        .vdot.gold { background-color: var(--accent-gold); box-shadow: 0 0 5px var(--accent-gold); }
+        .vdot.red { background-color: var(--accent-red); box-shadow: 0 0 5px var(--accent-red); }
+
+        /* ── Centerpiece Tournament Logo ── */
+        .tournament-logo-center {
+            position: absolute;
+            left: 80px;
+            top: 140px;
+            width: 480px;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            z-index: 10;
+        }
+        .tournament-logo-center img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(0, 243, 198, 0.35));
+            animation: logoGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(0, 243, 198, 0.3)); }
+            50% { filter: drop-shadow(0 0 25px rgba(0, 243, 198, 0.55)) drop-shadow(0 0 45px rgba(0, 243, 198, 0.2)); }
+        }
+
+        /* ── Tactical Match Info Badge ── */
+        .match-info-badge {
+            position: absolute;
+            left: 80px;
+            top: 660px;
+            width: 480px;
+            padding: 16px 20px;
+            background: rgba(2, 6, 13, 0.65);
+            border-left: 3px solid var(--accent-cyan);
+            border-radius: 4px 16px 16px 4px;
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+        }
+        .match-info-badge .badge-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-rajdhani);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .match-info-badge .badge-label {
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+        }
+        .match-info-badge .badge-value {
+            color: #ffffff;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+        }
+        @keyframes floatContainer {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(0.3deg); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Screen Accent Brackets (All 4 Corners) -->
+    <div class="corner-accent tl">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+        </svg>
+    </div>
+    <div class="corner-accent tr">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+        </svg>
+    </div>
+    <div class="corner-accent bl">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+        </svg>
+    </div>
+    <div class="corner-accent br">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+        </svg>
+    </div>
+
+    <!-- Branding logos (Top-Left) -->
+    <div class="branding-container">
+        <img src="/assets/Warcities logo.png" class="brand-logo-wc" alt="WarCities Logo" onerror="this.src='/assets/Warcities logo.png'">
+        <div class="brand-separator"></div>
+        <img src="/assets/Valorant Logo.png" class="brand-logo-val" alt="Valorant Logo" onerror="this.src='/assets/Valorant Logo.png'">
+    </div>
+
+    <!-- Main Tournament Logo Piece (Left Center) -->
+    <div class="tournament-logo-center">
+        <img src="/assets/wvps logo.png" alt="Tournament Logo" onerror="this.src='/assets/wvps logo.png'">
+    </div>
+
+    <!-- Floating Video Wrapper Frame -->
+    <div class="video-wrapper" id="video-wrapper">
+        <!-- Cute VCT Status Dots -->
+        <div class="video-status-dots">
+            <span class="vdot cyan"></span>
+            <span class="vdot gold"></span>
+            <span class="vdot red"></span>
+        </div>
+
+        <!-- Decorative Frame Brackets -->
+        <div class="box-corner tl">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner tr">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner bl">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner br">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+
+        <div class="video-header-overlay">
+            <span class="pulse-dot"></span>
+            <span class="video-label" id="video-feed-label">LIVE FEED / CAMERA OBSERVER</span>
+        </div>
+        <div class="video-container">
+            <div class="video-viewport style-chromakey" id="video-viewport">
+                <!-- Custom Iframe or Video elements injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Match Info Badge (Below Video Box) -->
+    <div class="match-info-badge" id="match-info-badge">
+        <div class="badge-row">
+            <span class="badge-label">EVENT:</span>
+            <span class="badge-value" id="badge-event-name">WARCITIES://VALORANT PRO SERIES</span>
+        </div>
+        <div class="badge-row">
+            <span class="badge-label">STAGE:</span>
+            <span class="badge-value" id="badge-stage-name">PLAYOFFS GRAND FINAL</span>
+        </div>
+        <div class="badge-row">
+            <span class="badge-label">SERVER:</span>
+            <span class="badge-value" style="color: var(--accent-cyan);">SG_ACTIVE_04 // ONLINE</span>
+        </div>
+    </div>
+
+    <!-- Right Column: Timer Header -->
+    <div class="timer-header">
+        <!-- Decorative Corner Brackets -->
+        <div class="box-corner tl">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner tr">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner bl">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner br">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+
+        <div class="timer-top-label">COUNTDOWN TO MATCH START</div>
+        <div class="timer-display" id="timer-display">00:00:00</div>
+        <div class="match-stage"><span id="match-stage-title">GRAND FINALE</span> • <span id="vertical-best-of">BO3</span></div>
+    </div>
+    
+    <!-- Right Column: Team Panel -->
+    <div class="team-panel">
+        <!-- Decorative Corner Brackets -->
+        <div class="box-corner tl">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner tr">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner bl">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner br">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+
+        <!-- Team A -->
+        <div class="team-block">
+            <div class="team-logo-frame" id="team-a-logo-frame">
+                <!-- Injected dynamically -->
+            </div>
+            <div class="team-tag" id="team-a-tag">[ TEAM A ]</div>
+        </div>
+
+        <!-- VS Divider -->
+        <div class="vs-divider">
+            <div class="vs-line-vert"></div>
+            <div class="vs-text">VS</div>
+            <div class="vs-line-vert"></div>
+        </div>
+
+        <!-- Team B -->
+        <div class="team-block">
+            <div class="team-logo-frame" id="team-b-logo-frame">
+                <!-- Injected dynamically -->
+            </div>
+            <div class="team-tag" id="team-b-tag">[ TEAM B ]</div>
+        </div>
+    </div>
+    
+    <!-- Right Column: Roster Loop Card -->
+    <div class="roster-loop-container" id="roster-loop-container">
+        <!-- Decorative Corner Brackets -->
+        <div class="box-corner tl">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner tr">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner bl">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+        <div class="box-corner br">
+            <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+            </svg>
+        </div>
+
+        <div class="roster-header">
+            <span class="roster-title">STARTING ROSTER</span>
+            <div id="roster-team-tag">TEAM LEFT</div>
+        </div>
+
+        <!-- Player Rows Container -->
+        <div class="roster-players-list" id="roster-players-list">
+            <!-- 5 rows injected dynamically -->
+        </div>
+
+        <!-- Looping timer progress bar -->
+        <div class="roster-progress-bar">
+            <div class="roster-progress-fill" id="roster-progress-fill"></div>
+        </div>
+    </div>
+
+    <script>
+        const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const ws = new WebSocket(`${wsProto}//${location.host}`);
+        let state = null;
+
+        // Roster Slideshow Loop variables
+        let currentRosterTeam = 'left'; // 'left' | 'right'
+        let rosterInterval = null;
+        let rosterProgress = 0;
+        const ROSTER_CYCLE_TIME = 8000; // 8 seconds per team
+        const PROGRESS_TICK = 100; // update progress bar every 100ms
+
+        function deepMerge(target, src) {
+            if (!src || typeof src !== 'object') return;
+            for (const key of Object.keys(src)) {
+                const srcVal = src[key];
+                const tgtVal = target[key];
+                if (Array.isArray(srcVal)) {
+                    if (Array.isArray(tgtVal) && tgtVal.length && tgtVal[0] && tgtVal[0].id !== undefined) {
+                        for (const srcItem of srcVal) {
+                            const tgtItem = tgtVal.find(x => x.id === srcItem.id);
+                            if (tgtItem) deepMerge(tgtItem, srcItem);
+                            else tgtVal.push(srcItem);
+                        }
+                    } else {
+                        target[key] = srcVal;
+                    }
+                } else if (srcVal && typeof srcVal === 'object') {
+                    if (!tgtVal || typeof tgtVal !== 'object') target[key] = {};
+                    deepMerge(target[key], srcVal);
+                } else {
+                    target[key] = srcVal;
+                }
+            }
+        }
+
+        ws.onmessage = (event) => {
+            try {
+                const patch = JSON.parse(event.data);
+                if (!patch) return;
+
+                if (!state) {
+                    state = patch;
+                    render();
+                    renderRoster();
+                    startRosterLoop();
+                } else {
+                    deepMerge(state, patch);
+                    render();
+                    renderRoster();
+                }
+            } catch (err) {
+                console.error('[WS] Error processing message:', err);
+            }
+        };
+
+        ws.onopen = () => {
+            console.log('[WS] Connected to VCT HUD Server (Start Screen)');
+        };
+
+        ws.onclose = () => {
+            console.log('[WS] Disconnected. Reconnecting in 3s...');
+            setTimeout(() => location.reload(), 3000);
+        };
+
+        function formatTimer(sec) {
+            const h = Math.floor(sec / 3600);
+            const m = Math.floor((sec % 3600) / 60);
+            const s = sec % 60;
+            return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function resolveLogoPath(logoUrl, teamName) {
+            if (!logoUrl) {
+                return `https://ui-avatars.com/api/?name=${encodeURIComponent(teamName)}&background=0a0d12&color=ffffff&size=256&bold=true`;
+            }
+            if (logoUrl.startsWith('http') || logoUrl.startsWith('/')) {
+                return logoUrl;
+            }
+            if (logoUrl.includes('assets/team-logo/')) {
+                return `/${logoUrl}`;
+            }
+            return `/assets/team-logo/${logoUrl}`;
+        }
+
+        // Roster slides control
+        function renderRoster() {
+            if (!state || !state.teams) return;
+            const team = state.teams[currentRosterTeam] || { name: 'TEAM', players: [] };
+            const teamTagEl = document.getElementById('roster-team-tag');
+            const playersListEl = document.getElementById('roster-players-list');
+
+            if (teamTagEl) {
+                teamTagEl.textContent = team.name;
+                if (currentRosterTeam === 'left') {
+                    teamTagEl.style.color = 'var(--accent-cyan)';
+                    teamTagEl.style.textShadow = '0 0 8px rgba(0, 243, 198, 0.3)';
+                } else {
+                    teamTagEl.style.color = 'var(--accent-gold)';
+                    teamTagEl.style.textShadow = '0 0 8px rgba(236, 232, 26, 0.3)';
+                }
+            }
+
+            if (playersListEl) {
+                const players = team.players || [];
+                playersListEl.innerHTML = players.map(p => {
+                    return `
+                        <div class="roster-player-row">
+                            <div class="roster-player-left">
+                                <div class="roster-player-avatar-icon">
+                                    <svg class="generic-user-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 21C20 18.2386 16.4183 16 12 16C7.58172 16 4 18.2386 4 21" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                                        <circle cx="12" cy="8" r="4" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                                    </svg>
+                                </div>
+                                <span class="roster-player-name">${p.name || 'Player'}</span>
+                            </div>
+                            <span class="roster-player-role-tag">STARTER</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function switchRosterTeam() {
+            const listEl = document.getElementById('roster-players-list');
+            if (listEl) {
+                listEl.style.opacity = '0';
+                setTimeout(() => {
+                    currentRosterTeam = currentRosterTeam === 'left' ? 'right' : 'left';
+                    renderRoster();
+                    listEl.style.opacity = '1';
+                }, 300);
+            }
+        }
+
+        function startRosterLoop() {
+            if (rosterInterval) clearInterval(rosterInterval);
+            rosterInterval = setInterval(() => {
+                rosterProgress += (100 / (ROSTER_CYCLE_TIME / PROGRESS_TICK));
+                const fillEl = document.getElementById('roster-progress-fill');
+                if (fillEl) {
+                    fillEl.style.width = `${Math.min(rosterProgress, 100)}%`;
+                }
+                if (rosterProgress >= 100) {
+                    rosterProgress = 0;
+                    switchRosterTeam();
+                }
+            }, PROGRESS_TICK);
+        }
+
+        let currentVideoType = null;
+        let currentVideoUrl = null;
+
+        function render() {
+            if (!state) return;
+
+            // 1. Teams & Logos
+            const leftTeam = state.teams?.left || { name: 'TEAM A', logoUrl: '' };
+            const rightTeam = state.teams?.right || { name: 'TEAM B', logoUrl: '' };
+
+            document.getElementById('team-a-tag').textContent = `[ ${leftTeam.name} ]`;
+            document.getElementById('team-b-tag').textContent = `[ ${rightTeam.name} ]`;
+
+            const logoAFrame = document.getElementById('team-a-logo-frame');
+            const logoBFrame = document.getElementById('team-b-logo-frame');
+
+            const logoAPath = resolveLogoPath(leftTeam.logoUrl, leftTeam.name);
+            const logoBPath = resolveLogoPath(rightTeam.logoUrl, rightTeam.name);
+
+            logoAFrame.innerHTML = `<img src="${logoAPath}" alt="${leftTeam.name}" onerror="this.style.display='none';">`;
+            logoBFrame.innerHTML = `<img src="${logoBPath}" alt="${rightTeam.name}" onerror="this.style.display='none';">`;
+
+            // 2. Dynamic Text Header Stage & Vertical bestOf text
+            if (state.match) {
+                if (state.match.subHeading) {
+                    document.getElementById('match-stage-title').textContent = state.match.subHeading;
+                    document.getElementById('badge-stage-name').textContent = state.match.subHeading;
+                }
+                if (state.match.tournament) {
+                    document.getElementById('badge-event-name').textContent = state.match.tournament;
+                }
+                if (state.match.bestOf) {
+                    document.getElementById('vertical-best-of').textContent = `FINALS - BO${state.match.bestOf}`;
+                }
+            }
+
+            // 3. Countdown Timer
+            const scr = state.startScreen || { timer: 120, timerActive: false, videoVisible: true, videoType: 'chromakey', videoUrl: '' };
+            document.getElementById('timer-display').textContent = formatTimer(scr.timer);
+
+            // 4. Video Viewport Frame visibility
+            const videoWrapper = document.getElementById('video-wrapper');
+            if (scr.videoVisible) {
+                videoWrapper.classList.add('visible');
+            } else {
+                videoWrapper.classList.remove('visible');
+            }
+
+            const viewport = document.getElementById('video-viewport');
+            
+            // Set label description depending on type
+            const labelEl = document.getElementById('video-feed-label');
+            if (labelEl) {
+                if (scr.videoType === 'url') {
+                    labelEl.textContent = 'PROMOTIONAL CLIP FEED';
+                } else {
+                    labelEl.textContent = 'LIVE FEED / CAMERA OBSERVER';
+                }
+            }
+
+            // Avoid resetting viewport content on every tick unless values changed
+            if (currentVideoType !== scr.videoType || currentVideoUrl !== scr.videoUrl) {
+                currentVideoType = scr.videoType;
+                currentVideoUrl = scr.videoUrl;
+
+                viewport.className = `video-viewport style-${scr.videoType}`;
+                viewport.innerHTML = ''; // reset
+
+                if (scr.videoType === 'url' && scr.videoUrl) {
+                    if (scr.videoUrl.includes('youtube.com') || scr.videoUrl.includes('youtu.be')) {
+                        let embedUrl = scr.videoUrl;
+                        if (scr.videoUrl.includes('watch?v=')) {
+                            embedUrl = scr.videoUrl.replace('watch?v=', 'embed/');
+                        }
+                        viewport.innerHTML = `<iframe src="${embedUrl}?autoplay=1&mute=1&loop=1&controls=0" allow="autoplay"></iframe>`;
+                    } else {
+                        viewport.innerHTML = `<video src="${scr.videoUrl}" autoplay loop muted></video>`;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

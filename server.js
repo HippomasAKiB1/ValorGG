@@ -224,6 +224,13 @@ const state = {
         visible: false,
         type: 'tech',
         teamSide: 'attack'
+    },
+    startScreen: {
+        timer: 120,
+        timerActive: false,
+        videoVisible: true,
+        videoType: 'chromakey',
+        videoUrl: ''
     }
 };
 
@@ -365,6 +372,11 @@ app.get('/', (req, res) => {
 // Overlay
 app.get('/overlay', (req, res) => {
     res.sendFile(path.join(__dirname, 'overlay.html'));
+});
+
+// Start Overlay [NEW]
+app.get('/start', (req, res) => {
+    res.sendFile(path.join(__dirname, 'start.html'));
 });
 
 // Map Veto Overlay
@@ -510,10 +522,47 @@ app.get('/api/rules', (req, res) => {
     res.json({ rules: GAME_RULES, ultCosts: AGENT_ULT_COSTS });
 });
 
+// Start Screen Countdown Timer Ticker
+let startScreenInterval = null;
+function startStartScreenTimer() {
+    if (startScreenInterval) return;
+    startScreenInterval = setInterval(() => {
+        if (state.startScreen && state.startScreen.timerActive) {
+            if (state.startScreen.timer > 0) {
+                state.startScreen.timer -= 1;
+                broadcast({ startScreen: { timer: state.startScreen.timer } });
+            } else {
+                state.startScreen.timerActive = false;
+                broadcast({ startScreen: { timerActive: false } });
+                stopStartScreenTimer();
+            }
+        } else {
+            stopStartScreenTimer();
+        }
+    }, 1000);
+}
+
+function stopStartScreenTimer() {
+    if (startScreenInterval) {
+        clearInterval(startScreenInterval);
+        startScreenInterval = null;
+    }
+}
+
 // Partial update — merge and broadcast
 app.post('/api/update', (req, res) => {
     const patch = req.body;
     deepMerge(state, patch);
+
+    // Check if startScreen timer is activated
+    if (patch.startScreen) {
+        if (patch.startScreen.timerActive === true) {
+            startStartScreenTimer();
+        } else if (patch.startScreen.timerActive === false) {
+            stopStartScreenTimer();
+        }
+    }
+
     broadcast(patch);
     res.json({ ok: true });
 });
@@ -816,6 +865,16 @@ wss.on('connection', (ws) => {
             const data = JSON.parse(message);
             if (data && typeof data === 'object') {
                 deepMerge(state, data);
+
+                // Check if startScreen timer is activated
+                if (data.startScreen) {
+                    if (data.startScreen.timerActive === true) {
+                        startStartScreenTimer();
+                    } else if (data.startScreen.timerActive === false) {
+                        stopStartScreenTimer();
+                    }
+                }
+
                 // Broadcast the change to all other connected clients
                 wss.clients.forEach(client => {
                     if (client !== ws && client.readyState === 1) { // 1 is OPEN

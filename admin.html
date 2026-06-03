@@ -344,6 +344,67 @@
     </section>
 
     <!-- ════════════════════════════════════════════
+         START OVERLAY CONTROL PANEL [NEW]
+    ════════════════════════════════════════════ -->
+    <section class="panel start-screen-panel-admin" style="margin: 0 24px 24px; padding: 24px;">
+        <h2>🎬 Start / Waiting Screen Overlay</h2>
+        <p style="color: #8a97a4; margin-bottom: 20px; font-size: 13px;">Manage the premium countdown and waiting screen overlay. Real-time timer and video windows propagate to the /start window.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center;">
+                <!-- Timer Action Control Buttons -->
+                <div style="display: flex; gap: 10px;">
+                    <button id="btn-start-timer-toggle" class="btn btn-primary" onclick="toggleStartScreenTimer()" style="padding: 10px 20px; font-size: 13px; font-weight: 700; min-width: 140px; letter-spacing: 0.5px; transition: all 0.3s ease;">
+                        ▶ START TIMER
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetStartScreenTimer()" style="padding: 10px 20px; font-size: 13px; font-weight: 700;">
+                        🔄 RESET TIMER
+                    </button>
+                </div>
+                
+                <!-- Countdown Target Duration Picker -->
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <span style="color: #8a97a4; font-size: 13px; font-weight: 700; text-transform: uppercase;">Duration:</span>
+                    <select id="f-start-timer-duration" onchange="changeStartScreenTimerDuration(this.value)" style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; font-weight: 700; outline: none; cursor: pointer;">
+                        <option value="60">1 Minute</option>
+                        <option value="120" selected>2 Minutes</option>
+                        <option value="180">3 Minutes</option>
+                        <option value="300">5 Minutes</option>
+                        <option value="600">10 Minutes</option>
+                        <option value="custom">Custom (sec)</option>
+                    </select>
+                    <input type="number" id="f-start-timer-custom" oninput="changeStartScreenTimerCustom(this.value)" placeholder="Seconds" style="display: none; background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; width: 90px; outline: none;">
+                </div>
+
+                <!-- Video Visibility Toggle -->
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <span style="color: #8a97a4; font-size: 13px; font-weight: 700; text-transform: uppercase;">Video Window:</span>
+                    <button id="btn-start-video-toggle" class="btn btn-toggle active" onclick="toggleStartVideoVisible()" style="padding: 10px 20px; font-size: 13px; font-weight: 700;">
+                        SHOW VIDEO
+                    </button>
+                </div>
+
+                <!-- Video Layout/Type Selection -->
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <span style="color: #8a97a4; font-size: 13px; font-weight: 700; text-transform: uppercase;">Video Style:</span>
+                    <select id="f-start-video-type" onchange="updateStartVideoConfig()" style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; font-weight: 700; outline: none; cursor: pointer;">
+                        <option value="chromakey">Purple Box (Chroma Key)</option>
+                        <option value="transparent">Transparent Cutout</option>
+                        <option value="url">Custom Embed URL</option>
+                    </select>
+                </div>
+
+                <!-- Video URL Input -->
+                <div id="start-video-url-container" style="display: none; gap: 10px; align-items: center; width: 100%;">
+                    <span style="color: #8a97a4; font-size: 13px; font-weight: 700; text-transform: uppercase; min-width: 90px;">Video URL:</span>
+                    <input type="text" id="f-start-video-url" oninput="updateStartVideoUrl(this.value)" placeholder="e.g. https://www.youtube.com/embed/dQw4w9WgXcQ or local video.mp4" style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; flex: 1; outline: none;">
+                </div>
+            </div>
+            <span style="color: #8a97a4; font-size: 13px;">Open overlay window: <a href="/start" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 700;">/start</a></span>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
          CHALLONGE BRACKET INTEGRATION PANEL
     ════════════════════════════════════════════ -->
     <section class="panel challonge-panel-admin" style="margin: 0 24px 24px; padding: 24px;">
@@ -883,6 +944,23 @@ function populateAll() {
             syncStatus.style.color = '#8a97a4';
         }
     }
+
+    // Start Screen overlay
+    if (!localState.startScreen) {
+        localState.startScreen = { timer: 120, timerActive: false, videoVisible: true, videoType: 'chromakey', videoUrl: '' };
+    }
+    const scr = localState.startScreen;
+    updateStartScreenTimerButton(scr.timerActive);
+    updateStartVideoVisibleButton(scr.videoVisible);
+    populateFieldSafe('f-start-video-type', scr.videoType || 'chromakey');
+    populateFieldSafe('f-start-video-url', scr.videoUrl || '');
+    
+    // Manage display of inputs based on values
+    const videoUrlContainer = document.getElementById('start-video-url-container');
+    if (videoUrlContainer) {
+        videoUrlContainer.style.display = scr.videoType === 'url' ? 'flex' : 'none';
+    }
+
     populateRosterDropdowns();
 }
 
@@ -1454,6 +1532,125 @@ function updatePauseConfig() {
     
     // Send to WebSocket
     pushUpdate({ pause: { type, teamSide: side } });
+}
+
+/* ══════════════════════════════════════════════════════════
+   START SCREEN OVERLAY CONTROL FUNCTIONS
+   ══════════════════════════════════════════════════════════ */
+function toggleStartScreenTimer() {
+    if (!localState.startScreen) {
+        localState.startScreen = { timer: 120, timerActive: false, videoVisible: true, videoType: 'chromakey', videoUrl: '' };
+    }
+    const nextVal = !localState.startScreen.timerActive;
+    localState.startScreen.timerActive = nextVal;
+    
+    // Update button visual state immediately
+    updateStartScreenTimerButton(nextVal);
+    
+    // Send to WebSocket
+    pushUpdate({ startScreen: { timerActive: nextVal } });
+}
+
+function updateStartScreenTimerButton(active) {
+    const btn = document.getElementById('btn-start-timer-toggle');
+    if (!btn) return;
+    if (active) {
+        btn.className = 'btn btn-gold';
+        btn.textContent = '⏸️ PAUSE TIMER';
+        btn.style.boxShadow = '0 0 15px rgba(232, 184, 75, 0.4)';
+    } else {
+        btn.className = 'btn btn-primary';
+        btn.textContent = '▶ START TIMER';
+        btn.style.boxShadow = 'none';
+    }
+}
+
+function resetStartScreenTimer() {
+    if (!localState.startScreen) {
+        localState.startScreen = { timer: 120, timerActive: false, videoVisible: true, videoType: 'chromakey', videoUrl: '' };
+    }
+    
+    // Stop the timer first
+    localState.startScreen.timerActive = false;
+    updateStartScreenTimerButton(false);
+
+    // Resolve target duration
+    const durSelect = document.getElementById('f-start-timer-duration').value;
+    let targetSec = 120;
+    if (durSelect === 'custom') {
+        targetSec = parseInt(document.getElementById('f-start-timer-custom').value) || 120;
+    } else {
+        targetSec = parseInt(durSelect) || 120;
+    }
+
+    localState.startScreen.timer = targetSec;
+    
+    // Send to WebSocket
+    pushUpdate({ startScreen: { timer: targetSec, timerActive: false } });
+}
+
+function changeStartScreenTimerDuration(val) {
+    const customInput = document.getElementById('f-start-timer-custom');
+    if (val === 'custom') {
+        customInput.style.display = 'inline-block';
+    } else {
+        customInput.style.display = 'none';
+        resetStartScreenTimer();
+    }
+}
+
+function changeStartScreenTimerCustom(val) {
+    resetStartScreenTimer();
+}
+
+function toggleStartVideoVisible() {
+    if (!localState.startScreen) {
+        localState.startScreen = { timer: 120, timerActive: false, videoVisible: true, videoType: 'chromakey', videoUrl: '' };
+    }
+    const nextVal = !localState.startScreen.videoVisible;
+    localState.startScreen.videoVisible = nextVal;
+    
+    updateStartVideoVisibleButton(nextVal);
+    
+    // Send to WebSocket
+    pushUpdate({ startScreen: { videoVisible: nextVal } });
+}
+
+function updateStartVideoVisibleButton(visible) {
+    const btn = document.getElementById('btn-start-video-toggle');
+    if (!btn) return;
+    if (visible) {
+        btn.className = 'btn btn-toggle active';
+        btn.textContent = 'SHOW VIDEO';
+    } else {
+        btn.className = 'btn btn-toggle';
+        btn.textContent = 'HIDE VIDEO';
+    }
+}
+
+// Ensure the style type matches state
+function updateStartVideoConfig() {
+    if (!localState.startScreen) {
+        localState.startScreen = { timer: 120, timerActive: false, videoVisible: true, videoType: 'chromakey', videoUrl: '' };
+    }
+    const style = document.getElementById('f-start-video-type').value;
+    localState.startScreen.videoType = style;
+    
+    // Show/hide URL container
+    document.getElementById('start-video-url-container').style.display = style === 'url' ? 'flex' : 'none';
+    
+    // Send to WebSocket
+    pushUpdate({ startScreen: { videoType: style } });
+}
+
+function updateStartVideoUrl(url) {
+    if (!localState.startScreen) {
+        localState.startScreen = { timer: 120, timerActive: false, videoVisible: true, videoType: 'chromakey', videoUrl: '' };
+    }
+    localState.startScreen.videoUrl = url;
+    
+    // Send to WebSocket
+    pushUpdate({ startScreen: { videoUrl: url } });
 }
 
 /* ══════════════════════════════════════════════════════════
