@@ -30,7 +30,7 @@ body {
     padding: 0;
     width: 1920px;
     height: 1080px;
-    background: radial-gradient(circle at center, #022026 0%, #011114 100%) !important;
+    background: radial-gradient(circle at center, rgba(2, 32, 38, 0.70) 0%, rgba(1, 17, 20, 0.85) 100%) !important;
     overflow: hidden;
     font-family: var(--font-barlow);
     color: var(--vct-white);
