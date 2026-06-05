@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1920, height=1080">
     <title>VCT Pre-Show Starting Screen</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Rajdhani:wght@600;700&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Rajdhani:wght@600;700&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg-dark: #02060d;
@@ -38,9 +41,12 @@
         body::before {
             content: "";
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: linear-gradient(rgba(18, 24, 43, 0.45) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(18, 24, 43, 0.45) 1px, transparent 1px);
+                linear-gradient(90deg, rgba(18, 24, 43, 0.45) 1px, transparent 1px);
             background-size: 60px 60px;
             z-index: 1;
             pointer-events: none;
@@ -49,7 +55,10 @@
         body::after {
             content: "";
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: radial-gradient(circle at 60% 50%, rgba(0, 243, 198, 0.08) 0%, transparent 70%);
             z-index: 1;
             pointer-events: none;
@@ -129,8 +138,8 @@
             border: 1.5px solid rgba(0, 243, 198, 0.35);
             border-radius: 20px;
             backdrop-filter: blur(16px);
-            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), 
-                        0 0 30px rgba(0, 243, 198, 0.12);
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(0, 243, 198, 0.12);
             z-index: 10;
             opacity: 0;
             transform: translateY(15px);
@@ -158,16 +167,15 @@
         .video-container::after {
             content: "";
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(
-                rgba(18, 16, 16, 0) 50%, 
-                rgba(0, 0, 0, 0.25) 50%
-            ), linear-gradient(
-                90deg,
-                rgba(255, 0, 0, 0.03),
-                rgba(0, 255, 0, 0.01),
-                rgba(0, 0, 255, 0.03)
-            );
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%,
+                    rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg,
+                    rgba(255, 0, 0, 0.03),
+                    rgba(0, 255, 0, 0.01),
+                    rgba(0, 0, 255, 0.03));
             background-size: 100% 4px, 6px 100%;
             z-index: 11;
             pointer-events: none;
@@ -218,7 +226,7 @@
             background-color: transparent !important;
         }
 
-        .video-viewport iframe, 
+        .video-viewport iframe,
         .video-viewport video {
             width: 100%;
             height: 100%;
@@ -242,8 +250,8 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 
-                        0 0 30px rgba(0, 243, 198, 0.12);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(0, 243, 198, 0.12);
             z-index: 10;
         }
 
@@ -294,7 +302,7 @@
             justify-content: space-between;
             padding: 20px 40px;
             box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4),
-                        0 0 30px rgba(0, 243, 198, 0.08);
+                0 0 30px rgba(0, 243, 198, 0.08);
             z-index: 10;
         }
 
@@ -329,7 +337,7 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
         }
 
@@ -345,7 +353,7 @@
             color: #ffffff;
             letter-spacing: 1px;
             text-transform: uppercase;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             text-align: center;
             width: 100%;
             overflow: hidden;
@@ -391,7 +399,7 @@
             border-radius: 20px;
             padding: 20px 24px;
             box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4),
-                        0 0 30px rgba(0, 243, 198, 0.08);
+                0 0 30px rgba(0, 243, 198, 0.08);
             z-index: 10;
             display: flex;
             flex-direction: column;
@@ -521,20 +529,24 @@
             pointer-events: none;
             filter: drop-shadow(0 0 6px rgba(0, 243, 198, 0.5));
         }
+
         .box-corner.tl {
             left: -4px;
             top: -4px;
         }
+
         .box-corner.tr {
             right: -4px;
             top: -4px;
             transform: scaleX(-1);
         }
+
         .box-corner.bl {
             left: -4px;
             bottom: -4px;
             transform: scaleY(-1);
         }
+
         .box-corner.br {
             right: -4px;
             bottom: -4px;
@@ -550,14 +562,27 @@
             gap: 5px;
             z-index: 12;
         }
+
         .vdot {
             width: 5px;
             height: 5px;
             border-radius: 50%;
         }
-        .vdot.cyan { background-color: var(--accent-cyan); box-shadow: 0 0 5px var(--accent-cyan); }
-        .vdot.gold { background-color: var(--accent-gold); box-shadow: 0 0 5px var(--accent-gold); }
-        .vdot.red { background-color: var(--accent-red); box-shadow: 0 0 5px var(--accent-red); }
+
+        .vdot.cyan {
+            background-color: var(--accent-cyan);
+            box-shadow: 0 0 5px var(--accent-cyan);
+        }
+
+        .vdot.gold {
+            background-color: var(--accent-gold);
+            box-shadow: 0 0 5px var(--accent-gold);
+        }
+
+        .vdot.red {
+            background-color: var(--accent-red);
+            box-shadow: 0 0 5px var(--accent-red);
+        }
 
         /* ── Centerpiece Tournament Logo ── */
         .tournament-logo-center {
@@ -571,6 +596,7 @@
             justify-content: flex-start;
             z-index: 10;
         }
+
         .tournament-logo-center img {
             max-width: 100%;
             max-height: 100%;
@@ -580,8 +606,15 @@
         }
 
         @keyframes logoGlow {
-            0%, 100% { filter: drop-shadow(0 0 15px rgba(0, 243, 198, 0.3)); }
-            50% { filter: drop-shadow(0 0 25px rgba(0, 243, 198, 0.55)) drop-shadow(0 0 45px rgba(0, 243, 198, 0.2)); }
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 15px rgba(0, 243, 198, 0.3));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 25px rgba(0, 243, 198, 0.55)) drop-shadow(0 0 45px rgba(0, 243, 198, 0.2));
+            }
         }
 
         /* ── Tactical Match Info Badge ── */
@@ -604,6 +637,7 @@
             gap: 10px;
             box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
         }
+
         .match-info-badge .badge-row {
             display: flex;
             justify-content: space-between;
@@ -613,75 +647,99 @@
             font-weight: 700;
             letter-spacing: 1px;
         }
+
         .match-info-badge .badge-label {
             color: rgba(255, 255, 255, 0.4);
             text-transform: uppercase;
         }
+
         .match-info-badge .badge-value {
             color: #ffffff;
             text-transform: uppercase;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
         }
+
         @keyframes floatContainer {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-6px) rotate(0.3deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-6px) rotate(0.3deg);
+            }
         }
 
         @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- Screen Accent Brackets (All 4 Corners) -->
     <div class="corner-accent tl">
         <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
-            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
-            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
-            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
-            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
-            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square" />
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square" />
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1" />
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6" />
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5"
+                stroke-dasharray="2 2" />
+            <circle cx="22" cy="22" r="2" fill="#00f3c6" />
         </svg>
     </div>
     <div class="corner-accent tr">
         <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
-            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
-            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
-            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
-            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
-            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square" />
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square" />
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1" />
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6" />
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5"
+                stroke-dasharray="2 2" />
+            <circle cx="22" cy="22" r="2" fill="#00f3c6" />
         </svg>
     </div>
     <div class="corner-accent bl">
         <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
-            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
-            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
-            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
-            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
-            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square" />
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square" />
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1" />
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6" />
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5"
+                stroke-dasharray="2 2" />
+            <circle cx="22" cy="22" r="2" fill="#00f3c6" />
         </svg>
     </div>
     <div class="corner-accent br">
         <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square"/>
-            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square"/>
-            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1"/>
-            <rect x="2" y="2" width="2" height="2" fill="#00f3c6"/>
-            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="2 2"/>
-            <circle cx="22" cy="22" r="2" fill="#00f3c6"/>
+            <path d="M3,36 L3,3 L36,3" stroke="#ff4655" stroke-width="3.5" stroke-linecap="square" />
+            <path d="M9,44 L9,9 L44,9" stroke="rgba(255, 70, 85, 0.4)" stroke-width="1.5" stroke-linecap="square" />
+            <rect x="8" y="8" width="6" height="6" fill="#ece81a" rx="1" />
+            <rect x="2" y="2" width="2" height="2" fill="#00f3c6" />
+            <line x1="3" y1="3" x2="22" y2="22" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5"
+                stroke-dasharray="2 2" />
+            <circle cx="22" cy="22" r="2" fill="#00f3c6" />
         </svg>
     </div>
 
     <!-- Branding logos (Top-Left) -->
     <div class="branding-container">
-        <img src="/assets/Warcities logo.png" class="brand-logo-wc" alt="WarCities Logo" onerror="this.src='/assets/Warcities logo.png'">
+        <img src="/assets/Warcities logo.png" class="brand-logo-wc" alt="WarCities Logo"
+            onerror="this.src='/assets/Warcities logo.png'">
         <div class="brand-separator"></div>
-        <img src="/assets/Valorant Logo.png" class="brand-logo-val" alt="Valorant Logo" onerror="this.src='/assets/Valorant Logo.png'">
+        <img src="/assets/Valorant Logo.png" class="brand-logo-val" alt="Valorant Logo"
+            onerror="this.src='/assets/Valorant Logo.png'">
     </div>
 
     <!-- Main Tournament Logo Piece (Left Center) -->
@@ -701,26 +759,26 @@
         <!-- Decorative Frame Brackets -->
         <div class="box-corner tl">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner tr">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner bl">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner br">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
 
@@ -743,7 +801,7 @@
         </div>
         <div class="badge-row">
             <span class="badge-label">STAGE:</span>
-            <span class="badge-value" id="badge-stage-name">PLAYOFFS GRAND FINAL</span>
+            <span class="badge-value" id="badge-stage-name">PLAYOFFS</span>
         </div>
         <div class="badge-row">
             <span class="badge-label">SERVER:</span>
@@ -756,59 +814,60 @@
         <!-- Decorative Corner Brackets -->
         <div class="box-corner tl">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner tr">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner bl">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner br">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
 
         <div class="timer-top-label">COUNTDOWN TO MATCH START</div>
         <div class="timer-display" id="timer-display">00:00:00</div>
-        <div class="match-stage"><span id="match-stage-title">GRAND FINALE</span> • <span id="vertical-best-of">BO3</span></div>
+        <div class="match-stage"><span id="match-stage-title">PLAYOFFs</span> • <span id="vertical-best-of">BO3</span>
+        </div>
     </div>
-    
+
     <!-- Right Column: Team Panel -->
     <div class="team-panel">
         <!-- Decorative Corner Brackets -->
         <div class="box-corner tl">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner tr">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner bl">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner br">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
 
@@ -835,32 +894,32 @@
             <div class="team-tag" id="team-b-tag">[ TEAM B ]</div>
         </div>
     </div>
-    
+
     <!-- Right Column: Roster Loop Card -->
     <div class="roster-loop-container" id="roster-loop-container">
         <!-- Decorative Corner Brackets -->
         <div class="box-corner tl">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner tr">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner bl">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
         <div class="box-corner br">
             <svg width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square"/>
-                <rect x="5" y="5" width="3" height="3" fill="#ece81a"/>
+                <path d="M2,12 L2,2 L12,2" stroke="#00f3c6" stroke-width="2.5" stroke-linecap="square" />
+                <rect x="5" y="5" width="3" height="3" fill="#ece81a" />
             </svg>
         </div>
 
@@ -1087,7 +1146,7 @@
             }
 
             const viewport = document.getElementById('video-viewport');
-            
+
             // Set label description depending on type
             const labelEl = document.getElementById('video-feed-label');
             if (labelEl) {
@@ -1118,4 +1177,5 @@
         }
     </script>
 </body>
+
 </html>
