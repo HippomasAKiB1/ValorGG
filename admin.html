@@ -35,7 +35,19 @@
             </label>
             <label>
                 Sub Heading (Caster Desk)
-                <input type="text" id="f-subheading" oninput="pushMatch()" placeholder="e.g. GRAND FINALE, SEMIFINALS">
+                <select id="f-subheading" onchange="pushMatch()">
+                    <option value="Round of 16">Round of 16</option>
+                    <option value="Quarterfinals">Quarterfinals</option>
+                    <option value="Semifinals">Semifinals</option>
+                    <option value="Winners Final">Winners Final</option>
+                    <option value="Losers Round 1">Losers Round 1</option>
+                    <option value="Losers Round 2">Losers Round 2</option>
+                    <option value="Losers Round 3">Losers Round 3</option>
+                    <option value="Losers Round 4">Losers Round 4</option>
+                    <option value="Losers Round 5">Losers Round 5</option>
+                    <option value="Losers Final">Losers Final</option>
+                    <option value="GRAND FINALE">Grand Finale</option>
+                </select>
             </label>
             <label>
                 Best Of
@@ -220,7 +232,10 @@
          AGENT SELECTION PANEL
     ════════════════════════════════════════════ -->
     <section class="panel agent-select-panel" style="margin: 0 24px 24px; padding: 24px;">
-        <h2>🎯 Agent Selection</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h2 style="margin: 0;">🎯 Agent Selection</h2>
+            <button class="btn btn-danger" onclick="resetAgents()" style="padding: 6px 14px; font-size: 13px; font-weight: 700;">🔄 Reset/Clear Agents</button>
+        </div>
         <p style="color: #8a97a4; margin-bottom: 16px; font-size: 13px;">Select agents for each player below. Click <strong>Lock In</strong> to trigger the lock-in animation on the Agent Pick overlay.</p>
         <div style="display: flex; gap: 40px;">
             <div style="flex: 1;">
@@ -1217,6 +1232,9 @@ function loadTeamFromRoster(side, teamName) {
         const rosterMember = rosterPlayers[idx] || { name: 'Player ' + (idx + 1), playerImg: '' };
         p.name = rosterMember.name;
         p.playerImg = rosterMember.playerImg || '';
+        p.agent = '';
+        p.agentImg = '';
+        p.agentLocked = false;
     });
 
     pushUpdate({
@@ -1246,12 +1264,15 @@ function swapRosterPlayer(side, playerId, rosterPlayerName) {
     if (p) {
         p.name = rosterPlayer.name;
         p.playerImg = rosterPlayer.playerImg || '';
+        p.agent = '';
+        p.agentImg = '';
+        p.agentLocked = false;
     }
 
     pushUpdate({
         teams: {
             [side]: {
-                players: [{ id: playerId, name: rosterPlayer.name, playerImg: rosterPlayer.playerImg || '' }]
+                players: [{ id: playerId, name: rosterPlayer.name, playerImg: rosterPlayer.playerImg || '', agent: '', agentImg: '', agentLocked: false }]
             }
         }
     });
@@ -1262,6 +1283,7 @@ function swapRosterPlayer(side, playerId, rosterPlayerName) {
         if (nameInput) nameInput.value = rosterPlayer.name;
     }
     
+    renderAgentSelection();
 }
 
 let ws = null;
@@ -1320,6 +1342,33 @@ window.addEventListener('DOMContentLoaded', async () => {
 /* ══════════════════════════════════════════════════════════
    AGENT SELECTION — Dedicated interactive panel with Lock-In
 ══════════════════════════════════════════════════════════ */
+
+function resetAgents() {
+    if (!confirm('Clear agent selections and lock states for all players?')) return;
+    
+    ['left', 'right'].forEach(side => {
+        localState.teams[side].players.forEach(p => {
+            p.agent = '';
+            p.agentImg = '';
+            p.agentLocked = false;
+        });
+    });
+
+    pushUpdate({
+        teams: {
+            left: {
+                players: localState.teams.left.players.map(p => ({ id: p.id, agent: '', agentImg: '', agentLocked: false }))
+            },
+            right: {
+                players: localState.teams.right.players.map(p => ({ id: p.id, agent: '', agentImg: '', agentLocked: false }))
+            }
+        }
+    });
+
+    renderAgentSelection();
+    renderPlayers('left');
+    renderPlayers('right');
+}
 
 function renderAgentSelection() {
     if (!localState) return;

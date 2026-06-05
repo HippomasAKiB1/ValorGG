@@ -43,6 +43,21 @@ ws.onmessage = (event) => {
             prevVisible = replayVisible;
             updateVisibility(replayVisible);
         }
+
+        // Update scrolling ticker text dynamically
+        const match = activeState.match || {};
+        const teams = activeState.teams || {};
+        const tickerEl = document.getElementById('replay-ticker-text');
+        if (tickerEl) {
+            const tourney = (match.tournament || 'WarCities://Valorant Pro Series').toUpperCase();
+            const stage = match.subHeading ? match.subHeading.toUpperCase() : 'LIVE BROADCAST';
+            const leftTeam = (teams.left?.name || 'TEAM A').toUpperCase();
+            const rightTeam = (teams.right?.name || 'TEAM B').toUpperCase();
+            const combinedText = `✦ ${tourney} // PHASE: ${stage} // MATCH: ${leftTeam} VS ${rightTeam} ✦ ${tourney} // PHASE: ${stage} // MATCH: ${leftTeam} VS ${rightTeam} ✦`;
+            if (tickerEl.textContent.trim() !== combinedText.trim()) {
+                tickerEl.textContent = combinedText;
+            }
+        }
     } catch (err) {
         console.error('[WS] Error processing message:', err);
     }

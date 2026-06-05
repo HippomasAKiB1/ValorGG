@@ -60,7 +60,11 @@ function getMapImage(mapName) {
 
 function getCurrentMap() {
     if (!state || !state.match || !state.match.maps) return null;
-    // Find first 'pick' map or first map
+    // Find the map currently marked as 'current'
+    const current = state.match.maps.find(m => m.status === 'current');
+    if (current) return current;
+
+    // Fallback if none is marked 'current'
     const pick = state.match.maps.find(m => m.action === 'pick');
     return pick || state.match.maps[0] || null;
 }
@@ -110,7 +114,7 @@ function render() {
 
             // Update text
             card.querySelector('.nameplate-player').textContent = p.name;
-            card.querySelector('.nameplate-agent').textContent = p.agent || '—';
+            card.querySelector('.nameplate-agent').textContent = p.agent || 'SELECTING';
 
             // Portrait
             const img = card.querySelector('.agent-card-portrait img');

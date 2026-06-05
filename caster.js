@@ -105,27 +105,30 @@ function updateHUDMetadata(fullState) {
     // 1. Update Tournament Header Name
     const headerTournament = document.getElementById('header-tournament');
     if (headerTournament && m.tournament) {
-        headerTournament.textContent = m.tournament;
+        headerTournament.textContent = m.subHeading ? `${m.tournament} — ${m.subHeading}` : m.tournament;
     }
 
     // 2. Update Ticker Text Dynamically
     const tickerScroll = document.getElementById('ticker-scroll');
     if (tickerScroll) {
-        const tourney = (m.tournament || 'VALORANT CHAMPIONS').toUpperCase();
+        const tourney = (m.tournament || 'WarCities://Valorant Pro Series').toUpperCase();
+        const stage = m.subHeading ? m.subHeading.toUpperCase() : 'LIVE BROADCAST';
         const roundNum = m.round || 1;
-        const leftTeam = (t.left?.name || 'TEAM LEFT').toUpperCase();
-        const rightTeam = (t.right?.name || 'TEAM RIGHT').toUpperCase();
+        const leftTeam = (t.left?.name || 'TEAM A').toUpperCase();
+        const rightTeam = (t.right?.name || 'TEAM B').toUpperCase();
 
         const tickerText = `
-            <span>${tourney} LIVE BROADCAST</span>
+            <span>${tourney}</span>
+            <span class="dot">•</span>
+            <span>PHASE: ${stage}</span>
             <span class="dot">•</span>
             <span>MATCH: ${leftTeam} VS ${rightTeam}</span>
             <span class="dot">•</span>
             <span>ROUND ${roundNum}</span>
             <span class="dot">•</span>
-            <span>POWERED BY VALORGG CONTROL PANEL</span>
+            <span>${tourney}</span>
             <span class="dot">•</span>
-            <span>${tourney} LIVE BROADCAST</span>
+            <span>PHASE: ${stage}</span>
             <span class="dot">•</span>
             <span>MATCH: ${leftTeam} VS ${rightTeam}</span>
         `;

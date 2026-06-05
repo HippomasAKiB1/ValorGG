@@ -161,6 +161,15 @@ function renderBracketBoard(bracketData) {
         ? bracketData.matches 
         : MOCK_BRACKET_DATA.matches;
 
+    // Set scaling class dynamically based on number of participants (16-team vs 8-team)
+    if (participants.length > 8) {
+        board.classList.add('bracket-scale-16');
+        board.classList.remove('bracket-scale-8');
+    } else {
+        board.classList.add('bracket-scale-8');
+        board.classList.remove('bracket-scale-16');
+    }
+
     // Reset old SVG lines globally before redraws
     const canvas = document.getElementById('connector-svg-layer');
     if (canvas) {
@@ -236,8 +245,18 @@ function renderBracketBoard(bracketData) {
                 `;
             }
 
+            const getSortVal = (m) => {
+                if (m.suggestedPlayOrder) return parseInt(m.suggestedPlayOrder);
+                const matchNumeric = String(m.id).replace(/[^0-9]/g, '');
+                return parseInt(matchNumeric) || 0;
+            };
+
             const roundMatches = roundsMap[rk];
-            roundMatches.sort((a, b) => (a.suggestedPlayOrder || 0) - (b.suggestedPlayOrder || 0));
+            if (parseInt(rk) === -2) {
+                roundMatches.sort((a, b) => getSortVal(b) - getSortVal(a));
+            } else {
+                roundMatches.sort((a, b) => getSortVal(a) - getSortVal(b));
+            }
 
             let roundTitle = `ROUND ${rk}`;
             const roundNum = parseInt(rk);
@@ -269,6 +288,15 @@ function renderBracketBoard(bracketData) {
                 const team1 = participants.find(p => p.id == m.player1Id) || { name: 'TBD', seed: '' };
                 const team2 = participants.find(p => p.id == m.player2Id) || { name: 'TBD', seed: '' };
 
+                const roster1 = rostersMap[team1.name.toLowerCase().trim()] || null;
+                const roster2 = rostersMap[team2.name.toLowerCase().trim()] || null;
+
+                const logoHtml1 = roster1 ? `<img class="team-logo-img" src="${getTeamLogo(roster1.logoUrl)}" onerror="this.src='/assets/Valorant Logo.png';">` : `<span class="team-logo-placeholder">✦</span>`;
+                const logoHtml2 = roster2 ? `<img class="team-logo-img" src="${getTeamLogo(roster2.logoUrl)}" onerror="this.src='/assets/Valorant Logo.png';">` : `<span class="team-logo-placeholder">✦</span>`;
+
+                const seedHtml1 = (team1.seed && team1.name !== 'TBD') ? `<span class="team-seed">${team1.seed}</span>` : '';
+                const seedHtml2 = (team2.seed && team2.name !== 'TBD') ? `<span class="team-seed">${team2.seed}</span>` : '';
+
                 const scores = parseChallongeScores(m.scoresCsv);
                 const p1Score = scores.p1;
                 const p2Score = scores.p2;
@@ -290,14 +318,29 @@ function renderBracketBoard(bracketData) {
                     }
                 }
 
+                const matchNum = String(m.suggestedPlayOrder || m.id).toUpperCase().replace('M', '');
+
                 return `
                     <div class="bracket-match" id="match-${m.id}">
+                        <div class="match-label">M${matchNum}</div>
                         <div class="${p1Class}">
-                            <span class="team-name">${escapeHtml(team1.name)}</span>
+                            <div class="team-logo-box">
+                                ${logoHtml1}
+                            </div>
+                            <div class="team-name-banner">
+                                ${seedHtml1}
+                                <span class="team-name">${escapeHtml(team1.name)}</span>
+                            </div>
                             <span class="team-score">${p1Score}</span>
                         </div>
                         <div class="${p2Class}">
-                            <span class="team-name">${escapeHtml(team2.name)}</span>
+                            <div class="team-logo-box">
+                                ${logoHtml2}
+                            </div>
+                            <div class="team-name-banner">
+                                ${seedHtml2}
+                                <span class="team-name">${escapeHtml(team2.name)}</span>
+                            </div>
                             <span class="team-score">${p2Score}</span>
                         </div>
                     </div>
@@ -467,21 +510,28 @@ function updateHUDMetadata(fullState) {
         header.textContent = m.tournament.toUpperCase();
     }
 
+    const stageHeader = document.getElementById('header-stage');
+    if (stageHeader && m.subHeading) {
+        stageHeader.textContent = m.subHeading.toUpperCase();
+    }
+
     const tickerScroll = document.getElementById('ticker-scroll');
     if (tickerScroll) {
-        const tourney = (m.tournament || 'VALORANT PRO SERIES').toUpperCase();
+        const tourney = (m.tournament || 'WarCities://Valorant Pro Series').toUpperCase();
+        const stage = m.subHeading ? m.subHeading.toUpperCase() : 'PLAYOFFS';
+        const leftTeam = (activeState.teams?.left?.name || 'TEAM A').toUpperCase();
+        const rightTeam = (activeState.teams?.right?.name || 'TEAM B').toUpperCase();
+
         tickerScroll.innerHTML = `
-            <span>${tourney} PLAYOFFS ROUND OF 16</span>
+            <span>${tourney}</span>
+            <span class="dot">•</span>
+            <span>MATCH: ${leftTeam} VS ${rightTeam}</span>
             <span class="dot">•</span>
             <span>LIVE TOURNAMENT BRACKET DISPLAY</span>
             <span class="dot">•</span>
-            <span>SCORES UPDATED DIRECTLY FROM CHALLONGE</span>
+            <span>${tourney}</span>
             <span class="dot">•</span>
-            <span>POWERED BY VALORGG BROADCAST HUD</span>
-            <span class="dot">•</span>
-            <span>${tourney} PLAYOFFS ROUND OF 16</span>
-            <span class="dot">•</span>
-            <span>LIVE TOURNAMENT BRACKET DISPLAY</span>
+            <span>MATCH: ${leftTeam} VS ${rightTeam}</span>
         `;
     }
 }
@@ -497,7 +547,43 @@ function escapeHtml(str) {
         .replace(/'/g, "&#039;");
 }
 
-// Boot initial render — only fallback to mock if ws hasn't loaded real bracket
+let rostersList = [];
+const rostersMap = {};
+
+function getTeamLogo(logoUrl) {
+    if (!logoUrl) return '';
+    if (logoUrl.startsWith('http') || logoUrl.startsWith('/')) {
+        return logoUrl;
+    } else if (logoUrl.includes('assets/team-logo/')) {
+        return `/${logoUrl}`;
+    } else {
+        return `/assets/team-logo/${logoUrl}`;
+    }
+}
+
+async function loadRosters() {
+    try {
+        const res = await fetch('/api/rosters');
+        rostersList = await res.json();
+        rostersList.forEach(r => {
+            rostersMap[r.name.toLowerCase().trim()] = {
+                tag: r.tag,
+                logoUrl: r.logoUrl
+            };
+        });
+        console.log('[Rosters] Loaded rosters mapping for bracket:', Object.keys(rostersMap).length);
+        if (activeState.bracket) {
+            renderBracketBoard(activeState.bracket);
+        } else {
+            renderBracketBoard(MOCK_BRACKET_DATA);
+        }
+    } catch (e) {
+        console.warn('Failed to load rosters for bracket', e);
+    }
+}
+
+// Boot initial render — load rosters first, then fallback to mock if ws hasn't loaded real bracket
+loadRosters();
 setTimeout(() => {
     if (!hasLoadedRealData) {
         renderBracketBoard(MOCK_BRACKET_DATA);

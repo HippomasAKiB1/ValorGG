@@ -44,33 +44,58 @@ function getMapImage(mapName) {
     return `/assets/maps/${name}.webp`;
 }
 
-function getTeamName(teamKey) {
+function getTeamTag(teamKey) {
     if (!teamKey || teamKey === 'none') return '';
-    return state.teams[teamKey] ? state.teams[teamKey].name : '';
+    if (!state.teams) return '';
+    return state.teams[teamKey] ? (state.teams[teamKey].tag || state.teams[teamKey].name) : '';
+}
+
+function getTeamLogoPath(teamKey) {
+    if (!teamKey || teamKey === 'none') return '';
+    if (!state.teams) return '';
+    const team = state.teams[teamKey];
+    if (!team) return '';
+    const logoUrl = team.logoUrl || '';
+    if (!logoUrl) return '';
+    
+    if (logoUrl.startsWith('http') || logoUrl.startsWith('/')) {
+        return logoUrl;
+    } else if (logoUrl.includes('assets/team-logo/')) {
+        return `/${logoUrl}`;
+    } else {
+        return `/assets/team-logo/${logoUrl}`;
+    }
 }
 
 function renderVeto() {
     if (!state || !state.match || !state.match.maps) return;
 
-    document.getElementById('tournament-label').textContent = state.match.tournament;
+    let label = state.match.tournament || '';
+    if (state.match.subHeading) {
+        label += ' • ' + state.match.subHeading;
+    }
+    document.getElementById('tournament-label').textContent = label;
 
     const container = document.getElementById('veto-cards-container');
     container.innerHTML = state.match.maps.map(m => {
-        const teamName = getTeamName(m.team);
+        const teamTag = getTeamTag(m.team);
+        const logoPath = getTeamLogoPath(m.team);
         let headerText = '';
         
         if (m.action === 'decider') {
             headerText = 'DECIDER';
         } else {
-            const shortName = teamName ? teamName.substring(0, 4) : '';
-            headerText = shortName ? `${shortName} ${m.action}` : m.action.toUpperCase();
+            headerText = teamTag ? `${teamTag.toUpperCase()} ${m.action.toUpperCase()}` : m.action.toUpperCase();
         }
+
+        const stampImg = logoPath ? `<img class="veto-team-stamp" src="${logoPath}" alt="Team Stamp" onerror="this.style.display='none';">` : '';
 
         return `
             <div class="veto-card action-${m.action} team-${m.team}">
                 <div class="veto-card-header">${headerText}</div>
                 <div class="veto-card-image">
                     <img src="${getMapImage(m.name)}" alt="${m.name}" onerror="this.src=''">
+                    ${stampImg}
                 </div>
                 <div class="veto-card-footer">${m.name}</div>
             </div>
