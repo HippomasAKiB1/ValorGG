@@ -45,7 +45,7 @@
     "players": [
       { "name": "Savage", "playerImg": "assets/player-image/savage.jpg" },
       { "name": "Doomsday", "playerImg": "assets/player-image/doomsday.jpg" },
-      { "name": "Mika", "playerImg": "assets/player-image/mika.jpg" },
+      { "name": "introvert", "playerImg": "assets/player-image/intro.jpg" },
       { "name": "Pa2Z", "playerImg": "assets/player-image/pa2z.jpg" },
       { "name": "ITZzSulphuric", "playerImg": "assets/player-image/itzzsulphuric.jpg" },
       { "name": "N3MESiS", "playerImg": "assets/player-image/n3mesis.jpg" }
