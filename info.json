@@ -80,7 +80,7 @@
   {
     "name": "Header",
     "tag": "HDR",
-    "logoUrl": "assets/team-logo/header.png",
+    "logoUrl": "assets/team-logo/header.jpg",
     "players": [
       { "name": "ไฟนอลบอส", "playerImg": "assets/player-image/finalboss.jpg" },
       { "name": "RayXay", "playerImg": "assets/player-image/rayxay.jpg" },
