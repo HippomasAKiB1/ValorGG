@@ -17,11 +17,11 @@
     "tag": "EVE",
     "logoUrl": "assets/team-logo/eveesports.jpg",
     "players": [
-      { "name": "Hyp3R", "playerImg": "assets/player-image/hyp3r.jpg" },
-      { "name": "Toxic", "playerImg": "assets/player-image/toxic.jpg" },
+      { "name": "Pineapple", "playerImg": "assets/player-image/hyp3r.jpg" },
+      { "name": "Skills", "playerImg": "assets/player-image/toxic.jpg" },
       { "name": "NECRO", "playerImg": "assets/player-image/necro.jpg" },
-      { "name": "PiranHaaa", "playerImg": "assets/player-image/piranhahaa.jpg" },
-      { "name": "мαтяιх", "playerImg": "assets/player-image/matrix.jpg" },
+      { "name": "Zoro", "playerImg": "assets/player-image/piranhahaa.jpg" },
+      { "name": "Tasnim", "playerImg": "assets/player-image/matrix.jpg" },
       { "name": "Audacity", "playerImg": "assets/player-image/audacity.jpg" }
     ]
   },
@@ -33,9 +33,9 @@
       { "name": "Labeox", "playerImg": "assets/player-image/labeox.jpg" },
       { "name": "RayLord", "playerImg": "assets/player-image/raylord.jpg" },
       { "name": "TheZedWin", "playerImg": "assets/player-image/thezedwin.jpg" },
-      { "name": "Daisuke", "playerImg": "assets/player-image/daisuke.jpg" },
+      { "name": "xccuracyy", "playerImg": "assets/player-image/xcc.jpg" },
       { "name": "Winchester", "playerImg": "assets/player-image/winchester.jpg" },
-      { "name": "Crosskill", "playerImg": "assets/player-image/crosskill.jpg" }
+      { "name": "infernoricFr", "playerImg": "assets/player-image/crosskill.jpg" }
     ]
   },
   {
@@ -72,7 +72,7 @@
       { "name": "eskayper", "playerImg": "assets/player-image/eskayper.jpg" },
       { "name": "Nightstalker", "playerImg": "assets/player-image/nightstalker.jpg" },
       { "name": "TempeSt", "playerImg": "assets/player-image/tempest.jpg" },
-      { "name": "Cold", "playerImg": "assets/player-image/cold.jpg" },
+      { "name": "WTF Sushi", "playerImg": "assets/player-image/sushi.jpg" },
       { "name": "Compl3x", "playerImg": "assets/player-image/compl3x.jpg" },
       { "name": "ROY7", "playerImg": "assets/player-image/roy7.jpg" }
     ]
