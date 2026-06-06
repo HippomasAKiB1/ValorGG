@@ -88,6 +88,18 @@ function render() {
         document.getElementById(`at-side-${side}`).textContent =
             team.side === 'attack' ? 'ATK' : 'DEF';
 
+        // Update CSS variables for dynamic team colors on selection strip
+        const block = document.getElementById(`agent-block-${side}`);
+        if (block) {
+            if (team.side === 'attack') {
+                block.style.setProperty('--team-accent', 'var(--attack)');
+                block.style.setProperty('--team-accent-dim', 'rgba(255, 70, 85, 0.12)');
+            } else {
+                block.style.setProperty('--team-accent', 'var(--defense)');
+                block.style.setProperty('--team-accent-dim', 'rgba(0, 212, 170, 0.12)');
+            }
+        }
+
         // Cards
         const container = document.getElementById(`agent-cards-${side}`);
 

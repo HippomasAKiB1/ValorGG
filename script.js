@@ -130,7 +130,7 @@ const HUD = {
                 tag:       'OMEGA #4',
                 score:     12,
                 logoUrl:   '',        // set to real CDN URL or leave empty for initials
-                side:      'attack',  // 'attack' | 'defense'
+                side:      'defense',  // 'attack' | 'defense'
                 lossStreak: 0,
                 roundWins: [true, true, true, false],
                 players: [
@@ -186,7 +186,7 @@ const HUD = {
                 tag:       'ALPHA #3',
                 score:     9,
                 logoUrl:   '',
-                side:      'defense',
+                side:      'attack',
                 lossStreak: 0,
                 roundWins: [true, false, false, false],
                 players: [

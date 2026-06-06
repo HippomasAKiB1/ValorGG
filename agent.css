@@ -169,15 +169,15 @@
 
 .agent-block-left .agent-card-nameplate {
     align-items: flex-start;
-    background: rgba(255, 70, 85, 0.12);
-    border-top: 2px solid var(--attack);
+    background: var(--team-accent-dim, rgba(0, 212, 170, 0.12));
+    border-top: 2px solid var(--team-accent, var(--defense));
 }
 
 .agent-block-right .agent-card-nameplate {
     align-items: flex-end;
     text-align: right;
-    background: rgba(0, 212, 170, 0.12);
-    border-top: 2px solid var(--defense);
+    background: var(--team-accent-dim, rgba(255, 70, 85, 0.12));
+    border-top: 2px solid var(--team-accent, var(--attack));
 }
 
 .agent-card-vct.agent-locked .agent-card-nameplate {

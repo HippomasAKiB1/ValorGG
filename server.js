@@ -168,7 +168,7 @@ const state = {
             tag:        'SEED #1',
             score:      0,
             logoUrl:    '',
-            side:       'attack',
+            side:       'defense',
             roundWins:  [],
             lossStreak: 0,
             players: [
@@ -184,7 +184,7 @@ const state = {
             tag:        'SEED #2',
             score:      0,
             logoUrl:    '',
-            side:       'defense',
+            side:       'attack',
             roundWins:  [],
             lossStreak: 0,
             players: [

@@ -165,7 +165,7 @@
     ════════════════════════════════════════════ -->
     <section class="panel team-panel-admin team-left-admin">
         <div class="team-header-row">
-            <h2 class="atk-label">Team Left (ATK)</h2>
+            <h2 id="team-left-header" class="def-label">Team Left (DEF)</h2>
             <button class="btn btn-sm-outline" onclick="addScore('left')">Score +1</button>
         </div>
         <div class="field-grid">
@@ -198,7 +198,7 @@
     ════════════════════════════════════════════ -->
     <section class="panel team-panel-admin team-right-admin">
         <div class="team-header-row">
-            <h2 class="def-label">Team Right (DEF)</h2>
+            <h2 id="team-right-header" class="atk-label">Team Right (ATK)</h2>
             <button class="btn btn-sm-outline" onclick="addScore('right')">Score +1</button>
         </div>
         <div class="field-grid">
@@ -978,6 +978,18 @@ function populateAll() {
         document.querySelectorAll(`.side-btn[data-team="${side}"]`).forEach(b =>
             b.classList.toggle('active', b.dataset.side === t.side)
         );
+
+        // Update dynamic headers
+        const headerEl = document.getElementById(`team-${side}-header`);
+        if (headerEl) {
+            if (t.side === 'attack') {
+                headerEl.textContent = `Team ${side === 'left' ? 'Left' : 'Right'} (ATK)`;
+                headerEl.className = 'atk-label';
+            } else {
+                headerEl.textContent = `Team ${side === 'left' ? 'Left' : 'Right'} (DEF)`;
+                headerEl.className = 'def-label';
+            }
+        }
 
         renderPlayers(side);
     });
