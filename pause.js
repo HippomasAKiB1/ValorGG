@@ -37,6 +37,11 @@ ws.onmessage = (event) => {
         const patch = JSON.parse(event.data);
         if (!patch) return;
 
+        if (patch._replaceTeams) {
+            if (activeState) activeState.teams = patch._replaceTeams;
+            delete patch._replaceTeams;
+        }
+
         deepMerge(activeState, patch);
 
         const pause = activeState.pause || { visible: false, type: 'tech', teamSide: 'attack' };

@@ -1,0 +1,468 @@
+[
+  {
+    "timestamp": "2026-06-06T07:43:52.565Z",
+    "format": "BO3",
+    "teamA": "Red Viperz",
+    "teamB": "Endeavour Esports",
+    "maps": [
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "LOTUS",
+        "detail": "Red Viperz banned LOTUS"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "SPLIT",
+        "detail": "Endeavour Esports banned SPLIT"
+      },
+      {
+        "type": "pick",
+        "actor": "Team A",
+        "mapName": "HAVEN",
+        "detail": "Red Viperz picked HAVEN"
+      },
+      {
+        "type": "side",
+        "actor": "Team B",
+        "mapName": "HAVEN",
+        "detail": "Endeavour Esports selected Defense on HAVEN"
+      },
+      {
+        "type": "pick",
+        "actor": "Team B",
+        "mapName": "ASCENT",
+        "detail": "Endeavour Esports picked ASCENT"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "ASCENT",
+        "detail": "Red Viperz selected Attack on ASCENT"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "PEARL",
+        "detail": "Red Viperz banned PEARL"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "BREEZE",
+        "detail": "Endeavour Esports banned BREEZE"
+      },
+      {
+        "type": "decider",
+        "actor": null,
+        "mapName": "FRACTURE",
+        "detail": "Remaining map became FRACTURE"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "FRACTURE",
+        "detail": "Red Viperz selected Attack on FRACTURE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-06T07:47:10.928Z",
+    "format": "BO1",
+    "teamA": "Endeavour Esports",
+    "teamB": "Endeavour Phantoms",
+    "maps": [
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "PEARL",
+        "detail": "Endeavour Esports banned PEARL"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "LOTUS",
+        "detail": "Endeavour Phantoms banned LOTUS"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "FRACTURE",
+        "detail": "Endeavour Esports banned FRACTURE"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "SPLIT",
+        "detail": "Endeavour Phantoms banned SPLIT"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "ASCENT",
+        "detail": "Endeavour Esports banned ASCENT"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "BREEZE",
+        "detail": "Endeavour Phantoms banned BREEZE"
+      },
+      {
+        "type": "decider",
+        "actor": null,
+        "mapName": "HAVEN",
+        "detail": "Remaining map became HAVEN (Decider)"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "HAVEN",
+        "detail": "Endeavour Esports selected Attack on HAVEN (Endeavour Phantoms starts on Defense)"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-06T07:51:48.176Z",
+    "format": "BO1",
+    "teamA": "Ryussei Tridents",
+    "teamB": "NAF&FELECIA",
+    "maps": [
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "PEARL",
+        "detail": "Ryussei Tridents banned PEARL"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "SPLIT",
+        "detail": "NAF&FELECIA banned SPLIT"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "LOTUS",
+        "detail": "Ryussei Tridents banned LOTUS"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "HAVEN",
+        "detail": "NAF&FELECIA banned HAVEN"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "FRACTURE",
+        "detail": "Ryussei Tridents banned FRACTURE"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "BREEZE",
+        "detail": "NAF&FELECIA banned BREEZE"
+      },
+      {
+        "type": "decider",
+        "actor": null,
+        "mapName": "ASCENT",
+        "detail": "Remaining map became ASCENT (Decider)"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "ASCENT",
+        "detail": "Ryussei Tridents selected Attack on ASCENT (NAF&FELECIA starts on Defense)"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-06T08:10:09.457Z",
+    "format": "BO3",
+    "teamA": "Red Viperz",
+    "teamB": "Saint Esports",
+    "maps": [
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "PEARL",
+        "detail": "Red Viperz banned PEARL"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "SPLIT",
+        "detail": "Saint Esports banned SPLIT"
+      },
+      {
+        "type": "pick",
+        "actor": "Team A",
+        "mapName": "LOTUS",
+        "detail": "Red Viperz picked LOTUS"
+      },
+      {
+        "type": "side",
+        "actor": "Team B",
+        "mapName": "LOTUS",
+        "detail": "Saint Esports selected Attack on LOTUS (Red Viperz starts on Defense)"
+      },
+      {
+        "type": "pick",
+        "actor": "Team B",
+        "mapName": "HAVEN",
+        "detail": "Saint Esports picked HAVEN"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "HAVEN",
+        "detail": "Red Viperz selected Defense on HAVEN (Saint Esports starts on Attack)"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "BREEZE",
+        "detail": "Red Viperz banned BREEZE"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "ASCENT",
+        "detail": "Saint Esports banned ASCENT"
+      },
+      {
+        "type": "decider",
+        "actor": null,
+        "mapName": "FRACTURE",
+        "detail": "Remaining map became FRACTURE (Decider)"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "FRACTURE",
+        "detail": "Red Viperz selected Defense on FRACTURE (Saint Esports starts on Attack)"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-06T08:18:50.854Z",
+    "format": "BO3",
+    "teamA": "Saint Esports",
+    "teamB": "Red Viperz",
+    "maps": [
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "PEARL",
+        "detail": "Saint Esports banned PEARL"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "HAVEN",
+        "detail": "Red Viperz banned HAVEN"
+      },
+      {
+        "type": "pick",
+        "actor": "Team A",
+        "mapName": "ASCENT",
+        "detail": "Saint Esports picked ASCENT"
+      },
+      {
+        "type": "side",
+        "actor": "Team B",
+        "mapName": "ASCENT",
+        "detail": "Red Viperz selected Defense on ASCENT (Saint Esports starts on Attack)"
+      },
+      {
+        "type": "pick",
+        "actor": "Team B",
+        "mapName": "BREEZE",
+        "detail": "Red Viperz picked BREEZE"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "BREEZE",
+        "detail": "Saint Esports selected Defense on BREEZE (Red Viperz starts on Attack)"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "LOTUS",
+        "detail": "Saint Esports banned LOTUS"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "SPLIT",
+        "detail": "Red Viperz banned SPLIT"
+      },
+      {
+        "type": "decider",
+        "actor": null,
+        "mapName": "FRACTURE",
+        "detail": "Remaining map became FRACTURE (Decider)"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "FRACTURE",
+        "detail": "Saint Esports selected Attack on FRACTURE (Red Viperz starts on Defense)"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-06T08:22:55.338Z",
+    "format": "BO3",
+    "teamA": "Red Viperz",
+    "teamB": "Endeavour Esports",
+    "maps": []
+  },
+  {
+    "timestamp": "2026-06-06T08:24:08.944Z",
+    "format": "BO3",
+    "teamA": "Red Viperz",
+    "teamB": "Saint Esports",
+    "maps": [
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "PEARL",
+        "detail": "Red Viperz banned PEARL"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "SPLIT",
+        "detail": "Saint Esports banned SPLIT"
+      },
+      {
+        "type": "pick",
+        "actor": "Team A",
+        "mapName": "LOTUS",
+        "detail": "Red Viperz picked LOTUS"
+      },
+      {
+        "type": "side",
+        "actor": "Team B",
+        "mapName": "LOTUS",
+        "detail": "Saint Esports selected Defense on LOTUS (Red Viperz starts on Attack)"
+      },
+      {
+        "type": "pick",
+        "actor": "Team B",
+        "mapName": "HAVEN",
+        "detail": "Saint Esports picked HAVEN"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "HAVEN",
+        "detail": "Red Viperz selected Defense on HAVEN (Saint Esports starts on Attack)"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "FRACTURE",
+        "detail": "Red Viperz banned FRACTURE"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "ASCENT",
+        "detail": "Saint Esports banned ASCENT"
+      },
+      {
+        "type": "decider",
+        "actor": null,
+        "mapName": "BREEZE",
+        "detail": "Remaining map became BREEZE (Decider)"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "BREEZE",
+        "detail": "Red Viperz selected Attack on BREEZE (Saint Esports starts on Defense)"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-06T08:28:08.678Z",
+    "format": "BO3",
+    "teamA": "Red Viperz",
+    "teamB": "Endeavour Esports",
+    "maps": []
+  },
+  {
+    "timestamp": "2026-06-06T08:30:47.199Z",
+    "format": "BO3",
+    "teamA": "Red Viperz",
+    "teamB": "Surgical Strikers",
+    "maps": [
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "PEARL",
+        "detail": "Red Viperz banned PEARL"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "SPLIT",
+        "detail": "Surgical Strikers banned SPLIT"
+      },
+      {
+        "type": "pick",
+        "actor": "Team A",
+        "mapName": "LOTUS",
+        "detail": "Red Viperz picked LOTUS"
+      },
+      {
+        "type": "side",
+        "actor": "Team B",
+        "mapName": "LOTUS",
+        "detail": "Surgical Strikers selected Defense on LOTUS (Red Viperz starts on Attack)"
+      },
+      {
+        "type": "pick",
+        "actor": "Team B",
+        "mapName": "HAVEN",
+        "detail": "Surgical Strikers picked HAVEN"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "HAVEN",
+        "detail": "Red Viperz selected Defense on HAVEN (Surgical Strikers starts on Attack)"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "FRACTURE",
+        "detail": "Red Viperz banned FRACTURE"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "BREEZE",
+        "detail": "Surgical Strikers banned BREEZE"
+      },
+      {
+        "type": "decider",
+        "actor": null,
+        "mapName": "ASCENT",
+        "detail": "Remaining map became ASCENT (Decider)"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "ASCENT",
+        "detail": "Red Viperz selected Attack on ASCENT (Surgical Strikers starts on Defense)"
+      }
+    ]
+  }
+]

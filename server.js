@@ -353,7 +353,7 @@ app.use(express.json());
 app.use((req, res, next) => {
     const isDestructiveApi = req.method === 'POST';
     const isAdminPanel = req.path === '/' || req.path === '/admin.html' || req.path === '/challonge.json';
-    const isBypassPath = req.path === '/api/reset-round' || req.path === '/api/update';
+    const isBypassPath = req.path === '/api/reset-round' || req.path === '/api/update' || req.path === '/api/confirm-veto';
     
     if ((isAdminPanel || isDestructiveApi) && !isBypassPath) {
         const authHeader = req.headers.authorization;
@@ -504,6 +504,112 @@ app.get('/api/rosters', (req, res) => {
     });
 });
 
+// Endpoint to load dynamic maps configuration pool from maps.json
+app.get('/api/maps', (req, res) => {
+    const mapsPath = path.join(__dirname, 'maps.json');
+    if (!fs.existsSync(mapsPath)) {
+        return res.json(["PEARL", "SPLIT", "LOTUS", "HAVEN", "FRACTURE", "ASCENT", "BREEZE"]);
+    }
+    fs.readFile(mapsPath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to read maps configuration file' });
+        }
+        try {
+            res.json(JSON.parse(data));
+        } catch(e) {
+            res.status(500).json({ error: 'Failed to parse maps JSON' });
+        }
+    });
+});
+
+function checkAndApplyMapSidesSwap() {
+    if (state.match && Array.isArray(state.match.maps)) {
+        const currentMap = state.match.maps.find(m => m.status === 'current');
+        if (currentMap && currentMap.defense && currentMap.attack) {
+            if (currentMap.defense === 'right') {
+                console.log(`[MAP SWAP] Swapping team positions to match starting sides for ${currentMap.name}`);
+                
+                // Swap team slots
+                const tempTeam = state.teams.left;
+                state.teams.left = state.teams.right;
+                state.teams.right = tempTeam;
+
+                // Reset map-specific state fields
+                state.teams.left.side = 'defense';
+                state.teams.left.score = 0;
+                state.teams.left.roundWins = [];
+                state.teams.left.lossStreak = 0;
+
+                state.teams.right.side = 'attack';
+                state.teams.right.score = 0;
+                state.teams.right.roundWins = [];
+                state.teams.right.lossStreak = 0;
+
+                // Reset players to alive
+                const allPlayers = [...state.teams.left.players, ...state.teams.right.players];
+                allPlayers.forEach(p => {
+                    p.alive = true;
+                });
+
+                // Swap left/right references in state.match.maps
+                state.match.maps.forEach(m => {
+                    if (m.team === 'left') m.team = 'right';
+                    else if (m.team === 'right') m.team = 'left';
+
+                    if (m.defense === 'left') m.defense = 'right';
+                    else if (m.defense === 'right') m.defense = 'left';
+
+                    if (m.attack === 'left') m.attack = 'right';
+                    else if (m.attack === 'right') m.attack = 'left';
+                });
+
+                return true; // swap occurred
+            }
+        }
+    }
+    return false; // no swap occurred
+}
+
+// Endpoint to confirm a veto selection, log it, and update state
+app.post('/api/confirm-veto', (req, res) => {
+    const auditPath = path.join(__dirname, 'veto_audit.json');
+    let logs = [];
+    if (fs.existsSync(auditPath)) {
+        try {
+            logs = JSON.parse(fs.readFileSync(auditPath, 'utf8'));
+        } catch(e) {
+            console.error('Error reading veto_audit.json:', e);
+        }
+    }
+    
+    logs.push({
+        timestamp: req.body.timestamp || new Date().toISOString(),
+        format: req.body.format,
+        teamA: req.body.teamA,
+        teamB: req.body.teamB,
+        maps: req.body.maps
+    });
+
+    try {
+        fs.writeFileSync(auditPath, JSON.stringify(logs, null, 2), 'utf8');
+    } catch(e) {
+        console.error('Error writing to veto_audit.json:', e);
+    }
+
+    if (req.body.updateState) {
+        deepMerge(state, req.body.updateState);
+        checkAndApplyMapSidesSwap();
+        broadcast({ _replaceTeams: { left: state.teams.left, right: state.teams.right }, match: state.match });
+    }
+
+    res.json({ ok: true });
+});
+
+// Map Veto Simulator Overlay/Page Route
+app.get('/do-map-veto', (req, res) => {
+    res.sendFile(path.join(__dirname, 'do-map-veto.html'));
+});
+
 // Companion Dashboard Route
 app.get('/aliveordead', (req, res) => {
     res.sendFile(path.join(__dirname, 'companion.html'));
@@ -611,6 +717,8 @@ app.post('/api/update', (req, res) => {
     const patch = req.body;
     deepMerge(state, patch);
 
+    const swapOccurred = checkAndApplyMapSidesSwap();
+
     // Check if startScreen timer is activated
     if (patch.startScreen) {
         if (patch.startScreen.timerActive === true) {
@@ -629,7 +737,11 @@ app.post('/api/update', (req, res) => {
         }
     }
 
-    broadcast(patch);
+    if (swapOccurred) {
+        broadcast({ _replaceTeams: { left: state.teams.left, right: state.teams.right }, match: state.match });
+    } else {
+        broadcast(patch);
+    }
     res.json({ ok: true });
 });
 

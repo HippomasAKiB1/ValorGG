@@ -7,6 +7,10 @@ let state = null;
 
 ws.onmessage = (event) => {
     const patch = JSON.parse(event.data);
+    if (patch._replaceTeams) {
+        if (state) state.teams = patch._replaceTeams;
+        delete patch._replaceTeams;
+    }
     if (!state) {
         state = patch;
     } else {
@@ -90,12 +94,35 @@ function renderVeto() {
 
         const stampImg = logoPath ? `<img class="veto-team-stamp" src="${logoPath}" alt="Team Stamp" onerror="this.style.display='none';">` : '';
 
+        // Dynamic side choices info box overlay on map-veto overlay card
+        let sidesHtml = '';
+        if ((m.action === 'pick' || m.action === 'decider') && m.defense && m.attack) {
+            const defTag = getTeamTag(m.defense);
+            const atkTag = getTeamTag(m.attack);
+            sidesHtml = `
+                <div class="veto-sides-overlay">
+                    <div class="veto-picked-by">
+                        ${m.action === 'pick' ? `Picked by: ${teamTag}` : 'Decider Map'}
+                    </div>
+                    <div class="veto-side-row">
+                        <span class="side-badge-def">DEF</span>
+                        <span class="side-team-name">${defTag}</span>
+                    </div>
+                    <div class="veto-side-row">
+                        <span class="side-badge-atk">ATK</span>
+                        <span class="side-team-name">${atkTag}</span>
+                    </div>
+                </div>
+            `;
+        }
+
         return `
             <div class="veto-card action-${m.action} team-${m.team}">
                 <div class="veto-card-header">${headerText}</div>
                 <div class="veto-card-image">
                     <img src="${getMapImage(m.name)}" alt="${m.name}" onerror="this.src=''">
                     ${stampImg}
+                    ${sidesHtml}
                 </div>
                 <div class="veto-card-footer">${m.name}</div>
             </div>

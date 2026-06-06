@@ -81,7 +81,7 @@
     width: 115px;
     height: 115px;
     object-fit: contain;
-    opacity: 0.28;
+    opacity: 0.75;
     pointer-events: none;
     z-index: 5;
     filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6));
@@ -163,3 +163,64 @@
     text-transform: uppercase;
     box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
+
+/* ── Dynamic Side Assignment Overlay on Map Veto Card ── */
+.veto-sides-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 14, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 14px;
+    z-index: 10;
+}
+
+.veto-picked-by {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold, #E8B84B);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.veto-side-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.side-badge-def {
+    background: var(--defense);
+    color: #000;
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+.side-badge-atk {
+    background: var(--attack);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+.side-team-name {
+    color: var(--white);
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+

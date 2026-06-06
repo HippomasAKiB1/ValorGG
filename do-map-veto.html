@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VCT Map Veto Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="do-map-veto.css">
+</head>
+<body>
+
+<div class="veto-container">
+    
+    <!-- ════════════════════════════════════════════
+         SETUP PANEL (Format, Teams)
+    ════════════════════════════════════════════ -->
+    <div id="setup-panel" class="setup-panel active">
+        <h1 class="simulator-title">🎮 MAP VETO SIMULATOR</h1>
+        <p class="simulator-subtitle">Automate picks, bans, and dynamic side assignments for the broadcast HUD</p>
+        
+        <div class="setup-grid">
+            <div class="setup-field">
+                <label for="f-veto-format">MATCH FORMAT</label>
+                <select id="f-veto-format">
+                    <option value="1">BO1 (Best of 1)</option>
+                    <option value="3" selected>BO3 (Best of 3)</option>
+                    <option value="5">BO5 (Best of 5)</option>
+                </select>
+            </div>
+            <div class="setup-field">
+                <label for="f-veto-teama">TEAM A (First Picker/Banner)</label>
+                <select id="f-veto-teama">
+                    <!-- Loaded dynamically -->
+                </select>
+            </div>
+            <div class="setup-field">
+                <label for="f-veto-teamb">TEAM B (Starting Side Decider)</label>
+                <select id="f-veto-teamb">
+                    <!-- Loaded dynamically -->
+                </select>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary btn-large" onclick="startVetoSimulation()">START MAP VETO PROCESS</button>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         SIMULATION WORKSPACE
+    ════════════════════════════════════════════ -->
+    <div id="simulation-workspace" class="simulation-workspace">
+        <div class="veto-header-banner">
+            <div class="turn-indicator">
+                <span class="active-team-indicator" id="current-team-indicator">TEAM A</span>
+                <span class="active-instruction" id="current-action-instruction">IS SELECTING A MAP TO BAN</span>
+            </div>
+            <button class="btn btn-danger btn-reset-top" onclick="resetVetoSimulation(true)">🔄 RESET VETO</button>
+        </div>
+
+        <!-- Side Selection Popup Panel -->
+        <div id="side-selection-panel" class="side-selection-panel">
+            <h2 class="side-choice-title">SELECT STARTING SIDE</h2>
+            <p class="side-choice-desc" id="side-choice-desc">Team B, choose Attack or Defense starting side for Map 1</p>
+            <div class="side-buttons">
+                <button class="btn-side side-attack-btn" onclick="selectSideChoice('attack')">
+                    <span class="side-icon">⚔️</span> ATTACKERS
+                </button>
+                <button class="btn-side side-defense-btn" onclick="selectSideChoice('defense')">
+                    <span class="side-icon">🛡️</span> DEFENDERS
+                </button>
+            </div>
+        </div>
+
+        <div class="workspace-grid">
+            <!-- Veto Timeline Logs -->
+            <div class="timeline-container">
+                <h3 class="panel-header">VETO TIMELINE</h3>
+                <div class="timeline-logs" id="timeline-logs">
+                    <!-- Dynamic Log items -->
+                </div>
+            </div>
+
+            <!-- Interactive Map Pool -->
+            <div class="map-selection-container">
+                <h3 class="panel-header">MAP POOL</h3>
+                <div class="map-pool-grid" id="map-pool-grid">
+                    <!-- Dynamic map cards -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════
+         CONFIRMATION SUMMARY PANEL
+    ════════════════════════════════════════════ -->
+    <div id="confirmation-panel" class="confirmation-panel">
+        <h1 class="summary-title">🏆 VETO COMPLETED</h1>
+        <p class="summary-subtitle">Review the selections and confirm to update overlays automatically</p>
+
+        <div class="summary-box">
+            <div class="summary-teams">
+                <div class="summary-team-block team-a">
+                    <div class="summary-team-label">TEAM A</div>
+                    <div class="summary-team-name" id="summary-teama-name">TEAM A</div>
+                </div>
+                <div class="summary-vs">VS</div>
+                <div class="summary-team-block team-b">
+                    <div class="summary-team-label">TEAM B</div>
+                    <div class="summary-team-name" id="summary-teamb-name">TEAM B</div>
+                </div>
+            </div>
+
+            <div class="summary-timeline">
+                <h3>VETO HISTORY & SIDE CHOICES</h3>
+                <ol id="summary-timeline-list">
+                    <!-- Dynamic recap list -->
+                </ol>
+            </div>
+
+            <div class="summary-maps-strip" id="summary-maps-strip">
+                <!-- Map recap cards -->
+            </div>
+        </div>
+
+        <div class="confirmation-actions">
+            <button class="btn btn-primary btn-large" onclick="confirmAndPushVeto()">💾 CONFIRM & APPLY VETO</button>
+            <button class="btn btn-secondary btn-large" onclick="resetVetoSimulation(true)">🔄 DISCARD & RESET</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="do-map-veto.js"></script>
+</body>
+</html>
