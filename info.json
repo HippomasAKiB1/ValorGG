@@ -15,7 +15,7 @@
   {
     "name": "Endeavour Esports",
     "tag": "EVE",
-    "logoUrl": "assets/team-logo/eveesports.jpg",
+    "logoUrl": "assets/team-logo/eveesports.png",
     "players": [
       { "name": "Pineapple", "playerImg": "assets/player-image/hyp3r.jpg" },
       { "name": "Skills", "playerImg": "assets/player-image/toxic.jpg" },
@@ -80,7 +80,7 @@
   {
     "name": "Header",
     "tag": "HDR",
-    "logoUrl": "assets/team-logo/header.jpg",
+    "logoUrl": "assets/team-logo/header.png",
     "players": [
       { "name": "ไฟนอลบอส", "playerImg": "assets/player-image/finalboss.jpg" },
       { "name": "RayXay", "playerImg": "assets/player-image/rayxay.jpg" },
@@ -92,7 +92,7 @@
   {
     "name": "Ryussei Tridents",
     "tag": "RST",
-    "logoUrl": "assets/team-logo/ryussei.jpg",
+    "logoUrl": "assets/team-logo/ryussei.png",
     "players": [
       { "name": "Tikka masala", "playerImg": "assets/player-image/tikkamasala.jpg" },
       { "name": "DEMON", "playerImg": "assets/player-image/demon.jpg" },
