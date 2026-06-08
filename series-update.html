@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VCT — Series Update</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="series-update.css">
+</head>
+<body>
+
+    <div class="su-wrapper" id="su-wrapper" style="display: none;">
+
+        <!-- Side Accents -->
+        <aside class="su-side-accent side-left">
+            <div class="accent-text">SERIES IN PROGRESS</div>
+            <div class="accent-line"></div>
+        </aside>
+        <aside class="su-side-accent side-right">
+            <div class="accent-text">SERIES IN PROGRESS</div>
+            <div class="accent-line"></div>
+        </aside>
+
+        <!-- Header -->
+        <div class="su-header">
+            <div class="su-title">SERIES UPDATE</div>
+            <div class="su-subtitle" id="su-subtitle"></div>
+        </div>
+
+        <!-- Last Completed Map -->
+        <div class="su-completed-map">
+            <div class="su-map-label" id="su-map-label"></div>
+        </div>
+
+        <!-- Score Center -->
+        <div class="su-score-center">
+            <!-- Team Left -->
+            <div class="su-team-block">
+                <img class="su-team-logo" id="su-logo-left" src="" alt="" onerror="this.style.display='none'">
+                <div class="su-team-name" id="su-name-left"></div>
+            </div>
+
+            <!-- Score -->
+            <div class="su-score-numbers">
+                <span class="su-score-digit" id="su-score-left">0</span>
+                <span class="su-score-dash">—</span>
+                <span class="su-score-digit" id="su-score-right">0</span>
+            </div>
+
+            <!-- Team Right -->
+            <div class="su-team-block">
+                <img class="su-team-logo" id="su-logo-right" src="" alt="" onerror="this.style.display='none'">
+                <div class="su-team-name" id="su-name-right"></div>
+            </div>
+        </div>
+
+        <!-- Map Winner Note -->
+        <div class="su-winner-note" style="display: none;">
+            <span class="su-winner-text" id="su-winner-text"></span>
+        </div>
+
+        <!-- Next Map -->
+        <div class="su-next-map" id="su-next-section" style="display: none;">
+            <div class="su-next-label">NEXT UP</div>
+            <div class="su-next-name" id="su-next-name"></div>
+        </div>
+
+        <!-- Bottom Ticker -->
+        <footer class="su-footer">
+            <div class="ticker-label">LIVE</div>
+            <div class="ticker-wrap">
+                <div class="ticker-scroll" id="su-ticker">
+                    <span>SERIES UPDATE</span>
+                    <span class="dot">•</span>
+                    <span>VCT PRO SERIES LIVE BROADCAST</span>
+                    <span class="dot">•</span>
+                    <span>SERIES UPDATE</span>
+                    <span class="dot">•</span>
+                    <span>VCT PRO SERIES LIVE BROADCAST</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="series-update.js"></script>
+</body>
+</html>

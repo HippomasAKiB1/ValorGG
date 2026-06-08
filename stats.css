@@ -1,0 +1,426 @@
+/* stats.css — PREMIUM VCT Match Statistics Overlay
+   Features: Rotating beams, glassmorphism scoreboard frame with animated
+   border, score bar with skewed team panels, floating MVP highlight,
+   side accents, ticker bar, and scanline textures */
+
+:root {
+    --bg-dark:    rgba(6, 8, 12, 0.97);
+    --bg-card:    rgba(12, 16, 24, 0.88);
+    --gold:       #e8b84b;
+    --gold-dim:   rgba(232, 184, 75, 0.18);
+    --red:        #ff4655;
+    --teal:       #00d4aa;
+    --border:     rgba(255, 255, 255, 0.06);
+    --text-main:  #ffffff;
+    --text-muted: #8a97a4;
+}
+
+body {
+    margin: 0; padding: 0;
+    width: 1920px; height: 1080px;
+    background: transparent !important;
+    overflow: hidden;
+    font-family: 'Barlow', sans-serif;
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════
+   WRAPPER + BACKGROUND VFX
+═══════════════════════════════════════ */
+.ms-wrapper {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1920px; height: 1080px;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+/* ── Rotating Conic Light Beams ── */
+.ms-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 1600px; height: 1600px;
+    transform: translate(-50%, -50%);
+    background: repeating-conic-gradient(
+        from 0deg,
+        rgba(232, 184, 75, 0.025) 0deg 12deg,
+        transparent 12deg 24deg
+    );
+    border-radius: 50%;
+    mask: radial-gradient(circle, black 12%, transparent 50%);
+    -webkit-mask: radial-gradient(circle, black 12%, transparent 50%);
+    animation: ms-rotateBeams 28s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Radial Glow ── */
+.ms-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 42%; left: 50%;
+    width: 1200px; height: 900px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(232, 184, 75, 0.06) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Side Accents ── */
+.ms-side-accent {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    color: rgba(255, 255, 255, 0.18);
+    z-index: 5;
+    animation: ms-fadeIn 1.4s ease both;
+}
+.ms-side-accent.side-left  { left: 50px; }
+.ms-side-accent.side-right { right: 50px; }
+
+.ms-side-accent .accent-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px; font-weight: 800;
+    letter-spacing: 5px;
+    writing-mode: vertical-rl;
+    text-transform: uppercase;
+}
+.ms-side-accent .accent-line {
+    width: 1px; height: 140px;
+    background: linear-gradient(180deg, transparent, rgba(232, 184, 75, 0.2) 20%, rgba(232, 184, 75, 0.2) 80%, transparent);
+}
+
+/* ═══════════════════════════════════════
+   HEADER
+═══════════════════════════════════════ */
+.ms-header {
+    text-align: center;
+    margin-top: 35px;
+    animation: ms-slideDown 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+    z-index: 10;
+}
+
+.ms-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 46px;
+    font-weight: 900;
+    color: var(--text-main);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    text-shadow:
+        0 0 40px rgba(255, 255, 255, 0.08),
+        0 4px 16px rgba(0, 0, 0, 0.7);
+}
+
+.ms-map-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-top: 8px;
+    padding: 7px 36px;
+    border-top: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.1);
+    display: inline-block;
+    text-shadow: 0 0 18px rgba(232, 184, 75, 0.4);
+    background: rgba(255, 255, 255, 0.012);
+    border-radius: 6px;
+}
+
+/* ═══════════════════════════════════════
+   SCORE BAR — Skewed Team Panels
+═══════════════════════════════════════ */
+.ms-score-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 20px 0 18px;
+    position: relative;
+    z-index: 10;
+    animation: ms-fadeIn 0.9s ease both;
+    animation-delay: 0.15s;
+}
+
+.ms-score-team {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 28px;
+    background: rgba(10, 14, 22, 0.85);
+    position: relative;
+    min-width: 320px;
+}
+
+.ms-score-team.team-left {
+    clip-path: polygon(0 0, 100% 0, calc(100% - 20px) 100%, 0 100%);
+    border-left: 3px solid var(--teal);
+    padding-right: 44px;
+    justify-content: flex-end;
+}
+
+.ms-score-team.team-right {
+    clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%);
+    border-right: 3px solid var(--red);
+    padding-left: 44px;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.ms-score-team::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+}
+.ms-score-team.team-left::before {
+    background: linear-gradient(90deg, var(--teal), transparent);
+}
+.ms-score-team.team-right::before {
+    background: linear-gradient(90deg, transparent, var(--red));
+}
+
+.ms-score-logo {
+    width: 44px; height: 44px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.5));
+}
+
+.ms-score-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-main);
+}
+
+.ms-score-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px rgba(232, 184, 75, 0.4);
+    padding: 8px 28px;
+    background: rgba(8, 10, 16, 0.95);
+    border: 1px solid rgba(232, 184, 75, 0.15);
+    position: relative;
+    z-index: 5;
+}
+
+/* ═══════════════════════════════════════
+   SCOREBOARD FRAME — Premium Glass
+═══════════════════════════════════════ */
+.ms-scoreboard-frame {
+    width: 1380px;
+    height: 600px;
+    background: linear-gradient(145deg, rgba(10, 14, 22, 0.7), rgba(16, 22, 34, 0.55));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    animation: ms-frameEnter 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.25s;
+}
+
+/* ── Animated Gold Border Glow ── */
+.ms-scoreboard-frame::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border-radius: 11px;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        rgba(232, 184, 75, 0.3) 60deg,
+        transparent 120deg,
+        transparent 240deg,
+        rgba(232, 184, 75, 0.3) 300deg,
+        transparent 360deg
+    );
+    z-index: -1;
+    animation: ms-borderRotate 6s linear infinite;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: xor;
+    -webkit-mask-composite: xor;
+    padding: 2px;
+}
+
+/* ── Corner Notches ── */
+.ms-scoreboard-frame::after {
+    content: '';
+    position: absolute;
+    top: 8px; left: 8px;
+    width: 20px; height: 20px;
+    border-top: 2px solid rgba(232, 184, 75, 0.3);
+    border-left: 2px solid rgba(232, 184, 75, 0.3);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.ms-scoreboard-frame img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+}
+
+.ms-chroma-box {
+    width: 100%; height: 100%;
+    background: #FF00FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ms-chroma-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.3);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   BOTTOM INFO BAR
+═══════════════════════════════════════ */
+.ms-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 16px;
+    position: relative;
+    z-index: 10;
+    animation: ms-fadeInUp 0.8s ease both;
+    animation-delay: 0.5s;
+}
+
+.ms-bottom-item {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    background: rgba(10, 14, 22, 0.5);
+}
+
+.ms-bottom-item .highlight {
+    color: var(--gold);
+    text-shadow: 0 0 8px rgba(232, 184, 75, 0.3);
+}
+
+/* ═══════════════════════════════════════
+   BOTTOM TICKER
+═══════════════════════════════════════ */
+.ms-footer {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 1920px; height: 62px;
+    background: rgba(5, 7, 10, 0.95);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    padding: 0 50px;
+    box-sizing: border-box;
+    animation: ms-slideUpFooter 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 0.6s;
+}
+.ms-footer .ticker-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 900;
+    color: var(--red);
+    letter-spacing: 3px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    padding-right: 22px;
+    margin-right: 22px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+.ms-footer .ticker-wrap {
+    overflow: hidden; width: 100%; display: flex;
+}
+.ms-footer .ticker-scroll {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: ms-ticker 32s linear infinite;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    gap: 40px;
+}
+.ms-footer .ticker-scroll .dot {
+    color: var(--gold);
+    font-size: 18px;
+    font-weight: 900;
+}
+
+/* ═══════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════ */
+@keyframes ms-rotateBeams {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes ms-slideDown {
+    0%   { opacity: 0; transform: translateY(-50px); filter: blur(4px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes ms-fadeIn {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes ms-frameEnter {
+    0%   { opacity: 0; transform: scale(0.92); filter: blur(8px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes ms-borderRotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+@keyframes ms-fadeInUp {
+    0%   { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ms-slideUpFooter {
+    0%   { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ms-ticker {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+}

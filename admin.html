@@ -615,6 +615,145 @@
         </div>
     </section>
 
+    <!-- ════════════════════════════════════════════
+         BROADCAST SCREENS — ROSTER / SERIES UPDATE / STATS
+    ════════════════════════════════════════════ -->
+    <section class="panel broadcast-screens-panel" style="margin: 0 24px 24px; padding: 24px;">
+        <h2>📋 Broadcast Screens</h2>
+        <p style="color: #8a97a4; margin-bottom: 24px; font-size: 13px;">Manage the Roster Info, Series Update, and Match Statistics overlays. Auto-fill derives data from maps/teams state — you can always override manually.</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;">
+
+            <!-- ── 1. ROSTER INFO ── -->
+            <div style="background: rgba(255,255,255,0.01); padding: 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04);">
+                <h3 style="color: var(--accent); margin-bottom: 14px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
+                    👥 Roster Info</h3>
+                <div style="display: flex; flex-direction: column; gap: 14px;">
+                    <button id="btn-roster-info-toggle" class="btn btn-danger" onclick="toggleRosterInfo()"
+                        style="padding: 10px 20px; font-size: 13px; font-weight: 700; width: 100%; letter-spacing: 0.5px; transition: all 0.3s ease;">
+                        🔴 ROSTER INFO: OFF
+                    </button>
+                    <label style="display: flex; flex-direction: column; gap: 6px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                        Bottom Text
+                        <input type="text" id="f-ri-bottom-text" oninput="updateRosterInfoText(this.value)"
+                            placeholder="e.g. MATCH STARTING SOON"
+                            style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 10px 14px; color: #fff; font-size: 13px; outline: none;">
+                    </label>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <button class="btn btn-sm-outline" onclick="document.getElementById('f-ri-bottom-text').value='MATCH STARTING SOON';updateRosterInfoText('MATCH STARTING SOON')" style="padding:4px 8px;font-size:10px;">MATCH STARTING SOON</button>
+                        <button class="btn btn-sm-outline" onclick="document.getElementById('f-ri-bottom-text').value='NEXT: MAP VETO';updateRosterInfoText('NEXT: MAP VETO')" style="padding:4px 8px;font-size:10px;">NEXT: MAP VETO</button>
+                        <button class="btn btn-sm-outline" onclick="document.getElementById('f-ri-bottom-text').value='GET READY';updateRosterInfoText('GET READY')" style="padding:4px 8px;font-size:10px;">GET READY</button>
+                    </div>
+                    <span style="color: #8a97a4; font-size: 12px;">Open overlay: <a href="/roster-info" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 700;">/roster-info</a></span>
+                </div>
+            </div>
+
+            <!-- ── 2. SERIES UPDATE ── -->
+            <div style="background: rgba(255,255,255,0.01); padding: 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04);">
+                <h3 style="color: var(--accent); margin-bottom: 14px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
+                    📊 Series Update</h3>
+                <div style="display: flex; flex-direction: column; gap: 14px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button id="btn-series-update-toggle" class="btn btn-danger" onclick="toggleSeriesUpdate()"
+                            style="padding: 10px 14px; font-size: 13px; font-weight: 700; flex: 1; letter-spacing: 0.5px; transition: all 0.3s ease;">
+                            🔴 SERIES UPDATE: OFF
+                        </button>
+                        <button class="btn btn-gold" onclick="autoFillSeriesUpdate()"
+                            style="padding: 10px 14px; font-size: 11px; font-weight: 700;">🔄 Auto-Fill</button>
+                    </div>
+                    <label style="display: flex; flex-direction: column; gap: 4px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                        Last Completed Map
+                        <input type="text" id="f-su-last-map" oninput="pushSeriesUpdateField('lastCompletedMap', this.value)"
+                            placeholder="e.g. MAP 1 • ASCENT"
+                            style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; outline: none;">
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 4px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                        Last Map Score
+                        <input type="text" id="f-su-last-score" oninput="pushSeriesUpdateField('lastMapScore', this.value)"
+                            placeholder="e.g. 13-9"
+                            style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; outline: none;">
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 4px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                        Map Winner
+                        <select id="f-su-winner" onchange="pushSeriesUpdateField('lastMapWinner', this.value)"
+                            style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; outline: none; cursor: pointer;">
+                            <option value="">— None —</option>
+                            <option value="left">Team Left</option>
+                            <option value="right">Team Right</option>
+                        </select>
+                    </label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <label style="display: flex; flex-direction: column; gap: 4px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                            Score Left
+                            <input type="number" id="f-su-score-left" min="0" max="5" oninput="pushSeriesUpdateField('seriesScoreLeft', parseInt(this.value)||0)"
+                                style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; outline: none;">
+                        </label>
+                        <label style="display: flex; flex-direction: column; gap: 4px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                            Score Right
+                            <input type="number" id="f-su-score-right" min="0" max="5" oninput="pushSeriesUpdateField('seriesScoreRight', parseInt(this.value)||0)"
+                                style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; outline: none;">
+                        </label>
+                    </div>
+                    <label style="display: flex; flex-direction: column; gap: 4px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                        Next Map
+                        <input type="text" id="f-su-next-map" oninput="pushSeriesUpdateField('nextMapName', this.value)"
+                            placeholder="e.g. HAVEN"
+                            style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; outline: none;">
+                    </label>
+                    <span style="color: #8a97a4; font-size: 12px;">Open overlay: <a href="/series-update" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 700;">/series-update</a></span>
+                </div>
+            </div>
+
+            <!-- ── 3. MATCH STATISTICS ── -->
+            <div style="background: rgba(255,255,255,0.01); padding: 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04);">
+                <h3 style="color: var(--accent); margin-bottom: 14px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
+                    📈 Match Statistics</h3>
+                <div style="display: flex; flex-direction: column; gap: 14px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button id="btn-match-stats-toggle" class="btn btn-danger" onclick="toggleMatchStats()"
+                            style="padding: 10px 14px; font-size: 13px; font-weight: 700; flex: 1; letter-spacing: 0.5px; transition: all 0.3s ease;">
+                            🔴 MATCH STATS: OFF
+                        </button>
+                        <button class="btn btn-gold" onclick="autoFillMatchStats()"
+                            style="padding: 10px 14px; font-size: 11px; font-weight: 700;">🔄 Auto-Fill</button>
+                    </div>
+                    <label style="display: flex; flex-direction: column; gap: 4px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                        Map Label
+                        <input type="text" id="f-ms-map-label" oninput="pushMatchStatsField('mapLabel', this.value)"
+                            placeholder="e.g. MAP 1 • ASCENT"
+                            style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; outline: none;">
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 4px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                        Final Score
+                        <input type="text" id="f-ms-final-score" oninput="pushMatchStatsField('finalScore', this.value)"
+                            placeholder="e.g. 13 - 9"
+                            style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; outline: none;">
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 4px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                        Scoreboard Image URL
+                        <input type="text" id="f-ms-scoreboard-img" oninput="pushMatchStatsField('scoreboardImage', this.value)"
+                            placeholder="URL or leave empty for chroma key"
+                            style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; outline: none;">
+                    </label>
+                    <button class="btn btn-sm-outline" onclick="document.getElementById('f-ms-scoreboard-img').value='';pushMatchStatsField('scoreboardImage', '')" style="padding:4px 8px;font-size:10px;">Clear Image → Chroma Key</button>
+                    <label style="display: flex; flex-direction: column; gap: 4px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                        MVP Note
+                        <input type="text" id="f-ms-mvp-note" oninput="pushMatchStatsField('mvpNote', this.value)"
+                            placeholder="e.g. MAP MVP: PLAYER NAME"
+                            style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; outline: none;">
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 4px; color: #8a97a4; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                        Top ACS Note
+                        <input type="text" id="f-ms-acs-note" oninput="pushMatchStatsField('topAcs', this.value)"
+                            placeholder="e.g. TOP ACS: 312"
+                            style="background: #1a1f2b; border: 1px solid #252b38; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 12px; outline: none;">
+                    </label>
+                    <span style="color: #8a97a4; font-size: 12px;">Open overlay: <a href="/stats" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 700;">/stats</a></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <script>
         /* ══════════════════════════════════════════════════════════
            DATA
@@ -1239,6 +1378,30 @@
             if (localState.endMessage !== undefined) {
                 populateFieldSafe('f-end-message', localState.endMessage || '');
             }
+
+            // ── Broadcast Screens: Roster Info ──
+            const ri = localState.rosterInfo || {};
+            populateFieldSafe('f-ri-bottom-text', ri.bottomText || 'MATCH STARTING SOON');
+            updateBroadcastToggleBtn('btn-roster-info-toggle', ri.visible, 'ROSTER INFO');
+
+            // ── Broadcast Screens: Series Update ──
+            const su = localState.seriesUpdate || {};
+            populateFieldSafe('f-su-last-map', su.lastCompletedMap || '');
+            populateFieldSafe('f-su-last-score', su.lastMapScore || '');
+            populateFieldSafe('f-su-winner', su.lastMapWinner || '');
+            populateFieldSafe('f-su-score-left', String(su.seriesScoreLeft || 0));
+            populateFieldSafe('f-su-score-right', String(su.seriesScoreRight || 0));
+            populateFieldSafe('f-su-next-map', su.nextMapName || '');
+            updateBroadcastToggleBtn('btn-series-update-toggle', su.visible, 'SERIES UPDATE');
+
+            // ── Broadcast Screens: Match Stats ──
+            const ms = localState.matchStats || {};
+            populateFieldSafe('f-ms-map-label', ms.mapLabel || '');
+            populateFieldSafe('f-ms-final-score', ms.finalScore || '');
+            populateFieldSafe('f-ms-scoreboard-img', ms.scoreboardImage || '');
+            populateFieldSafe('f-ms-mvp-note', ms.mvpNote || '');
+            populateFieldSafe('f-ms-acs-note', ms.topAcs || '');
+            updateBroadcastToggleBtn('btn-match-stats-toggle', ms.visible, 'MATCH STATS');
 
             populateRosterDropdowns();
         }
@@ -2229,6 +2392,154 @@
             if (typeof CaptureEngine !== 'undefined') {
                 CaptureEngine.matchingThreshold = parseInt(val, 10) / 100;
             }
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           BROADCAST SCREENS — Roster Info / Series Update / Stats
+        ══════════════════════════════════════════════════════════ */
+
+        function updateBroadcastToggleBtn(btnId, isOn, label) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            if (isOn) {
+                btn.textContent = `🟢 ${label}: ON`;
+                btn.classList.remove('btn-danger');
+                btn.classList.add('btn-primary');
+            } else {
+                btn.textContent = `🔴 ${label}: OFF`;
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-danger');
+            }
+        }
+
+        // ── Roster Info ──
+        function toggleRosterInfo() {
+            if (!localState.rosterInfo) localState.rosterInfo = { visible: false, bottomText: 'MATCH STARTING SOON' };
+            localState.rosterInfo.visible = !localState.rosterInfo.visible;
+            updateBroadcastToggleBtn('btn-roster-info-toggle', localState.rosterInfo.visible, 'ROSTER INFO');
+            pushUpdate({ rosterInfo: localState.rosterInfo });
+        }
+
+        function updateRosterInfoText(val) {
+            if (!localState.rosterInfo) localState.rosterInfo = { visible: false, bottomText: '' };
+            localState.rosterInfo.bottomText = val;
+            pushUpdate({ rosterInfo: { bottomText: val } });
+        }
+
+        // ── Series Update ──
+        function toggleSeriesUpdate() {
+            if (!localState.seriesUpdate) localState.seriesUpdate = { visible: false };
+            localState.seriesUpdate.visible = !localState.seriesUpdate.visible;
+            updateBroadcastToggleBtn('btn-series-update-toggle', localState.seriesUpdate.visible, 'SERIES UPDATE');
+            pushUpdate({ seriesUpdate: localState.seriesUpdate });
+        }
+
+        function pushSeriesUpdateField(field, value) {
+            if (!localState.seriesUpdate) localState.seriesUpdate = { visible: false };
+            localState.seriesUpdate[field] = value;
+            const patch = {};
+            patch[field] = value;
+            pushUpdate({ seriesUpdate: patch });
+        }
+
+        function autoFillSeriesUpdate() {
+            const maps = (localState.match && localState.match.maps) || [];
+            const picks = maps.filter(m => m.action === 'pick' || m.action === 'decider');
+
+            let scoreLeft = 0;
+            let scoreRight = 0;
+            let lastCompleted = null;
+            let lastCompletedIndex = -1;
+
+            picks.forEach((m, i) => {
+                if (m.status === 'completed' && m.score) {
+                    lastCompleted = m;
+                    lastCompletedIndex = i;
+                    const parts = m.score.split('-').map(s => parseInt(s.trim()));
+                    if (parts.length === 2) {
+                        if (parts[0] > parts[1]) scoreLeft++;
+                        else if (parts[1] > parts[0]) scoreRight++;
+                    }
+                }
+            });
+
+            // Find next map
+            let nextMap = '';
+            for (let i = (lastCompletedIndex >= 0 ? lastCompletedIndex + 1 : 0); i < picks.length; i++) {
+                if (picks[i].status !== 'completed') {
+                    nextMap = picks[i].name || '';
+                    break;
+                }
+            }
+
+            const su = {
+                lastCompletedMap: lastCompleted ? `MAP ${lastCompletedIndex + 1} • ${lastCompleted.name}` : '',
+                lastMapScore: lastCompleted ? (lastCompleted.score || '') : '',
+                lastMapWinner: lastCompleted && lastCompleted.score ? (function() {
+                    const parts = lastCompleted.score.split('-').map(s => parseInt(s.trim()));
+                    if (parts.length === 2) return parts[0] > parts[1] ? 'left' : 'right';
+                    return '';
+                })() : '',
+                seriesScoreLeft: scoreLeft,
+                seriesScoreRight: scoreRight,
+                nextMapName: nextMap
+            };
+
+            if (!localState.seriesUpdate) localState.seriesUpdate = { visible: false };
+            Object.assign(localState.seriesUpdate, su);
+
+            populateFieldSafe('f-su-last-map', su.lastCompletedMap);
+            populateFieldSafe('f-su-last-score', su.lastMapScore);
+            populateFieldSafe('f-su-winner', su.lastMapWinner);
+            populateFieldSafe('f-su-score-left', String(su.seriesScoreLeft));
+            populateFieldSafe('f-su-score-right', String(su.seriesScoreRight));
+            populateFieldSafe('f-su-next-map', su.nextMapName);
+
+            pushUpdate({ seriesUpdate: su });
+        }
+
+        // ── Match Statistics ──
+        function toggleMatchStats() {
+            if (!localState.matchStats) localState.matchStats = { visible: false };
+            localState.matchStats.visible = !localState.matchStats.visible;
+            updateBroadcastToggleBtn('btn-match-stats-toggle', localState.matchStats.visible, 'MATCH STATS');
+            pushUpdate({ matchStats: localState.matchStats });
+        }
+
+        function pushMatchStatsField(field, value) {
+            if (!localState.matchStats) localState.matchStats = { visible: false };
+            localState.matchStats[field] = value;
+            const patch = {};
+            patch[field] = value;
+            pushUpdate({ matchStats: patch });
+        }
+
+        function autoFillMatchStats() {
+            const maps = (localState.match && localState.match.maps) || [];
+            const picks = maps.filter(m => m.action === 'pick' || m.action === 'decider');
+
+            let lastCompleted = null;
+            let lastCompletedIndex = -1;
+
+            picks.forEach((m, i) => {
+                if (m.status === 'completed' && m.score) {
+                    lastCompleted = m;
+                    lastCompletedIndex = i;
+                }
+            });
+
+            const ms = {
+                mapLabel: lastCompleted ? `MAP ${lastCompletedIndex + 1} • ${lastCompleted.name}` : '',
+                finalScore: lastCompleted ? (lastCompleted.score || '').replace('-', ' - ') : ''
+            };
+
+            if (!localState.matchStats) localState.matchStats = { visible: false };
+            Object.assign(localState.matchStats, ms);
+
+            populateFieldSafe('f-ms-map-label', ms.mapLabel);
+            populateFieldSafe('f-ms-final-score', ms.finalScore);
+
+            pushUpdate({ matchStats: ms });
         }
     </script>
     <script src="capture.js"></script>

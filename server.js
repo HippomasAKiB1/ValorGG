@@ -237,7 +237,28 @@ const state = {
         timerActive: false,
         message: 'Be Right Back'
     },
-    endMessage: 'Thanks For Watching The Stream'
+    endMessage: 'Thanks For Watching The Stream',
+    rosterInfo: {
+        visible: false,
+        bottomText: 'MATCH STARTING SOON'
+    },
+    seriesUpdate: {
+        visible: false,
+        lastCompletedMap: '',
+        lastMapScore: '',
+        lastMapWinner: '',
+        nextMapName: '',
+        seriesScoreLeft: 0,
+        seriesScoreRight: 0
+    },
+    matchStats: {
+        visible: false,
+        mapLabel: '',
+        finalScore: '',
+        scoreboardImage: '',
+        mvpNote: '',
+        topAcs: ''
+    }
 };
 
 // Load Challonge credentials from json file on startup if available
@@ -485,6 +506,21 @@ app.get('/brb', (req, res) => {
 // Stream Ending Overlay
 app.get('/end', (req, res) => {
     res.sendFile(path.join(__dirname, 'end.html'));
+});
+
+// Roster Info Overlay
+app.get('/roster-info', (req, res) => {
+    res.sendFile(path.join(__dirname, 'roster-info.html'));
+});
+
+// Series Update Overlay
+app.get('/series-update', (req, res) => {
+    res.sendFile(path.join(__dirname, 'series-update.html'));
+});
+
+// Match Statistics Overlay
+app.get('/stats', (req, res) => {
+    res.sendFile(path.join(__dirname, 'stats.html'));
 });
 
 // Endpoint to list MVP images from assets/mvp

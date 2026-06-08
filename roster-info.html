@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VCT — Team Rosters</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="roster-info.css">
+</head>
+<body>
+
+    <div class="roster-wrapper" id="roster-wrapper" style="display: none;">
+
+        <!-- Header -->
+        <div class="roster-header">
+            <div class="tournament-name" id="ri-tournament"></div>
+            <div class="section-title">TEAM ROSTERS</div>
+            <div class="sub-heading" id="ri-subheading"></div>
+        </div>
+
+        <!-- Left Side Accent -->
+        <aside class="roster-side-accent side-left">
+            <div class="accent-text">ROAD TO CHAMPIONS</div>
+            <div class="accent-line"></div>
+            <div class="accent-year">— 2026</div>
+        </aside>
+
+        <!-- Right Side Accent -->
+        <aside class="roster-side-accent side-right">
+            <div class="accent-text">ROAD TO CHAMPIONS</div>
+            <div class="accent-line"></div>
+            <div class="accent-year">— 2026</div>
+        </aside>
+
+        <!-- Teams Side-by-Side -->
+        <div class="roster-teams">
+
+            <!-- Team Left -->
+            <div class="roster-team team-left">
+                <img class="roster-team-logo" id="ri-logo-left" src="" alt="" onerror="this.style.display='none'">
+                <div class="roster-team-name" id="ri-name-left"></div>
+                <div class="roster-team-tag" id="ri-tag-left"></div>
+                <div class="roster-players" id="ri-players-left"></div>
+            </div>
+
+            <!-- VS Divider -->
+            <div class="roster-vs">
+                <div class="roster-vs-line"></div>
+                <div class="roster-vs-text">VS</div>
+                <div class="roster-vs-line"></div>
+            </div>
+
+            <!-- Team Right -->
+            <div class="roster-team team-right">
+                <img class="roster-team-logo" id="ri-logo-right" src="" alt="" onerror="this.style.display='none'">
+                <div class="roster-team-name" id="ri-name-right"></div>
+                <div class="roster-team-tag" id="ri-tag-right"></div>
+                <div class="roster-players" id="ri-players-right"></div>
+            </div>
+        </div>
+
+        <!-- Bottom Ticker Bar -->
+        <div class="roster-bottom">
+            <span class="roster-bottom-label">UPCOMING</span>
+            <span class="roster-bottom-text" id="ri-bottom-text">MATCH STARTING SOON</span>
+        </div>
+    </div>
+
+    <script src="roster-info.js"></script>
+</body>
+</html>

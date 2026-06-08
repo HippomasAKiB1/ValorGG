@@ -6,27 +6,27 @@
     "players": [
       {
         "name": "Kyojin",
-        "playerImg": "assets/player-image/kyojin.jpg"
+        "playerImg": "assets/player-image/kyojin.PNG"
       },
       {
         "name": "UDeaD",
-        "playerImg": "assets/player-image/udead.jpg"
+        "playerImg": "assets/player-image/udead.PNG"
       },
       {
         "name": "h e r m i 1",
-        "playerImg": "assets/player-image/hermi1.jpg"
+        "playerImg": "assets/player-image/hermi1.PNG"
       },
       {
         "name": "Falc",
-        "playerImg": "assets/player-image/falc.jpg"
+        "playerImg": "assets/player-image/falc.PNG"
       },
       {
         "name": "a",
-        "playerImg": "assets/player-image/a.jpg"
+        "playerImg": "assets/player-image/a.PNG"
       },
       {
         "name": "subzero",
-        "playerImg": "assets/player-image/subzero.jpg"
+        "playerImg": "assets/player-image/subzero.PNG"
       }
     ]
   },

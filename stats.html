@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VCT — Match Statistics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stats.css">
+</head>
+<body>
+
+    <div class="ms-wrapper" id="ms-wrapper" style="display: none;">
+
+        <!-- Side Accents -->
+        <aside class="ms-side-accent side-left">
+            <div class="accent-text">POST MATCH ANALYSIS</div>
+            <div class="accent-line"></div>
+        </aside>
+        <aside class="ms-side-accent side-right">
+            <div class="accent-text">POST MATCH ANALYSIS</div>
+            <div class="accent-line"></div>
+        </aside>
+
+        <!-- Header -->
+        <div class="ms-header">
+            <div class="ms-title">MATCH STATISTICS</div>
+            <div class="ms-map-label" id="ms-map-label"></div>
+        </div>
+
+        <!-- Score Bar -->
+        <div class="ms-score-bar">
+            <div class="ms-score-team team-left">
+                <img class="ms-score-logo" id="ms-logo-left" src="" alt="" onerror="this.style.display='none'">
+                <span class="ms-score-name" id="ms-name-left"></span>
+            </div>
+            <span class="ms-score-value" id="ms-final-score"></span>
+            <div class="ms-score-team team-right">
+                <img class="ms-score-logo" id="ms-logo-right" src="" alt="" onerror="this.style.display='none'">
+                <span class="ms-score-name" id="ms-name-right"></span>
+            </div>
+        </div>
+
+        <!-- Scoreboard Frame -->
+        <div class="ms-scoreboard-frame" id="ms-frame-content">
+            <div class="ms-chroma-box">
+                <span class="ms-chroma-label">SCOREBOARD — CHROMA KEY</span>
+            </div>
+        </div>
+
+        <!-- Bottom Info -->
+        <div class="ms-bottom">
+            <span class="ms-bottom-item" id="ms-mvp-note" style="display: none;"></span>
+            <span class="ms-bottom-item" id="ms-acs-note" style="display: none;"></span>
+        </div>
+
+        <!-- Bottom Ticker -->
+        <footer class="ms-footer">
+            <div class="ticker-label">STATS</div>
+            <div class="ticker-wrap">
+                <div class="ticker-scroll">
+                    <span>POST-MAP STATISTICS</span>
+                    <span class="dot">•</span>
+                    <span>VCT PRO SERIES LIVE BROADCAST</span>
+                    <span class="dot">•</span>
+                    <span>POST-MAP STATISTICS</span>
+                    <span class="dot">•</span>
+                    <span>VCT PRO SERIES LIVE BROADCAST</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="stats.js"></script>
+</body>
+</html>

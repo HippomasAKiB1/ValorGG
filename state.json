@@ -673,5 +673,26 @@
     "timerActive": false,
     "message": "Be Right Back"
   },
-  "endMessage": "Thanks For Watching The Stream"
+  "endMessage": "Thanks For Watching The Stream",
+  "rosterInfo": {
+    "visible": false,
+    "bottomText": "TEST123"
+  },
+  "seriesUpdate": {
+    "visible": false,
+    "lastCompletedMap": "MAP 2 • HAVEN",
+    "lastMapScore": "13-7",
+    "lastMapWinner": "left",
+    "nextMapName": "ASCENT",
+    "seriesScoreLeft": 2,
+    "seriesScoreRight": 1
+  },
+  "matchStats": {
+    "visible": false,
+    "mapLabel": "MAP 2 • HAVEN",
+    "finalScore": "13 - 7",
+    "scoreboardImage": "",
+    "mvpNote": "MVP: Kyojin",
+    "topAcs": "TOP ACS: 312"
+  }
 }
