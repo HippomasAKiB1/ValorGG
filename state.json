@@ -675,7 +675,7 @@
   },
   "endMessage": "Thanks For Watching The Stream",
   "rosterInfo": {
-    "visible": false,
+    "visible": true,
     "bottomText": "TEST123"
   },
   "seriesUpdate": {

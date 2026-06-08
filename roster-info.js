@@ -107,6 +107,21 @@ function getPlayerImgPath(img) {
 }
 
 function handleImgError(el, initial) {
+    // If the failed image path has a .jpg, .jpeg, or uppercase .PNG/etc. extension,
+    // try to load it as a lowercase .png first before giving up.
+    const currentSrc = el.src || '';
+    if (!el.dataset.triedPng) {
+        el.dataset.triedPng = 'true';
+        const lowerSrc = currentSrc.toLowerCase();
+        if (lowerSrc.endsWith('.jpg') || lowerSrc.endsWith('.jpeg') || lowerSrc.endsWith('.png')) {
+            const newSrc = currentSrc.replace(/\.[a-zA-Z]+$/, '.png');
+            if (newSrc !== currentSrc) {
+                el.src = newSrc;
+                return; // Wait for the new src load attempt
+            }
+        }
+    }
+
     const div = document.createElement('div');
     div.className = 'roster-player-img roster-player-initial';
     div.textContent = initial || '?';
