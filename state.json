@@ -66,7 +66,7 @@
       "name": "Header",
       "tag": "HDR",
       "score": 0,
-      "logoUrl": "assets/team-logo/header.jpg",
+      "logoUrl": "assets/team-logo/header.png",
       "side": "attack",
       "roundWins": [],
       "lossStreak": 0,
@@ -679,20 +679,20 @@
     "bottomText": "TEST123"
   },
   "seriesUpdate": {
-    "visible": false,
-    "lastCompletedMap": "MAP 2 • HAVEN",
-    "lastMapScore": "13-7",
-    "lastMapWinner": "left",
-    "nextMapName": "ASCENT",
-    "seriesScoreLeft": 2,
-    "seriesScoreRight": 1
+    "visible": true,
+    "lastCompletedMap": "",
+    "lastMapScore": "",
+    "lastMapWinner": "",
+    "nextMapName": "",
+    "seriesScoreLeft": 0,
+    "seriesScoreRight": 0
   },
   "matchStats": {
-    "visible": false,
+    "visible": true,
     "mapLabel": "MAP 2 • HAVEN",
     "finalScore": "13 - 7",
     "scoreboardImage": "",
-    "mvpNote": "MVP: Kyojin",
-    "topAcs": "TOP ACS: 312"
+    "mvpNote": "",
+    "topAcs": ""
   }
 }

@@ -38,6 +38,7 @@ body {
     flex-direction: column;
     align-items: center;
     z-index: 1;
+    padding-bottom: 62px;
 }
 
 /* ── Rotating Conic Light Beams ── */
@@ -165,8 +166,7 @@ body {
     display: flex;
     gap: 0;
     justify-content: center;
-    align-items: flex-start;
-    margin-top: 40px;
+    align-items: center;
     flex: 1;
     z-index: 8;
     position: relative;
@@ -177,6 +177,10 @@ body {
 ═══════════════════════════════════════ */
 .roster-team {
     width: 620px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
     padding: 30px 30px 24px;
     background: linear-gradient(145deg, rgba(10, 14, 22, 0.85), rgba(16, 22, 34, 0.75));
@@ -230,9 +234,10 @@ body {
 }
 
 .roster-team-logo {
+    display: block;
+    margin: 0 auto 12px;
     width: 90px; height: 90px;
     object-fit: contain;
-    margin-bottom: 12px;
     filter: drop-shadow(0 4px 25px rgba(0, 0, 0, 0.7));
     animation: ri-logoPulse 3s infinite alternate ease-in-out;
     position: relative;
@@ -272,6 +277,8 @@ body {
     gap: 5px;
     position: relative;
     z-index: 3;
+    width: 100%;
+    margin-top: auto;
 }
 
 .roster-player-row {
@@ -365,6 +372,10 @@ body {
     line-height: 1.1;
 }
 
+.roster-team.team-left .roster-player-name {
+    text-align: left;
+}
+
 .roster-team.team-right .roster-player-name {
     text-align: right;
 }
@@ -390,7 +401,6 @@ body {
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin-top: 50px;
     padding: 0 20px;
     animation: ri-fadeIn 1.4s ease both;
     animation-delay: 0.5s;

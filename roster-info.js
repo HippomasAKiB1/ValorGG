@@ -167,9 +167,9 @@ function render() {
         const players = (team.players || []).slice(0, 5);
 
         container.innerHTML = players.map((p, i) => {
-            // Resolve image: info.json lookup (latest) → state value (fallback)
+            // Resolve image: state value (latest) → info.json lookup (fallback)
             const infoImg = infoPlayerImgMap[(p.name || '').toLowerCase().trim()] || '';
-            const imgPath = getPlayerImgPath(infoImg || p.playerImg);
+            const imgPath = getPlayerImgPath(p.playerImg || infoImg);
             const initial = escapeHtml((p.name || '?').charAt(0).toUpperCase());
 
             const imgHtml = imgPath
