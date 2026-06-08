@@ -464,6 +464,10 @@
                 try {
                     const data = JSON.parse(event.data);
                     if (data && typeof data === 'object') {
+                        if (data._replaceTeams) {
+                            if (localState) localState.teams = data._replaceTeams;
+                            delete data._replaceTeams;
+                        }
                         if (!localState) {
                             localState = data;
                         } else {
@@ -504,8 +508,11 @@
                     if (Array.isArray(tgtVal) && tgtVal.length && tgtVal[0] && tgtVal[0].id !== undefined) {
                         for (const srcItem of srcVal) {
                             const tgtItem = tgtVal.find(x => x.id === srcItem.id);
-                            if (tgtItem) deepMerge(tgtItem, srcItem);
-                            else tgtVal.push(srcItem);
+                            if (tgtItem) {
+                                deepMerge(tgtItem, srcItem);
+                            } else if (key !== 'players') {
+                                tgtVal.push(srcItem);
+                            }
                         }
                     } else {
                         target[key] = srcVal;

@@ -656,8 +656,11 @@
                     if (Array.isArray(tgtVal) && tgtVal.length && tgtVal[0] && tgtVal[0].id !== undefined) {
                         for (const srcItem of srcVal) {
                             const tgtItem = tgtVal.find(x => x.id === srcItem.id);
-                            if (tgtItem) deepMerge(tgtItem, srcItem);
-                            else tgtVal.push(srcItem);
+                            if (tgtItem) {
+                                deepMerge(tgtItem, srcItem);
+                            } else if (key !== 'players') {
+                                tgtVal.push(srcItem);
+                            }
                         }
                     } else {
                         target[key] = srcVal;
@@ -723,6 +726,56 @@
         function renderMapsEditor() {
             const container = document.getElementById('maps-editor');
             const maps = localState.match.maps;
+
+            let rebuildContainer = false;
+            const rows = container.querySelectorAll('.map-row');
+            if (rows.length === maps.length) {
+                for (let i = 0; i < maps.length; i++) {
+                    const m = maps[i];
+                    const row = rows[i];
+                    const selects = row.querySelectorAll('select');
+                    
+                    if (selects[0] && document.activeElement !== selects[0] && selects[0].value !== m.name) {
+                        selects[0].value = m.name;
+                    }
+                    
+                    if (selects[1] && document.activeElement !== selects[1] && selects[1].value !== m.action) {
+                        rebuildContainer = true;
+                        break;
+                    }
+
+                    const expectedTeam = m.team || 'none';
+                    if (selects[2] && document.activeElement !== selects[2] && selects[2].value !== expectedTeam) {
+                        selects[2].value = expectedTeam;
+                    }
+
+                    const isPlayed = m.action === 'pick' || m.action === 'decider';
+                    let statusSelect = row.querySelector('select[onchange*="status"]');
+                    let scoreInput = row.querySelector('input[placeholder="Score"]');
+
+                    if (isPlayed !== !!statusSelect) {
+                        rebuildContainer = true;
+                        break;
+                    }
+
+                    if (statusSelect && document.activeElement !== statusSelect && statusSelect.value !== m.status) {
+                        statusSelect.value = m.status || 'upcoming';
+                    }
+
+                    const showScore = isPlayed && (m.status === 'completed');
+                    if (showScore !== !!scoreInput) {
+                        rebuildContainer = true;
+                        break;
+                    }
+
+                    if (scoreInput && document.activeElement !== scoreInput && scoreInput.value !== (m.score || '')) {
+                        scoreInput.value = m.score || '';
+                    }
+                }
+
+                if (!rebuildContainer) return;
+            }
+
             container.innerHTML = maps.map((m, i) => {
                 const isPlayed = m.action === 'pick' || m.action === 'decider';
 
@@ -1064,18 +1117,21 @@
                 populateFieldSafe(`f-${side}-score`, t.score);
 
                 const logoSelect = document.getElementById(`f-${side}-logo`);
-                if (logoSelect && document.activeElement !== logoSelect) {
-                    let options = `<option value="">-- No Logo --</option>`;
-                    let found = false;
-                    teamLogosList.forEach(img => {
-                        const selected = t.logoUrl === img ? 'selected' : '';
-                        if (selected) found = true;
-                        options += `<option value="${img}" ${selected}>${img}</option>`;
-                    });
-                    if (!found && t.logoUrl) {
-                        options += `<option value="${t.logoUrl}" selected>${t.logoUrl} (default)</option>`;
+                if (logoSelect && logoSelect.getAttribute('data-current-url') !== t.logoUrl) {
+                    if (document.activeElement !== logoSelect) {
+                        let options = `<option value="">-- No Logo --</option>`;
+                        let found = false;
+                        teamLogosList.forEach(img => {
+                            const selected = t.logoUrl === img ? 'selected' : '';
+                            if (selected) found = true;
+                            options += `<option value="${img}" ${selected}>${img}</option>`;
+                        });
+                        if (!found && t.logoUrl) {
+                            options += `<option value="${t.logoUrl}" selected>${t.logoUrl} (default)</option>`;
+                        }
+                        logoSelect.innerHTML = options;
+                        logoSelect.setAttribute('data-current-url', t.logoUrl);
                     }
-                    logoSelect.innerHTML = options;
                 }
 
                 // Side buttons
@@ -1414,6 +1470,10 @@
                     const data = JSON.parse(event.data);
                     if (data && typeof data === 'object') {
                         if (localState) {
+                            if (data._replaceTeams) {
+                                localState.teams = data._replaceTeams;
+                                delete data._replaceTeams;
+                            }
                             deepMerge(localState, data);
                             populateAll();
                         }
@@ -1495,6 +1555,37 @@
                 if (titleEl) titleEl.textContent = team.name || `TEAM ${side.toUpperCase()}`;
 
                 const container = document.getElementById(`agent-sel-${side}`);
+                
+                let rebuild = false;
+                const rows = container.children;
+                if (rows.length === team.players.length) {
+                    for (let idx = 0; idx < team.players.length; idx++) {
+                        const p = team.players[idx];
+                        const row = rows[idx];
+                        const locked = p.agentLocked || false;
+                        
+                        const nameSpan = row.querySelector('span:first-child');
+                        if (nameSpan && nameSpan.textContent !== p.name) {
+                            nameSpan.textContent = p.name;
+                        }
+
+                        const select = row.querySelector('select');
+                        if (select) {
+                            if (document.activeElement !== select && select.value !== (p.agent || '')) {
+                                select.value = p.agent || '';
+                            }
+                            if (select.disabled !== locked) {
+                                rebuild = true;
+                                break;
+                            }
+                        } else {
+                            rebuild = true;
+                            break;
+                        }
+                    }
+                    if (!rebuild) return;
+                }
+
                 container.innerHTML = team.players.map(p => {
                     const locked = p.agentLocked || false;
                     return `
@@ -1680,11 +1771,22 @@
             // 1. Populate Winner dropdown
             const winnerSelect = document.getElementById('f-match-winner');
             if (winnerSelect) {
-                winnerSelect.innerHTML = `
-            <option value="">-- No Winner Selected --</option>
-            <option value="left" ${mw.winner === 'left' ? 'selected' : ''}>${teams.left.name || 'Team Left'}</option>
-            <option value="right" ${mw.winner === 'right' ? 'selected' : ''}>${teams.right.name || 'Team Right'}</option>
-        `;
+                const optLeft = winnerSelect.options[1];
+                const optRight = winnerSelect.options[2];
+                const expectedLeftName = teams.left.name || 'Team Left';
+                const expectedRightName = teams.right.name || 'Team Right';
+                
+                if (!optLeft || optLeft.textContent !== expectedLeftName || !optRight || optRight.textContent !== expectedRightName) {
+                    winnerSelect.innerHTML = `
+                        <option value="">-- No Winner Selected --</option>
+                        <option value="left">${expectedLeftName}</option>
+                        <option value="right">${expectedRightName}</option>
+                    `;
+                }
+                
+                if (document.activeElement !== winnerSelect && winnerSelect.value !== mw.winner) {
+                    winnerSelect.value = mw.winner;
+                }
             }
 
             // 2. Populate MVP Player dropdown
@@ -1692,34 +1794,49 @@
             if (mvpPlayerSelect) {
                 const leftPlayers = teams.left.players || [];
                 const rightPlayers = teams.right.players || [];
-
-                let options = '<option value="">-- No MVP Selected --</option>';
-
-                leftPlayers.forEach(p => {
-                    options += `<option value="${p.id}" ${mvp.playerId === p.id ? 'selected' : ''}>${p.name} (${teams.left.name || 'Left'})</option>`;
-                });
-                rightPlayers.forEach(p => {
-                    options += `<option value="${p.id}" ${mvp.playerId === p.id ? 'selected' : ''}>${p.name} (${teams.right.name || 'Right'})</option>`;
-                });
-
-                mvpPlayerSelect.innerHTML = options;
+                
+                const currentHash = leftPlayers.map(p => p.id + p.name).join('') + rightPlayers.map(p => p.id + p.name).join('');
+                if (mvpPlayerSelect.getAttribute('data-players-hash') !== currentHash) {
+                    let options = '<option value="">-- No MVP Selected --</option>';
+                    leftPlayers.forEach(p => {
+                        options += `<option value="${p.id}">${p.name} (${teams.left.name || 'Left'})</option>`;
+                    });
+                    rightPlayers.forEach(p => {
+                        options += `<option value="${p.id}">${p.name} (${teams.right.name || 'Right'})</option>`;
+                    });
+                    mvpPlayerSelect.innerHTML = options;
+                    mvpPlayerSelect.setAttribute('data-players-hash', currentHash);
+                }
+                
+                if (document.activeElement !== mvpPlayerSelect && mvpPlayerSelect.value !== (mvp.playerId || '')) {
+                    mvpPlayerSelect.value = mvp.playerId || '';
+                }
             }
 
             // 3. Populate MVP Image dropdown
             const mvpImageSelect = document.getElementById('f-mvp-image');
             if (mvpImageSelect) {
-                mvpImageSelect.innerHTML = `
-            <option value="">-- No Image --</option>
-            ${mvpImagesList.map(img => `<option value="${img}" ${mvp.image === img ? 'selected' : ''}>${img}</option>`).join('')}
-        `;
+                if (mvpImageSelect.options.length <= 1 && mvpImagesList.length > 0) {
+                    mvpImageSelect.innerHTML = `
+                        <option value="">-- No Image --</option>
+                        ${mvpImagesList.map(img => `<option value="${img}">${img}</option>`).join('')}
+                    `;
+                }
+                if (document.activeElement !== mvpImageSelect && mvpImageSelect.value !== (mvp.image || '')) {
+                    mvpImageSelect.value = mvp.image || '';
+                }
             }
 
             // 4. Set inputs
             const kdaInput = document.getElementById('f-mvp-kda');
-            if (kdaInput) kdaInput.value = mvp.kda || '0/0/0';
+            if (kdaInput && document.activeElement !== kdaInput && kdaInput.value !== (mvp.kda || '0/0/0')) {
+                kdaInput.value = mvp.kda || '0/0/0';
+            }
 
             const noteInput = document.getElementById('f-mvp-note');
-            if (noteInput) noteInput.value = mvp.customNote || '';
+            if (noteInput && document.activeElement !== noteInput && noteInput.value !== (mvp.customNote || '')) {
+                noteInput.value = mvp.customNote || '';
+            }
         }
 
         function pushWinnerSelection(val) {

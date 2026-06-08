@@ -464,5 +464,209 @@
         "detail": "Red Viperz selected Attack on ASCENT (Surgical Strikers starts on Defense)"
       }
     ]
+  },
+  {
+    "timestamp": "2026-06-08T07:30:31.330Z",
+    "format": "BO3",
+    "teamA": "Red Viperz",
+    "teamB": "Header",
+    "maps": [
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "SPLIT",
+        "detail": "Red Viperz banned SPLIT"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "BREEZE",
+        "detail": "Header banned BREEZE"
+      },
+      {
+        "type": "pick",
+        "actor": "Team A",
+        "mapName": "PEARL",
+        "detail": "Red Viperz picked PEARL"
+      },
+      {
+        "type": "side",
+        "actor": "Team B",
+        "mapName": "PEARL",
+        "detail": "Header selected Attack on PEARL (Red Viperz starts on Defense)"
+      },
+      {
+        "type": "pick",
+        "actor": "Team B",
+        "mapName": "LOTUS",
+        "detail": "Header picked LOTUS"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "LOTUS",
+        "detail": "Red Viperz selected Attack on LOTUS (Header starts on Defense)"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "HAVEN",
+        "detail": "Red Viperz banned HAVEN"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "FRACTURE",
+        "detail": "Header banned FRACTURE"
+      },
+      {
+        "type": "decider",
+        "actor": null,
+        "mapName": "ASCENT",
+        "detail": "Remaining map became ASCENT (Decider)"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "ASCENT",
+        "detail": "Red Viperz selected Defense on ASCENT (Header starts on Attack)"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-08T08:05:15.276Z",
+    "format": "BO3",
+    "teamA": "Ryussei Tridents",
+    "teamB": "Saint Esports",
+    "maps": [
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "PEARL",
+        "detail": "Ryussei Tridents banned PEARL"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "SPLIT",
+        "detail": "Saint Esports banned SPLIT"
+      },
+      {
+        "type": "pick",
+        "actor": "Team A",
+        "mapName": "LOTUS",
+        "detail": "Ryussei Tridents picked LOTUS"
+      },
+      {
+        "type": "side",
+        "actor": "Team B",
+        "mapName": "LOTUS",
+        "detail": "Saint Esports selected Attack on LOTUS (Ryussei Tridents starts on Defense)"
+      },
+      {
+        "type": "pick",
+        "actor": "Team B",
+        "mapName": "HAVEN",
+        "detail": "Saint Esports picked HAVEN"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "HAVEN",
+        "detail": "Ryussei Tridents selected Attack on HAVEN (Saint Esports starts on Defense)"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "FRACTURE",
+        "detail": "Ryussei Tridents banned FRACTURE"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "ASCENT",
+        "detail": "Saint Esports banned ASCENT"
+      },
+      {
+        "type": "decider",
+        "actor": null,
+        "mapName": "BREEZE",
+        "detail": "Remaining map became BREEZE (Decider)"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "BREEZE",
+        "detail": "Ryussei Tridents selected Attack on BREEZE (Saint Esports starts on Defense)"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-08T08:08:34.244Z",
+    "format": "BO3",
+    "teamA": "Red Viperz",
+    "teamB": "Header",
+    "maps": [
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "PEARL",
+        "detail": "Red Viperz banned PEARL"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "SPLIT",
+        "detail": "Header banned SPLIT"
+      },
+      {
+        "type": "pick",
+        "actor": "Team A",
+        "mapName": "LOTUS",
+        "detail": "Red Viperz picked LOTUS"
+      },
+      {
+        "type": "side",
+        "actor": "Team B",
+        "mapName": "LOTUS",
+        "detail": "Header selected Defense on LOTUS (Red Viperz starts on Attack)"
+      },
+      {
+        "type": "pick",
+        "actor": "Team B",
+        "mapName": "HAVEN",
+        "detail": "Header picked HAVEN"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "HAVEN",
+        "detail": "Red Viperz selected Defense on HAVEN (Header starts on Attack)"
+      },
+      {
+        "type": "ban",
+        "actor": "Team A",
+        "mapName": "FRACTURE",
+        "detail": "Red Viperz banned FRACTURE"
+      },
+      {
+        "type": "ban",
+        "actor": "Team B",
+        "mapName": "BREEZE",
+        "detail": "Header banned BREEZE"
+      },
+      {
+        "type": "decider",
+        "actor": null,
+        "mapName": "ASCENT",
+        "detail": "Remaining map became ASCENT (Decider)"
+      },
+      {
+        "type": "side",
+        "actor": "Team A",
+        "mapName": "ASCENT",
+        "detail": "Red Viperz selected Attack on ASCENT (Header starts on Defense)"
+      }
+    ]
   }
 ]

@@ -1,0 +1,677 @@
+{
+  "match": {
+    "tournament": "WarCities://Valorant Pro Series",
+    "subHeading": "Winners Final",
+    "bestOf": 3,
+    "round": 1,
+    "timer": 100,
+    "buyTimer": 30,
+    "phase": "buy",
+    "spikePlanted": false,
+    "spikeDefused": false,
+    "half": 1,
+    "overtime": false,
+    "overtimeRound": 0,
+    "maps": [
+      {
+        "name": "PEARL",
+        "action": "ban",
+        "team": "right"
+      },
+      {
+        "name": "SPLIT",
+        "action": "ban",
+        "team": "left"
+      },
+      {
+        "name": "LOTUS",
+        "action": "pick",
+        "team": "right",
+        "defense": "left",
+        "attack": "right",
+        "status": "completed",
+        "score": "13-3"
+      },
+      {
+        "name": "HAVEN",
+        "action": "pick",
+        "team": "left",
+        "defense": "right",
+        "attack": "left",
+        "status": "completed",
+        "score": "3-13"
+      },
+      {
+        "name": "FRACTURE",
+        "action": "ban",
+        "team": "right"
+      },
+      {
+        "name": "BREEZE",
+        "action": "ban",
+        "team": "left"
+      },
+      {
+        "name": "ASCENT",
+        "action": "decider",
+        "team": null,
+        "defense": "left",
+        "attack": "right",
+        "status": "current"
+      }
+    ]
+  },
+  "teams": {
+    "left": {
+      "name": "Header",
+      "tag": "HDR",
+      "score": 0,
+      "logoUrl": "assets/team-logo/header.jpg",
+      "side": "attack",
+      "roundWins": [],
+      "lossStreak": 0,
+      "players": [
+        {
+          "id": "p1",
+          "name": "ไฟนอลบอส",
+          "agent": "Astra",
+          "agentLocked": true,
+          "alive": true,
+          "agentImg": "/assets/agent/astra.webp",
+          "playerImg": "assets/player-image/finalboss.jpg"
+        },
+        {
+          "id": "p2",
+          "name": "RayXay",
+          "agent": "Waylay",
+          "agentLocked": true,
+          "alive": true,
+          "agentImg": "/assets/agent/waylay.webp",
+          "playerImg": "assets/player-image/rayxay.jpg"
+        },
+        {
+          "id": "p3",
+          "name": "Genoman",
+          "agent": "Viper",
+          "agentLocked": true,
+          "alive": true,
+          "agentImg": "/assets/agent/viper.webp",
+          "playerImg": "assets/player-image/genoman.jpg"
+        },
+        {
+          "id": "p4",
+          "name": "kayn",
+          "agent": "Vyse",
+          "agentLocked": true,
+          "alive": true,
+          "agentImg": "/assets/agent/vyse.webp",
+          "playerImg": "assets/player-image/kayn.jpg"
+        },
+        {
+          "id": "p5",
+          "name": "Immature",
+          "agent": "Raze",
+          "agentLocked": true,
+          "alive": true,
+          "agentImg": "/assets/agent/raze.webp",
+          "playerImg": "assets/player-image/immature.jpg"
+        }
+      ],
+      "roster": [
+        {
+          "name": "Tikka masala",
+          "playerImg": "assets/player-image/tikkamasala.jpg"
+        },
+        {
+          "name": "DEMON",
+          "playerImg": "assets/player-image/demon.jpg"
+        },
+        {
+          "name": "Frenzy",
+          "playerImg": "assets/player-image/frenzy.jpg"
+        },
+        {
+          "name": "Dream1",
+          "playerImg": "assets/player-image/dream1.jpg"
+        },
+        {
+          "name": "Goonknight",
+          "playerImg": "assets/player-image/goonknight.jpg"
+        },
+        {
+          "name": "CrimsonBlaze",
+          "playerImg": "assets/player-image/crimsonblaze.jpg"
+        }
+      ]
+    },
+    "right": {
+      "name": "Red Viperz",
+      "tag": "RVZ",
+      "score": 0,
+      "logoUrl": "assets/team-logo/redviperz.png",
+      "side": "defense",
+      "roundWins": [],
+      "lossStreak": 0,
+      "players": [
+        {
+          "id": "p6",
+          "name": "Kyojin",
+          "agent": "Brimstone",
+          "agentLocked": true,
+          "alive": true,
+          "agentImg": "/assets/agent/brimstone.webp",
+          "playerImg": "assets/player-image/kyojin.jpg"
+        },
+        {
+          "id": "p7",
+          "name": "UDeaD",
+          "agent": "Vyse",
+          "agentLocked": true,
+          "alive": true,
+          "agentImg": "/assets/agent/vyse.webp",
+          "playerImg": "assets/player-image/udead.jpg"
+        },
+        {
+          "id": "p8",
+          "name": "h e r m i 1",
+          "agent": "Phoenix",
+          "agentLocked": true,
+          "alive": true,
+          "agentImg": "/assets/agent/phoenix.webp",
+          "playerImg": "assets/player-image/hermi1.jpg"
+        },
+        {
+          "id": "p9",
+          "name": "Falc",
+          "agent": "Waylay",
+          "agentLocked": true,
+          "alive": true,
+          "agentImg": "/assets/agent/waylay.webp",
+          "playerImg": "assets/player-image/falc.jpg"
+        },
+        {
+          "id": "p10",
+          "name": "a",
+          "agent": "Yoru",
+          "agentLocked": true,
+          "alive": true,
+          "agentImg": "/assets/agent/yoru.webp",
+          "playerImg": "assets/player-image/a.jpg"
+        }
+      ],
+      "roster": [
+        {
+          "name": "Savage",
+          "playerImg": "assets/player-image/savage.jpg"
+        },
+        {
+          "name": "Doomsday",
+          "playerImg": "assets/player-image/doomsday.jpg"
+        },
+        {
+          "name": "introvert",
+          "playerImg": "assets/player-image/intro.jpg"
+        },
+        {
+          "name": "Pa2Z",
+          "playerImg": "assets/player-image/pa2z.jpg"
+        },
+        {
+          "name": "ITZzSulphuric",
+          "playerImg": "assets/player-image/itzzsulphuric.jpg"
+        },
+        {
+          "name": "N3MESiS",
+          "playerImg": "assets/player-image/n3mesis.jpg"
+        }
+      ]
+    }
+  },
+  "casters": [
+    {
+      "id": "c1",
+      "name": "AKiB",
+      "role": "Host",
+      "social": "@AKiB",
+      "image": "akkib.jpg"
+    },
+    {
+      "id": "caster_1780906158267",
+      "name": "AAA",
+      "role": "AAA",
+      "social": "@aaa",
+      "image": "shakib.jpg"
+    }
+  ],
+  "matchWinner": {
+    "winner": ""
+  },
+  "mvp": {
+    "playerId": "",
+    "image": "",
+    "kda": "0/0/0",
+    "customNote": ""
+  },
+  "replay": {
+    "visible": false
+  },
+  "bracket": {
+    "apiKey": "ce87ca15cc3116e69955ccc472f53b492ef81071dd3d0ae6",
+    "username": "hippomasAKiB1",
+    "tournamentUrl": "valorant_pro_series_s1",
+    "matches": [
+      {
+        "id": 458443193,
+        "state": "complete",
+        "round": 1,
+        "player1Id": 294973206,
+        "player2Id": 294973207,
+        "winnerId": 294973206,
+        "scoresCsv": "13-5",
+        "suggestedPlayOrder": 1
+      },
+      {
+        "id": 458443194,
+        "state": "complete",
+        "round": 1,
+        "player1Id": 294973208,
+        "player2Id": 294973209,
+        "winnerId": 294973209,
+        "scoresCsv": "6-13",
+        "suggestedPlayOrder": 2
+      },
+      {
+        "id": 458443195,
+        "state": "complete",
+        "round": 1,
+        "player1Id": 294973210,
+        "player2Id": 294973211,
+        "winnerId": 294973210,
+        "scoresCsv": "13-4",
+        "suggestedPlayOrder": 3
+      },
+      {
+        "id": 458443196,
+        "state": "complete",
+        "round": 1,
+        "player1Id": 294973212,
+        "player2Id": 294973213,
+        "winnerId": 294973213,
+        "scoresCsv": "6-13",
+        "suggestedPlayOrder": 4
+      },
+      {
+        "id": 458443197,
+        "state": "complete",
+        "round": 1,
+        "player1Id": 294973214,
+        "player2Id": 294973215,
+        "winnerId": 294973215,
+        "scoresCsv": "0-13",
+        "suggestedPlayOrder": 5
+      },
+      {
+        "id": 458443198,
+        "state": "complete",
+        "round": 1,
+        "player1Id": 294973216,
+        "player2Id": 294973217,
+        "winnerId": 294973216,
+        "scoresCsv": "13-8",
+        "suggestedPlayOrder": 6
+      },
+      {
+        "id": 458443199,
+        "state": "complete",
+        "round": 1,
+        "player1Id": 294973218,
+        "player2Id": 294973219,
+        "winnerId": 294973219,
+        "scoresCsv": "1-13",
+        "suggestedPlayOrder": 7
+      },
+      {
+        "id": 458443200,
+        "state": "complete",
+        "round": 1,
+        "player1Id": 294973220,
+        "player2Id": 294973221,
+        "winnerId": 294973220,
+        "scoresCsv": "13-0",
+        "suggestedPlayOrder": 8
+      },
+      {
+        "id": 458443201,
+        "state": "complete",
+        "round": 2,
+        "player1Id": 294973206,
+        "player2Id": 294973209,
+        "winnerId": 294973206,
+        "scoresCsv": "13-0",
+        "suggestedPlayOrder": 13
+      },
+      {
+        "id": 458443202,
+        "state": "complete",
+        "round": 2,
+        "player1Id": 294973210,
+        "player2Id": 294973213,
+        "winnerId": 294973213,
+        "scoresCsv": "4-13",
+        "suggestedPlayOrder": 14
+      },
+      {
+        "id": 458443203,
+        "state": "complete",
+        "round": 2,
+        "player1Id": 294973215,
+        "player2Id": 294973216,
+        "winnerId": 294973215,
+        "scoresCsv": "13-11",
+        "suggestedPlayOrder": 15
+      },
+      {
+        "id": 458443204,
+        "state": "complete",
+        "round": 2,
+        "player1Id": 294973219,
+        "player2Id": 294973220,
+        "winnerId": 294973219,
+        "scoresCsv": "13-11",
+        "suggestedPlayOrder": 16
+      },
+      {
+        "id": 458443205,
+        "state": "complete",
+        "round": 3,
+        "player1Id": 294973206,
+        "player2Id": 294973213,
+        "winnerId": 294973206,
+        "scoresCsv": "2-1",
+        "suggestedPlayOrder": 23
+      },
+      {
+        "id": 458443206,
+        "state": "complete",
+        "round": 3,
+        "player1Id": 294973215,
+        "player2Id": 294973219,
+        "winnerId": 294973219,
+        "scoresCsv": "1-2",
+        "suggestedPlayOrder": 24
+      },
+      {
+        "id": 458443207,
+        "state": "open",
+        "round": 4,
+        "player1Id": 294973206,
+        "player2Id": 294973219,
+        "winnerId": null,
+        "scoresCsv": "",
+        "suggestedPlayOrder": 28
+      },
+      {
+        "id": 458443208,
+        "state": "complete",
+        "round": -1,
+        "player1Id": 294973207,
+        "player2Id": 294973208,
+        "winnerId": 294973208,
+        "scoresCsv": "0-13",
+        "suggestedPlayOrder": 9
+      },
+      {
+        "id": 458443209,
+        "state": "complete",
+        "round": -1,
+        "player1Id": 294973211,
+        "player2Id": 294973212,
+        "winnerId": 294973212,
+        "scoresCsv": "4-13",
+        "suggestedPlayOrder": 10
+      },
+      {
+        "id": 458443210,
+        "state": "complete",
+        "round": -1,
+        "player1Id": 294973214,
+        "player2Id": 294973217,
+        "winnerId": 294973217,
+        "scoresCsv": "4-13",
+        "suggestedPlayOrder": 11
+      },
+      {
+        "id": 458443211,
+        "state": "complete",
+        "round": -1,
+        "player1Id": 294973218,
+        "player2Id": 294973221,
+        "winnerId": 294973221,
+        "scoresCsv": "9-13",
+        "suggestedPlayOrder": 12
+      },
+      {
+        "id": 458443212,
+        "state": "complete",
+        "round": -2,
+        "player1Id": 294973220,
+        "player2Id": 294973208,
+        "winnerId": 294973220,
+        "scoresCsv": "13-9",
+        "suggestedPlayOrder": 20
+      },
+      {
+        "id": 458443213,
+        "state": "complete",
+        "round": -2,
+        "player1Id": 294973216,
+        "player2Id": 294973212,
+        "winnerId": 294973212,
+        "scoresCsv": "6-13",
+        "suggestedPlayOrder": 19
+      },
+      {
+        "id": 458443214,
+        "state": "complete",
+        "round": -2,
+        "player1Id": 294973210,
+        "player2Id": 294973217,
+        "winnerId": 294973217,
+        "scoresCsv": "12-14",
+        "suggestedPlayOrder": 18
+      },
+      {
+        "id": 458443215,
+        "state": "complete",
+        "round": -2,
+        "player1Id": 294973209,
+        "player2Id": 294973221,
+        "winnerId": 294973209,
+        "scoresCsv": "13-0",
+        "suggestedPlayOrder": 17
+      },
+      {
+        "id": 458443216,
+        "state": "complete",
+        "round": -3,
+        "player1Id": 294973220,
+        "player2Id": 294973212,
+        "winnerId": 294973220,
+        "scoresCsv": "13-7",
+        "suggestedPlayOrder": 22
+      },
+      {
+        "id": 458443217,
+        "state": "complete",
+        "round": -3,
+        "player1Id": 294973217,
+        "player2Id": 294973209,
+        "winnerId": 294973209,
+        "scoresCsv": "8-13",
+        "suggestedPlayOrder": 21
+      },
+      {
+        "id": 458443218,
+        "state": "complete",
+        "round": -4,
+        "player1Id": 294973213,
+        "player2Id": 294973220,
+        "winnerId": 294973213,
+        "scoresCsv": "13-11",
+        "suggestedPlayOrder": 25
+      },
+      {
+        "id": 458443219,
+        "state": "complete",
+        "round": -4,
+        "player1Id": 294973215,
+        "player2Id": 294973209,
+        "winnerId": 294973215,
+        "scoresCsv": "14-12",
+        "suggestedPlayOrder": 26
+      },
+      {
+        "id": 458443220,
+        "state": "open",
+        "round": -5,
+        "player1Id": 294973213,
+        "player2Id": 294973215,
+        "winnerId": null,
+        "scoresCsv": "",
+        "suggestedPlayOrder": 27
+      },
+      {
+        "id": 458443221,
+        "state": "pending",
+        "round": -6,
+        "player1Id": null,
+        "player2Id": null,
+        "winnerId": null,
+        "scoresCsv": "",
+        "suggestedPlayOrder": 29
+      },
+      {
+        "id": 458443222,
+        "state": "pending",
+        "round": 5,
+        "player1Id": null,
+        "player2Id": null,
+        "winnerId": null,
+        "scoresCsv": "",
+        "suggestedPlayOrder": 30
+      },
+      {
+        "id": 458443223,
+        "state": "pending",
+        "round": 5,
+        "player1Id": null,
+        "player2Id": null,
+        "winnerId": null,
+        "scoresCsv": "",
+        "suggestedPlayOrder": 31
+      }
+    ],
+    "participants": [
+      {
+        "id": 294973206,
+        "name": "Red Viperz",
+        "seed": 1
+      },
+      {
+        "id": 294973214,
+        "name": "TEAM ASHFALL",
+        "seed": 2
+      },
+      {
+        "id": 294973218,
+        "name": "Badshah Kno Chakor",
+        "seed": 3
+      },
+      {
+        "id": 294973210,
+        "name": "Kryden",
+        "seed": 4
+      },
+      {
+        "id": 294973212,
+        "name": "Synthesizers",
+        "seed": 5
+      },
+      {
+        "id": 294973220,
+        "name": "Ryusei Tridents",
+        "seed": 6
+      },
+      {
+        "id": 294973216,
+        "name": "Surgical Strikers",
+        "seed": 7
+      },
+      {
+        "id": 294973208,
+        "name": "NAF&FELECIA",
+        "seed": 8
+      },
+      {
+        "id": 294973209,
+        "name": "Endeavour Esports",
+        "seed": 9
+      },
+      {
+        "id": 294973217,
+        "name": "NAXR ESPORTS",
+        "seed": 10
+      },
+      {
+        "id": 294973221,
+        "name": "Endeavour Phantoms",
+        "seed": 11
+      },
+      {
+        "id": 294973213,
+        "name": "Saint Esports",
+        "seed": 12
+      },
+      {
+        "id": 294973211,
+        "name": "BlackFyre",
+        "seed": 13
+      },
+      {
+        "id": 294973219,
+        "name": "Header",
+        "seed": 14
+      },
+      {
+        "id": 294973215,
+        "name": "AquaV",
+        "seed": 15
+      },
+      {
+        "id": 294973207,
+        "name": "LUNA GC",
+        "seed": 16
+      }
+    ],
+    "lastUpdated": "2026-06-08T08:10:24.254Z",
+    "activeTab": "upper"
+  },
+  "pause": {
+    "visible": false,
+    "type": "tech",
+    "teamSide": "attack"
+  },
+  "startScreen": {
+    "timer": 120,
+    "timerActive": false,
+    "videoVisible": true,
+    "videoType": "chromakey",
+    "videoUrl": ""
+  },
+  "brb": {
+    "timer": 300,
+    "timerActive": false,
+    "message": "Be Right Back"
+  },
+  "endMessage": "Thanks For Watching The Stream"
+}

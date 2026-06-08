@@ -271,8 +271,11 @@ function deepMerge(target, src) {
             if (Array.isArray(tgtVal) && tgtVal.length && tgtVal[0] && tgtVal[0].id !== undefined) {
                 for (const srcItem of srcVal) {
                     const tgtItem = tgtVal.find(x => x.id === srcItem.id);
-                    if (tgtItem) deepMerge(tgtItem, srcItem);
-                    else tgtVal.push(srcItem);
+                    if (tgtItem) {
+                        deepMerge(tgtItem, srcItem);
+                    } else if (key !== 'players') {
+                        tgtVal.push(srcItem);
+                    }
                 }
             } else {
                 target[key] = srcVal;
@@ -283,6 +286,29 @@ function deepMerge(target, src) {
         } else {
             target[key] = srcVal;
         }
+    }
+}
+
+const STATE_FILE_PATH = path.join(__dirname, 'state.json');
+
+function saveState() {
+    try {
+        fs.writeFileSync(STATE_FILE_PATH, JSON.stringify(state, null, 2), 'utf8');
+    } catch (e) {
+        console.error('[STATE] Failed to save state to state.json:', e);
+    }
+}
+
+// Load existing state from state.json on startup if available
+if (fs.existsSync(STATE_FILE_PATH)) {
+    try {
+        const loadedState = JSON.parse(fs.readFileSync(STATE_FILE_PATH, 'utf8'));
+        for (const key of Object.keys(loadedState)) {
+            state[key] = loadedState[key];
+        }
+        console.log('[STATE] Loaded existing match state from state.json');
+    } catch (e) {
+        console.error('[STATE] Error loading state.json:', e);
     }
 }
 
@@ -600,6 +626,7 @@ app.post('/api/confirm-veto', (req, res) => {
         deepMerge(state, req.body.updateState);
         checkAndApplyMapSidesSwap();
         broadcast({ _replaceTeams: { left: state.teams.left, right: state.teams.right }, match: state.match });
+        saveState();
     }
 
     res.json({ ok: true });
@@ -742,6 +769,7 @@ app.post('/api/update', (req, res) => {
     } else {
         broadcast(patch);
     }
+    saveState();
     res.json({ ok: true });
 });
 
@@ -787,6 +815,7 @@ app.post('/api/reset-round', (req, res) => {
     } else {
         broadcast(state);
     }
+    saveState();
     res.json({ ok: true, round: state.match.round, overtime: state.match.overtime });
 });
 
@@ -848,6 +877,7 @@ app.post('/api/next-round', (req, res) => {
     } else {
         broadcast(state);
     }
+    saveState();
     res.json({
         ok: true,
         round:    state.match.round,
@@ -862,6 +892,7 @@ app.post('/api/halftime', (req, res) => {
     state.match.half = 2;
 
     broadcast({ _replaceTeams: { left: state.teams.left, right: state.teams.right }, match: state.match });
+    saveState();
     res.json({ ok: true, half: 2, left: state.teams.left.side, right: state.teams.right.side });
 });
 
@@ -870,6 +901,7 @@ app.post('/api/swap-sides', (req, res) => {
     swapTeamsFull();
 
     broadcast({ _replaceTeams: { left: state.teams.left, right: state.teams.right } });
+    saveState();
     res.json({ ok: true, left: state.teams.left.side, right: state.teams.right.side });
 });
 
@@ -1024,6 +1056,7 @@ app.post('/api/bracket/sync', async (req, res) => {
         // 5. Broadcast to overlays
         broadcast({ bracket: state.bracket });
 
+        saveState();
         res.json({ ok: true, participantsCount: participants.length, matchesCount: matches.length });
     } catch (err) {
         console.error('[CHALLONGE] Sync failed:', err);
@@ -1068,6 +1101,8 @@ wss.on('connection', (ws) => {
                         client.send(JSON.stringify(data));
                     }
                 });
+
+                saveState();
             }
         } catch (err) {
             console.error('[WS] Error processing incoming client message:', err);

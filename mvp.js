@@ -16,8 +16,11 @@ function deepMerge(target, src) {
             if (Array.isArray(tgtVal) && tgtVal.length && tgtVal[0] && tgtVal[0].id !== undefined) {
                 for (const srcItem of srcVal) {
                     const tgtItem = tgtVal.find(x => x.id === srcItem.id);
-                    if (tgtItem) deepMerge(tgtItem, srcItem);
-                    else tgtVal.push(srcItem);
+                    if (tgtItem) {
+                        deepMerge(tgtItem, srcItem);
+                    } else if (key !== 'players') {
+                        tgtVal.push(srcItem);
+                    }
                 }
             } else {
                 target[key] = srcVal;
@@ -35,6 +38,11 @@ ws.onmessage = (event) => {
     try {
         const patch = JSON.parse(event.data);
         if (!patch) return;
+
+        if (patch._replaceTeams) {
+            activeState.teams = patch._replaceTeams;
+            delete patch._replaceTeams;
+        }
 
         deepMerge(activeState, patch);
 
