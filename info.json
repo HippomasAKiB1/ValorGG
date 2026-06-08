@@ -4,12 +4,30 @@
     "tag": "RVZ",
     "logoUrl": "assets/team-logo/redviperz.png",
     "players": [
-      { "name": "Kyojin", "playerImg": "assets/player-image/kyojin.jpg" },
-      { "name": "UDeaD", "playerImg": "assets/player-image/udead.jpg" },
-      { "name": "h e r m i 1", "playerImg": "assets/player-image/hermi1.jpg" },
-      { "name": "Falc", "playerImg": "assets/player-image/falc.jpg" },
-      { "name": "a", "playerImg": "assets/player-image/a.jpg" },
-      { "name": "subzero", "playerImg": "assets/player-image/subzero.jpg" }
+      {
+        "name": "Kyojin",
+        "playerImg": "assets/player-image/kyojin.jpg"
+      },
+      {
+        "name": "UDeaD",
+        "playerImg": "assets/player-image/udead.jpg"
+      },
+      {
+        "name": "h e r m i 1",
+        "playerImg": "assets/player-image/hermi1.jpg"
+      },
+      {
+        "name": "Falc",
+        "playerImg": "assets/player-image/falc.jpg"
+      },
+      {
+        "name": "a",
+        "playerImg": "assets/player-image/a.jpg"
+      },
+      {
+        "name": "subzero",
+        "playerImg": "assets/player-image/subzero.jpg"
+      }
     ]
   },
   {
@@ -17,12 +35,30 @@
     "tag": "EVE",
     "logoUrl": "assets/team-logo/eveesports.png",
     "players": [
-      { "name": "Pineapple", "playerImg": "assets/player-image/hyp3r.jpg" },
-      { "name": "Skills", "playerImg": "assets/player-image/toxic.jpg" },
-      { "name": "NECRO", "playerImg": "assets/player-image/necro.jpg" },
-      { "name": "Zoro", "playerImg": "assets/player-image/piranhahaa.jpg" },
-      { "name": "Tasnim", "playerImg": "assets/player-image/matrix.jpg" },
-      { "name": "Audacity", "playerImg": "assets/player-image/audacity.jpg" }
+      {
+        "name": "Pineapple",
+        "playerImg": "assets/player-image/hyp3r.jpg"
+      },
+      {
+        "name": "Skills",
+        "playerImg": "assets/player-image/toxic.jpg"
+      },
+      {
+        "name": "NECRO",
+        "playerImg": "assets/player-image/necro.jpg"
+      },
+      {
+        "name": "Zoro",
+        "playerImg": "assets/player-image/piranhahaa.jpg"
+      },
+      {
+        "name": "Tasnim",
+        "playerImg": "assets/player-image/matrix.jpg"
+      },
+      {
+        "name": "Audacity",
+        "playerImg": "assets/player-image/audacity.jpg"
+      }
     ]
   },
   {
@@ -30,12 +66,30 @@
     "tag": "KDN",
     "logoUrl": "assets/team-logo/kryden.jpg",
     "players": [
-      { "name": "Labeox", "playerImg": "assets/player-image/labeox.jpg" },
-      { "name": "RayLord", "playerImg": "assets/player-image/raylord.jpg" },
-      { "name": "TheZedWin", "playerImg": "assets/player-image/thezedwin.jpg" },
-      { "name": "xccuracyy", "playerImg": "assets/player-image/xcc.jpg" },
-      { "name": "Winchester", "playerImg": "assets/player-image/winchester.jpg" },
-      { "name": "infernoricFr", "playerImg": "assets/player-image/crosskill.jpg" }
+      {
+        "name": "Labeox",
+        "playerImg": "assets/player-image/labeox.jpg"
+      },
+      {
+        "name": "RayLord",
+        "playerImg": "assets/player-image/raylord.jpg"
+      },
+      {
+        "name": "TheZedWin",
+        "playerImg": "assets/player-image/thezedwin.jpg"
+      },
+      {
+        "name": "xccuracyy",
+        "playerImg": "assets/player-image/xcc.jpg"
+      },
+      {
+        "name": "Winchester",
+        "playerImg": "assets/player-image/winchester.jpg"
+      },
+      {
+        "name": "infernoricFr",
+        "playerImg": "assets/player-image/crosskill.jpg"
+      }
     ]
   },
   {
@@ -43,12 +97,30 @@
     "tag": "SAINT",
     "logoUrl": "assets/team-logo/saint.png",
     "players": [
-      { "name": "Savage", "playerImg": "assets/player-image/savage.jpg" },
-      { "name": "Doomsday", "playerImg": "assets/player-image/doomsday.jpg" },
-      { "name": "introvert", "playerImg": "assets/player-image/intro.jpg" },
-      { "name": "Pa2Z", "playerImg": "assets/player-image/pa2z.jpg" },
-      { "name": "ITZzSulphuric", "playerImg": "assets/player-image/itzzsulphuric.jpg" },
-      { "name": "N3MESiS", "playerImg": "assets/player-image/n3mesis.jpg" }
+      {
+        "name": "Savage",
+        "playerImg": "assets/player-image/savage.jpg"
+      },
+      {
+        "name": "Doomsday",
+        "playerImg": "assets/player-image/doomsday.jpg"
+      },
+      {
+        "name": "introvert",
+        "playerImg": "assets/player-image/intro.jpg"
+      },
+      {
+        "name": "Pa2Z",
+        "playerImg": "assets/player-image/pa2z.jpg"
+      },
+      {
+        "name": "ITZzSulphuric",
+        "playerImg": "assets/player-image/itzzsulphuric.jpg"
+      },
+      {
+        "name": "N3MESiS",
+        "playerImg": "assets/player-image/n3mesis.jpg"
+      }
     ]
   },
   {
@@ -56,12 +128,30 @@
     "tag": "AQV",
     "logoUrl": "assets/team-logo/aquav.png",
     "players": [
-      { "name": "kiritoo", "playerImg": "assets/player-image/kiritoo.jpg" },
-      { "name": "Levi", "playerImg": "assets/player-image/levi.jpg" },
-      { "name": "SCΛRE", "playerImg": "assets/player-image/scare.jpg" },
-      { "name": "Kneehawl", "playerImg": "assets/player-image/kneehawl.jpg" },
-      { "name": "EVE", "playerImg": "assets/player-image/eve.jpg" },
-      { "name": "amlan", "playerImg": "assets/player-image/amlan.jpg" }
+      {
+        "name": "kiritoo",
+        "playerImg": "assets/player-image/kiritoo.jpg"
+      },
+      {
+        "name": "Levi",
+        "playerImg": "assets/player-image/levi.jpg"
+      },
+      {
+        "name": "SCΛRE",
+        "playerImg": "assets/player-image/scare.jpg"
+      },
+      {
+        "name": "Kneehawl",
+        "playerImg": "assets/player-image/kneehawl.jpg"
+      },
+      {
+        "name": "EVE",
+        "playerImg": "assets/player-image/eve.jpg"
+      },
+      {
+        "name": "amlan",
+        "playerImg": "assets/player-image/amlan.jpg"
+      }
     ]
   },
   {
@@ -69,12 +159,30 @@
     "tag": "SS",
     "logoUrl": "assets/team-logo/strikers.png",
     "players": [
-      { "name": "eskayper", "playerImg": "assets/player-image/eskayper.jpg" },
-      { "name": "Nightstalker", "playerImg": "assets/player-image/nightstalker.jpg" },
-      { "name": "TempeSt", "playerImg": "assets/player-image/tempest.jpg" },
-      { "name": "WTF Sushi", "playerImg": "assets/player-image/sushi.jpg" },
-      { "name": "Compl3x", "playerImg": "assets/player-image/compl3x.jpg" },
-      { "name": "ROY7", "playerImg": "assets/player-image/roy7.jpg" }
+      {
+        "name": "eskayper",
+        "playerImg": "assets/player-image/eskayper.jpg"
+      },
+      {
+        "name": "Nightstalker",
+        "playerImg": "assets/player-image/nightstalker.jpg"
+      },
+      {
+        "name": "TempeSt",
+        "playerImg": "assets/player-image/tempest.jpg"
+      },
+      {
+        "name": "WTF Sushi",
+        "playerImg": "assets/player-image/sushi.jpg"
+      },
+      {
+        "name": "Compl3x",
+        "playerImg": "assets/player-image/compl3x.jpg"
+      },
+      {
+        "name": "ROY7",
+        "playerImg": "assets/player-image/roy7.jpg"
+      }
     ]
   },
   {
@@ -82,11 +190,26 @@
     "tag": "HDR",
     "logoUrl": "assets/team-logo/header.png",
     "players": [
-      { "name": "ไฟนอลบอส", "playerImg": "assets/player-image/finalboss.jpg" },
-      { "name": "RayXay", "playerImg": "assets/player-image/rayxay.jpg" },
-      { "name": "Genoman", "playerImg": "assets/player-image/genoman.jpg" },
-      { "name": "kayn", "playerImg": "assets/player-image/kayn.jpg" },
-      { "name": "Immature", "playerImg": "assets/player-image/immature.jpg" }
+      {
+        "name": "ไฟนอลบอส",
+        "playerImg": "assets/player-image/finalboss.jpg"
+      },
+      {
+        "name": "RayXay",
+        "playerImg": "assets/player-image/rayxay.jpg"
+      },
+      {
+        "name": "Genoman",
+        "playerImg": "assets/player-image/genoman.jpg"
+      },
+      {
+        "name": "kayn",
+        "playerImg": "assets/player-image/kayn.jpg"
+      },
+      {
+        "name": "Bayed152",
+        "playerImg": "assets/player-image/bayed152.jpg"
+      }
     ]
   },
   {
@@ -94,12 +217,30 @@
     "tag": "RST",
     "logoUrl": "assets/team-logo/ryussei.png",
     "players": [
-      { "name": "Tikka masala", "playerImg": "assets/player-image/tikkamasala.jpg" },
-      { "name": "DEMON", "playerImg": "assets/player-image/demon.jpg" },
-      { "name": "Frenzy", "playerImg": "assets/player-image/frenzy.jpg" },
-      { "name": "Dream1", "playerImg": "assets/player-image/dream1.jpg" },
-      { "name": "Goonknight", "playerImg": "assets/player-image/goonknight.jpg" },
-      { "name": "CrimsonBlaze", "playerImg": "assets/player-image/crimsonblaze.jpg" }
+      {
+        "name": "Tikka masala",
+        "playerImg": "assets/player-image/tikkamasala.jpg"
+      },
+      {
+        "name": "DEMON",
+        "playerImg": "assets/player-image/demon.jpg"
+      },
+      {
+        "name": "Frenzy",
+        "playerImg": "assets/player-image/frenzy.jpg"
+      },
+      {
+        "name": "Dream1",
+        "playerImg": "assets/player-image/dream1.jpg"
+      },
+      {
+        "name": "Goonknight",
+        "playerImg": "assets/player-image/goonknight.jpg"
+      },
+      {
+        "name": "CrimsonBlaze",
+        "playerImg": "assets/player-image/crimsonblaze.jpg"
+      }
     ]
   },
   {
@@ -107,12 +248,30 @@
     "tag": "NAF",
     "logoUrl": "assets/team-logo/naf.png",
     "players": [
-      { "name": "Felecia", "playerImg": "assets/player-image/felecia.jpg" },
-      { "name": "Adoxcol", "playerImg": "assets/player-image/adoxcol.jpg" },
-      { "name": "Srwr", "playerImg": "assets/player-image/srwr.jpg" },
-      { "name": "Subzero", "playerImg": "assets/player-image/subzero2.jpg" },
-      { "name": "bridge 4", "playerImg": "assets/player-image/bridge4.jpg" },
-      { "name": "Naefer", "playerImg": "assets/player-image/naefer.jpg" }
+      {
+        "name": "Felecia",
+        "playerImg": "assets/player-image/felecia.jpg"
+      },
+      {
+        "name": "Adoxcol",
+        "playerImg": "assets/player-image/adoxcol.jpg"
+      },
+      {
+        "name": "Srwr",
+        "playerImg": "assets/player-image/srwr.jpg"
+      },
+      {
+        "name": "Subzero",
+        "playerImg": "assets/player-image/subzero2.jpg"
+      },
+      {
+        "name": "bridge 4",
+        "playerImg": "assets/player-image/bridge4.jpg"
+      },
+      {
+        "name": "Naefer",
+        "playerImg": "assets/player-image/naefer.jpg"
+      }
     ]
   },
   {
@@ -120,11 +279,26 @@
     "tag": "SYN",
     "logoUrl": "assets/team-logo/synthesizers.png",
     "players": [
-      { "name": "Imrxn", "playerImg": "assets/player-image/imrxn.jpg" },
-      { "name": "mathabetha", "playerImg": "assets/player-image/mathabetha.jpg" },
-      { "name": "U Z I", "playerImg": "assets/player-image/uzi.jpg" },
-      { "name": "Nafiu", "playerImg": "assets/player-image/nafiu.jpg" },
-      { "name": "Draken", "playerImg": "assets/player-image/draken.jpg" }
+      {
+        "name": "Imrxn",
+        "playerImg": "assets/player-image/imrxn.jpg"
+      },
+      {
+        "name": "mathabetha",
+        "playerImg": "assets/player-image/mathabetha.jpg"
+      },
+      {
+        "name": "U Z I",
+        "playerImg": "assets/player-image/uzi.jpg"
+      },
+      {
+        "name": "Nafiu",
+        "playerImg": "assets/player-image/nafiu.jpg"
+      },
+      {
+        "name": "Draken",
+        "playerImg": "assets/player-image/draken.jpg"
+      }
     ]
   },
   {
@@ -132,12 +306,30 @@
     "tag": "NAXR",
     "logoUrl": "assets/team-logo/naxr.png",
     "players": [
-      { "name": "WIZARDBOT", "playerImg": "assets/player-image/wizardbot.jpg" },
-      { "name": "iiM1rror", "playerImg": "assets/player-image/iim1rror.jpg" },
-      { "name": "Ayuht", "playerImg": "assets/player-image/ayuht.jpg" },
-      { "name": "Lesser", "playerImg": "assets/player-image/lesser.jpg" },
-      { "name": "REX", "playerImg": "assets/player-image/rex.jpg" },
-      { "name": "ARAFAT", "playerImg": "assets/player-image/arafat.jpg" }
+      {
+        "name": "WIZARDBOT",
+        "playerImg": "assets/player-image/wizardbot.jpg"
+      },
+      {
+        "name": "iiM1rror",
+        "playerImg": "assets/player-image/iim1rror.jpg"
+      },
+      {
+        "name": "Ayuht",
+        "playerImg": "assets/player-image/ayuht.jpg"
+      },
+      {
+        "name": "Lesser",
+        "playerImg": "assets/player-image/lesser.jpg"
+      },
+      {
+        "name": "REX",
+        "playerImg": "assets/player-image/rex.jpg"
+      },
+      {
+        "name": "ARAFAT",
+        "playerImg": "assets/player-image/arafat.jpg"
+      }
     ]
   },
   {
@@ -145,12 +337,30 @@
     "tag": "EVP",
     "logoUrl": "assets/team-logo/evephantoms.png",
     "players": [
-      { "name": "Franklin", "playerImg": "assets/player-image/franklin.jpg" },
-      { "name": "AponQT", "playerImg": "assets/player-image/aponqt.jpg" },
-      { "name": "MightyLoser", "playerImg": "assets/player-image/mightyloser.jpg" },
-      { "name": "Sangriento", "playerImg": "assets/player-image/sangriento.jpg" },
-      { "name": "ShadoW", "playerImg": "assets/player-image/shadow.jpg" },
-      { "name": "MoriChiKa", "playerImg": "assets/player-image/morichika.jpg" }
+      {
+        "name": "Franklin",
+        "playerImg": "assets/player-image/franklin.jpg"
+      },
+      {
+        "name": "AponQT",
+        "playerImg": "assets/player-image/aponqt.jpg"
+      },
+      {
+        "name": "MightyLoser",
+        "playerImg": "assets/player-image/mightyloser.jpg"
+      },
+      {
+        "name": "Sangriento",
+        "playerImg": "assets/player-image/sangriento.jpg"
+      },
+      {
+        "name": "ShadoW",
+        "playerImg": "assets/player-image/shadow.jpg"
+      },
+      {
+        "name": "MoriChiKa",
+        "playerImg": "assets/player-image/morichika.jpg"
+      }
     ]
   }
 ]
