@@ -21,6 +21,7 @@
             <span class="status-text" id="status-text">Connecting…</span>
             <button class="btn btn-gold" onclick="resetRound()">🔄 Reset Round</button>
             <button class="btn btn-outline" onclick="swapSides()">↔️ Swap Sides</button>
+            <button class="btn btn-outline" onclick="syncActiveRosters()">🔄 Sync Rosters</button>
         </div>
     </header>
 
@@ -1512,6 +1513,82 @@
                 populateRosterDropdowns();
             } catch (e) {
                 console.error('Failed to load rosters list', e);
+            }
+        }
+
+        async function syncActiveRosters() {
+            try {
+                const res = await fetch('/api/rosters');
+                rostersList = await res.json();
+                populateRosterDropdowns();
+
+                let updatedAny = false;
+                const updatePayload = { teams: {} };
+
+                ['left', 'right'].forEach(side => {
+                    const currentTeamName = localState?.teams?.[side]?.name;
+                    if (!currentTeamName) return;
+
+                    const freshTeam = rostersList.find(t => t.name === currentTeamName);
+                    if (!freshTeam) return;
+
+                    updatedAny = true;
+                    const logoUrl = freshTeam.logoUrl || '';
+                    const rosterPlayers = freshTeam.players || [];
+
+                    localState.teams[side].roster = rosterPlayers;
+                    localState.teams[side].tag = freshTeam.tag || '';
+                    localState.teams[side].logoUrl = logoUrl;
+
+                    const tagInput = document.getElementById(`f-${side}-tag`);
+                    if (tagInput && document.activeElement !== tagInput) {
+                        tagInput.value = freshTeam.tag || '';
+                    }
+
+                    const logoSelect = document.getElementById(`f-${side}-logo`);
+                    if (logoSelect) {
+                        let exists = false;
+                        for (let o of logoSelect.options) {
+                            if (o.value === logoUrl) { exists = true; break; }
+                        }
+                        if (!exists && logoUrl) {
+                            const opt = document.createElement('option');
+                            opt.value = logoUrl;
+                            opt.textContent = logoUrl + ' (default)';
+                            logoSelect.appendChild(opt);
+                        }
+                        logoSelect.value = logoUrl;
+                    }
+
+                    const startingPlayers = localState.teams[side].players;
+                    startingPlayers.forEach((p, idx) => {
+                        const rosterMember = rosterPlayers[idx] || { name: 'Player ' + (idx + 1), playerImg: '' };
+                        p.name = rosterMember.name;
+                        p.playerImg = rosterMember.playerImg || '';
+                    });
+
+                    updatePayload.teams[side] = {
+                        name: freshTeam.name,
+                        tag: freshTeam.tag || '',
+                        logoUrl: logoUrl,
+                        roster: rosterPlayers,
+                        players: startingPlayers
+                    };
+                });
+
+                if (updatedAny) {
+                    await pushUpdate(updatePayload);
+                    renderPlayers('left');
+                    renderPlayers('right');
+                    populateWinnerMvpPanel();
+                    renderAgentSelection();
+                    alert('Active team rosters successfully synchronized with latest info.json data!');
+                } else {
+                    alert('No active teams match the names in the rosters list.');
+                }
+            } catch (e) {
+                console.error('Failed to sync rosters:', e);
+                alert('Failed to sync rosters: ' + e.message);
             }
         }
 
