@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ValorGG // Fun Overlay Controller Dashboard</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #0a0d12;
+            --bg-card: rgba(16, 22, 32, 0.65);
+            --border: rgba(255, 255, 255, 0.08);
+            --gold: #e8b84b;
+            --red: #ff4655;
+            --green: #00ff66;
+            --cyan: #00f3ff;
+            --text-main: #ffffff;
+            --text-muted: #abb8c7;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-page);
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 243, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 70, 85, 0.05) 0%, transparent 40%);
+        }
+
+        .dashboard-container {
+            width: 900px;
+            box-sizing: border-box;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 24px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #fff 30%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-status {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 13px;
+            color: var(--green);
+            background: rgba(0, 255, 102, 0.1);
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 255, 102, 0.2);
+        }
+
+        /* ── GRID LAYOUT ── */
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-card {
+            background: rgba(10, 13, 18, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            transition: all 0.3s;
+        }
+
+        .indicator-dot.active {
+            background: var(--green);
+            box-shadow: 0 0 10px var(--green);
+        }
+
+        /* ── BUTTON STYLING ── */
+        .btn-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-draw {
+            background: var(--cyan);
+            color: #05070a;
+        }
+
+        .btn-draw:hover {
+            background: #ffffff;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+        }
+
+        .btn-erase {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-erase:hover {
+            background: var(--red);
+            border-color: var(--red);
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 70, 85, 0.4);
+        }
+
+        /* ── BOARD GLOBAL RESET SECTION ── */
+        .global-section {
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-reset-board {
+            flex: 2;
+            background: rgba(255, 70, 85, 0.1);
+            border: 1px solid var(--red);
+            color: var(--red);
+        }
+
+        .btn-reset-board:hover {
+            background: var(--red);
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 70, 85, 0.5);
+        }
+
+        .btn-draw-all {
+            flex: 3;
+            background: linear-gradient(135deg, var(--gold) 0%, #d4af37 100%);
+            color: #0a0d12;
+        }
+
+        .btn-draw-all:hover {
+            background: #ffffff;
+            color: #0a0d12;
+            box-shadow: 0 0 20px rgba(232, 184, 75, 0.5);
+        }
+
+        /* ── LIVE PREVIEW DATA SCREEN ── */
+        .data-preview-pane {
+            margin-top: 30px;
+            background: rgba(5, 7, 10, 0.65);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 24px;
+        }
+
+        .preview-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .preview-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 15px;
+            color: var(--gold);
+        }
+
+        .preview-item span {
+            color: #ffffff;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <header>
+            <h1>HANDWRITTEN SCOREBOARD CONTROL</h1>
+            <div class="header-status">SYSTEM ACTIVE</div>
+        </header>
+
+        <main>
+            <!-- Module Draw Triggers -->
+            <div class="controls-grid">
+                
+                <!-- Team Names Card -->
+                <div class="control-card">
+                    <div class="card-header">
+                        <span class="card-title">Team Names</span>
+                        <div class="indicator-dot" id="dot-names"></div>
+                    </div>
+                    <div class="btn-stack">
+                        <button class="btn-draw" onclick="updateOverlay2State('writeNames', true)">Draw Names</button>
+                        <button class="btn-erase" onclick="updateOverlay2State('writeNames', false)">Erase Names</button>
+                    </div>
+                </div>
+
+                <!-- Scoreboard Card -->
+                <div class="control-card">
+                    <div class="card-header">
+                        <span class="card-title">Scoreboard</span>
+                        <div class="indicator-dot" id="dot-scores"></div>
+                    </div>
+                    <div class="btn-stack">
+                        <button class="btn-draw" onclick="updateOverlay2State('writeScores', true)">Draw Scores</button>
+                        <button class="btn-erase" onclick="updateOverlay2State('writeScores', false)">Erase Scores</button>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <!-- Global Actions -->
+            <div class="global-section">
+                <button class="btn-reset-board" onclick="resetOverlayBoard()">Erase All Board</button>
+                <button class="btn-draw-all" onclick="drawAllSequential()">Draw All (Sequential)</button>
+            </div>
+
+            <!-- Live State Data Preview -->
+            <div class="data-preview-pane">
+                <div class="preview-title">TELEMETRY PREVIEW (State feed)</div>
+                <div class="preview-grid">
+                    <div class="preview-item">
+                        <span>LEFT TEAM:</span> <strong id="lbl-left-team">---</strong>
+                    </div>
+                    <div class="preview-item">
+                        <span>SCORE:</span> <strong id="lbl-score">0 - 0</strong>
+                    </div>
+                    <div class="preview-item">
+                        <span>RIGHT TEAM:</span> <strong id="lbl-right-team">---</strong>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+
+    <script src="admin-fun.js"></script>
+</body>
+</html>

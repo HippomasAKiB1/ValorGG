@@ -1,0 +1,633 @@
+/* caster2.css — Ultra Premium cybernetic Caster Desk HUD Overlay */
+
+:root {
+    --bg-darker:  rgba(6, 8, 12, 0.96);
+    --bg-lighter: rgba(14, 18, 25, 0.88);
+    --gold:       #e8b84b;
+    --red:        #ff4655;
+    --cyan:       #00f3ff;
+    --green-led:  #00ff66;
+    --border:     rgba(255, 255, 255, 0.08);
+    --border-glow: rgba(0, 243, 255, 0.2);
+    --text-main:  #ffffff;
+    --text-muted: #94a3b8;
+    --font-cond:  'Barlow Condensed', sans-serif;
+    --font-tech:  'Orbitron', sans-serif;
+    --font-mono:  'Share Tech Mono', monospace;
+    --font-sans:  'Outfit', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 1920px;
+    height: 1080px;
+    background: transparent !important;
+    overflow: hidden;
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ──────────────────────────────────────────────────────────
+   1. VISUAL FX OVERLAYS (Scanlines, Glitches & Vignettes)
+   ────────────────────────────────────────────────────────── */
+.broadcast-overlay-fx {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    pointer-events: none;
+    z-index: 99;
+    background: 
+        radial-gradient(circle, transparent 50%, rgba(3, 5, 8, 0.4) 100%),
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04));
+    background-size: 100% 100%, 100% 4px, 100% 100%;
+}
+
+
+
+/* ──────────────────────────────────────────────────────────
+   2. WRAPPER & HOLOGRAM LAYERS
+   ────────────────────────────────────────────────────────── */
+.caster-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.caster-viewport {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    z-index: 2;
+}
+
+/* Hologram background structures */
+.bg-hologram-grid {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1720px;
+    height: 800px;
+    opacity: 0.15;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center;
+    mask-image: radial-gradient(circle, black 40%, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle, black 40%, transparent 80%);
+    pointer-events: none;
+}
+
+.bg-cyber-rings {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px;
+    height: 900px;
+    opacity: 0.06;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-cyber-rings .ring {
+    position: absolute;
+    border: 2px dashed var(--cyan);
+    border-radius: 50%;
+}
+
+.bg-cyber-rings .ring-outer {
+    width: 800px;
+    height: 800px;
+    animation: rotateCW 40s linear infinite;
+}
+
+.bg-cyber-rings .ring-inner {
+    width: 600px;
+    height: 600px;
+    border: 1px dashed var(--red);
+    animation: rotateCCW 25s linear infinite;
+}
+
+@keyframes rotateCW {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes rotateCCW {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* ──────────────────────────────────────────────────────────
+   3. DYNAMIC HUD HEADER
+   ────────────────────────────────────────────────────────── */
+.caster-header {
+    position: absolute;
+    top: 35px;
+    left: 80px;
+    right: 80px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(6, 8, 12, 0.90);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 8px;
+    padding: 0 40px;
+    animation: headerIntro 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.header-logo-left, .header-logo-right {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.header-logo-right {
+    justify-content: flex-end;
+}
+
+.header-logo-left img {
+    height: 100%;
+    max-height: 60px;
+    object-fit: contain;
+}
+
+.header-logo-right img {
+    height: 100%;
+    max-height: 60px;
+    object-fit: contain;
+    transform: scale(2.2);
+    transform-origin: right center;
+}
+
+.header-center-info {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex: 2;
+}
+
+.header-center-info .v-event {
+    font-family: var(--font-cond);
+    font-size: 28px;
+    font-weight: 900;
+    margin: 0;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, #ffffff 40%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.header-center-info .header-scene {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-tech);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+}
+
+.scene-glow-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--red);
+    animation: flash 1.5s infinite;
+}
+
+@keyframes flash {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+@keyframes headerIntro {
+    0% { opacity: 0; transform: translateY(-30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ──────────────────────────────────────────────────────────
+   5. CENTRAL VIEWPORT & PREMIUM CASTER PORTRAITS
+   ────────────────────────────────────────────────────────── */
+.caster-grid-container {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 70px;
+    justify-content: center;
+    align-items: center;
+    width: 1440px;
+    height: 640px;
+    z-index: 8;
+}
+
+/* Premium Slanted Card Chassis */
+.caster-chassis {
+    position: relative;
+    width: 440px;
+    height: 570px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    
+    /* Animation Stagger */
+    animation: chassisEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes chassisEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(70px) scale(0.96);
+        filter: blur(8px) brightness(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0) brightness(1);
+    }
+}
+
+/* Futuristic Polygonal Glass Panel */
+.caster-glass-panel {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(6, 8, 12, 0.98) 0%, rgba(15, 23, 42, 0.90) 100%);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    
+    /* Precise Double Slanted Hex Shape */
+    clip-path: polygon(0 0, calc(100% - 35px) 0, 100% 35px, 100% 100%, 35px 100%, 0 calc(100% - 35px));
+    
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 
+        0 40px 100px rgba(0, 0, 0, 0.85),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    z-index: 1;
+}
+
+/* Glowing Accent Border Wrappers */
+.caster-chassis::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--red) 50%, var(--cyan) 100%);
+    z-index: 0;
+    clip-path: polygon(0 0, calc(100% - 35px) 0, 100% 35px, 100% 100%, 35px 100%, 0 calc(100% - 35px));
+    opacity: 0.45;
+    transition: opacity 0.5s ease;
+}
+
+.caster-chassis:hover::before {
+    opacity: 1;
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.4);
+}
+
+/* Tech Grid Pattern on Card Background */
+.caster-panel-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: 2;
+    pointer-events: none;
+    clip-path: polygon(0 0, calc(100% - 35px) 0, 100% 35px, 100% 100%, 35px 100%, 0 calc(100% - 35px));
+}
+
+/* Image Container */
+.caster-frame-viewport {
+    position: relative;
+    width: calc(100% - 30px);
+    height: 380px;
+    margin: 15px auto 0 auto;
+    overflow: hidden;
+    z-index: 3;
+    background: rgba(10, 13, 18, 0.8);
+    clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 25px 100%, 0 calc(100% - 25px));
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.caster-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.caster-chassis:hover .caster-avatar {
+    transform: scale(1.06) translateY(2px);
+}
+
+/* Sci-fi Overlay Scan and Vignette on Image */
+.caster-frame-viewport::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(6, 8, 12, 0.8) 100%);
+    pointer-events: none;
+    z-index: 4;
+}
+
+/* Dynamic Holographic Scan Line Inside Image Box */
+.caster-laser-scanner {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--cyan);
+    box-shadow: 0 0 10px var(--cyan);
+    opacity: 0;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.caster-chassis:hover .caster-laser-scanner {
+    animation: cardScan 2s ease-in-out infinite;
+    opacity: 0.8;
+}
+
+@keyframes cardScan {
+    0% { top: 0%; }
+    50% { top: 100%; }
+    100% { top: 0%; }
+}
+
+/* ──────────────────────────────────────────────────────────
+   6. METRIC DATA OVERLAYS (Audio waveforms & status chips)
+   ────────────────────────────────────────────────────────── */
+.caster-hud-metrics {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 6;
+    pointer-events: none;
+}
+
+/* Status Chip */
+.status-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(6, 8, 12, 0.7);
+    border: 1px solid rgba(0, 255, 102, 0.3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--green-led);
+    letter-spacing: 1px;
+}
+
+.status-led {
+    width: 5px;
+    height: 5px;
+    background: var(--green-led);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--green-led);
+    animation: pulseGlow 1.2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* Equalizer Bouncing Waveform */
+.audio-waves-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 14px;
+    background: rgba(6, 8, 12, 0.7);
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audio-bar {
+    width: 2px;
+    height: 100%;
+    background: var(--cyan);
+    border-radius: 1px;
+    transform-origin: bottom;
+    animation: bounceAudio 1s ease-in-out infinite alternate;
+}
+
+.audio-bar:nth-child(1) { animation-duration: 0.4s; height: 30%; }
+.audio-bar:nth-child(2) { animation-duration: 0.7s; height: 60%; }
+.audio-bar:nth-child(3) { animation-duration: 0.5s; height: 80%; }
+.audio-bar:nth-child(4) { animation-duration: 0.8s; height: 40%; }
+.audio-bar:nth-child(5) { animation-duration: 0.6s; height: 90%; }
+
+@keyframes bounceAudio {
+    0% { transform: scaleY(0.25); }
+    100% { transform: scaleY(1); }
+}
+
+/* ──────────────────────────────────────────────────────────
+   7. INFO STACK (Text layout & social metrics)
+   ────────────────────────────────────────────────────────── */
+.caster-details-body {
+    position: relative;
+    z-index: 5;
+    box-sizing: border-box;
+    padding: 20px 25px 25px 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.role-tag-container {
+    margin-bottom: 6px;
+}
+
+.badge-role {
+    font-family: var(--font-tech);
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    background: rgba(255, 70, 85, 0.08);
+    border: 1px solid rgba(255, 70, 85, 0.3);
+    padding: 3px 12px;
+    border-radius: 2px;
+    display: inline-block;
+    text-shadow: 0 0 8px rgba(255, 70, 85, 0.4);
+}
+
+.caster-card-name {
+    font-family: var(--font-cond);
+    font-size: 40px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-main);
+    line-height: 1;
+    margin: 4px 0 10px 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.caster-card-social {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--gold);
+    opacity: 0.95;
+}
+
+.caster-x-logo {
+    width: 13px;
+    height: 13px;
+    fill: var(--gold);
+    box-shadow: 0 0 5px rgba(232, 184, 75, 0.3);
+}
+
+/* ──────────────────────────────────────────────────────────
+   8. DUAL-STAGE RUNNING METRIC FOOTER
+   ────────────────────────────────────────────────────────── */
+.caster-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 1920px;
+    height: 70px;
+    background: rgba(4, 5, 8, 0.98);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.9);
+    animation: footerIntro 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.footer-sidebar {
+    width: 140px;
+    height: 100%;
+    background: linear-gradient(135deg, var(--red) 0%, #b91c1c 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 10px 0 30px rgba(255, 70, 85, 0.15);
+    flex-shrink: 0;
+}
+
+.footer-sidebar .footer-logo {
+    font-family: var(--font-tech);
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--text-main);
+    letter-spacing: 2px;
+}
+
+.footer-sidebar .footer-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 3px;
+    margin-top: 2px;
+    text-transform: uppercase;
+}
+
+.ticker-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 1780px;
+    height: 100%;
+    overflow: hidden;
+    padding: 0 30px;
+    box-sizing: border-box;
+}
+
+.ticker-wrap {
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.ticker-scroll {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: footerTickerScroll 36s linear infinite;
+    gap: 65px;
+    font-family: var(--font-cond);
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+}
+
+.tech-divider {
+    color: var(--gold);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 900;
+    text-shadow: 0 0 6px rgba(232, 184, 75, 0.4);
+}
+
+@keyframes footerTickerScroll {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes footerIntro {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade in animation helper */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}

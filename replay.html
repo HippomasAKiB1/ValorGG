@@ -3,90 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VCT Replay Overlay</title>
+    <title>VCT Replay Overlay // Official VCT Style</title>
+    <!-- Google Fonts: Barlow Condensed for the exact VCT heavy italic font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,800;0,900;1,900&family=Barlow:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="replay.css">
 </head>
 <body>
 
     <div class="replay-wrapper" id="replay-wrapper">
-        <!-- Top-Left Corner Accent (L-Shape Shutter Frame & Cyan Starburst) -->
-        <div class="replay-corner-accent">
-            <svg class="accent-starburst" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <!-- Yellow L-shape border framing hugging the screen edge -->
-                <polygon points="0,0 200,0 180,18 20,18 18,180 0,200" fill="#ece81a" stroke="#000000" stroke-width="4.5" stroke-linejoin="miter" />
-                
-                <!-- Core black corner backing notch -->
-                <polygon points="0,0 80,0 0,80" fill="#000000" />
-                
-                <!-- Giant cyan VCT starburst radiating from top-left corner -->
-                <path d="M 18,18 L 38,50 L 160,22 L 60,60 L 180,180 L 60,78 L 22,160 L 45,45 Z" 
-                      fill="#00f3c6" stroke="#000000" stroke-width="4.5" stroke-linejoin="bevel" />
-                
-                <!-- Inner white highlight for realistic depth -->
-                <path d="M 23,23 L 34,44 L 115,24 L 54,54 L 140,140 L 54,68 L 24,115 L 40,40 Z" 
-                      fill="#ffffff" opacity="0.65" />
-            </svg>
-        </div>
+        <!-- CRT Scanline & Screen Vignette Overlay -->
+        <div class="replay-scanlines"></div>
+        <div class="replay-vignette"></div>
 
-        <!-- Bottom-Right Angled VCT REPLAY! Banner -->
-        <div class="replay-banner-container">
-            <div class="replay-banner-subcontainer">
-                <!-- Unified Background SVG (draws continuous outer borders, ticker separators, and watermarked background) -->
-                <svg class="banner-bg-svg" viewBox="0 0 560 185" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <pattern id="watermark" width="40" height="40" patternUnits="userSpaceOnUse">
-                            <g fill="#d4cf11" fill-opacity="0.25">
-                                <polygon points="0,0 10,0 0,10" />
-                                <polygon points="20,0 30,0 20,10" />
-                                <polygon points="10,10 20,10 10,20" />
-                                <polygon points="30,10 40,10 30,20" />
-                                <polygon points="0,20 10,20 0,30" />
-                                <polygon points="20,20 30,20 20,30" />
-                                <polygon points="10,30 20,30 10,40" />
-                                <polygon points="30,30 40,30 30,40" />
-                            </g>
-                        </pattern>
-                    </defs>
-                    <!-- Outer Black Background (Outlines the entire slanted shape) -->
-                    <polygon points="100,0 560,0 560,185 0,185" fill="#000000" />
-                    
-                    <!-- Inner Yellow Background (Matches the ticker and main banner) -->
-                    <polygon points="102.3,5 555,5 555,180 7.7,180" fill="#ece81a" />
-                    
-                    <!-- Checkered Watermark Overlay (Only on the main banner area, Y = 35 to 180) -->
-                    <polygon points="85,35 555,35 555,180 7.7,180" fill="url(#watermark)" />
-                    
-                    <!-- Black Horizontal Separator Bar (At Y = 30 to 35) -->
-                    <polygon points="83.8,30 560,30 560,35 81.1,35" fill="#000000" />
-                </svg>
-
-                <!-- Floating HTML Content Layers -->
-                <!-- 1. Scrolling Ticker (top 30px, clipped locally) -->
-                <div class="replay-banner-ticker">
-                    <span class="ticker-text" id="replay-ticker-text">
-                        ✦ WarCities://Valorant Pro Series Season 1 ✦ WarCities://Valorant Pro Series Season 1 ✦ WarCities://Valorant Pro Series Season 1 ✦ WarCities://Valorant Pro Series Season 1 ✦
-                    </span>
-                </div>
-                
-                <!-- 2. Main REPLAY Content (bottom 155px, fully unclipped to preserve outlines & shadows) -->
-                <div class="replay-banner-content-wrapper">
-                    <div class="replay-banner-content">
-                        <h1 class="replay-text">REPLAY</h1>
-                        <div class="replay-cyan-accent">
-                            <!-- Custom cyan VCT Exclamation Point (!) -->
-                            <svg class="cyan-exclamation" viewBox="0 0 35 110" xmlns="http://www.w3.org/2000/svg">
-                                <polygon points="5,0 30,0 20,70 2,70" fill="#00f3c6" stroke="#000000" stroke-width="4.5" stroke-linejoin="miter" />
-                                <polygon points="12,5 24,5 16,65 7,65" fill="#ffffff" opacity="0.75" />
-                                <polygon points="4,85 22,85 18,103 0,103" fill="#00f3c6" stroke="#000000" stroke-width="4.5" stroke-linejoin="miter" />
-                                <polygon points="8,89 16,89 14,99 6,99" fill="#ffffff" opacity="0.75" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Single Unified Full-Screen SVG for perfect vector seams & clean VCT shapes -->
+        <svg class="vct-vector-canvas" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+            <!-- Left Frame Group (12px thin borders with chamfers and notches) -->
+            <g class="vct-group-left">
+                <path class="vct-frame-shape" d="M 450,2 L 438,14 L 180,14 L 168,26 L 87,26 L 75,14 L 14,14 L 14,120 L 26,132 L 26,208 L 14,220 L 14,860 L 26,872 L 26,948 L 14,960 L 14,1066 L 75,1066 L 87,1054 L 168,1054 L 180,1066 L 450,1066 L 438,1078 L 14,1078 L 2,1066 L 2,14 L 14,2 Z" />
+            </g>
+            
+            <!-- Right Frame Group (Path + Text animated together as a single unit - scaled down REPLAY console) -->
+            <g class="vct-group-right">
+                <path class="vct-frame-shape" d="M 1470,2 L 1906,2 L 1918,14 L 1918,120 L 1906,132 L 1906,208 L 1918,220 L 1918,960 L 1918,1078 L 1900,1078 L 1900,1066 L 1870,1066 L 1870,1078 L 418,1078 L 418,1066 L 1508,1066 L 1580,960 L 1605,960 L 1605,975 L 1635,975 L 1635,960 L 1906,960 L 1906,220 L 1894,208 L 1894,132 L 1906,120 L 1906,14 L 1845,14 L 1833,26 L 1752,26 L 1740,14 L 1500,14 L 1470,2 Z" />
+                <text x="1750" y="1046" class="vct-text-replay">REPLAY</text>
+            </g>
+        </svg>
     </div>
 
     <script src="replay.js"></script>

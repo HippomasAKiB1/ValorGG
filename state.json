@@ -1,7 +1,7 @@
 {
   "match": {
     "tournament": "WarCities://Valorant Pro Series",
-    "subHeading": "Winners Final",
+    "subHeading": "GRAND FINALE",
     "bestOf": 3,
     "round": 1,
     "timer": 100,
@@ -29,7 +29,7 @@
         "team": "right",
         "defense": "left",
         "attack": "right",
-        "status": "completed",
+        "status": "current",
         "score": "13-3"
       },
       {
@@ -38,7 +38,7 @@
         "team": "left",
         "defense": "right",
         "attack": "left",
-        "status": "completed",
+        "status": "upcoming",
         "score": "3-13"
       },
       {
@@ -57,146 +57,64 @@
         "team": null,
         "defense": "left",
         "attack": "right",
-        "status": "current"
+        "status": "upcoming"
       }
     ]
   },
   "teams": {
     "left": {
-      "name": "Header",
-      "tag": "HDR",
+      "name": "Saint Esports",
+      "tag": "SNT",
       "score": 0,
-      "logoUrl": "assets/team-logo/header.png",
+      "logoUrl": "assets/team-logo/saint.png",
       "side": "attack",
       "roundWins": [],
       "lossStreak": 0,
       "players": [
         {
           "id": "p1",
-          "name": "ไฟนอลบอส",
-          "agent": "Astra",
-          "agentLocked": true,
+          "name": "Savage",
+          "agent": "",
+          "agentLocked": false,
           "alive": true,
-          "agentImg": "/assets/agent/astra.webp",
-          "playerImg": "assets/player-image/finalboss.jpg"
+          "agentImg": "",
+          "playerImg": "assets/player-image/savage.jpg"
         },
         {
           "id": "p2",
-          "name": "RayXay",
-          "agent": "Waylay",
-          "agentLocked": true,
+          "name": "Doomsday",
+          "agent": "",
+          "agentLocked": false,
           "alive": true,
-          "agentImg": "/assets/agent/waylay.webp",
-          "playerImg": "assets/player-image/rayxay.jpg"
+          "agentImg": "",
+          "playerImg": "assets/player-image/doomsday.jpg"
         },
         {
           "id": "p3",
-          "name": "Genoman",
-          "agent": "Viper",
-          "agentLocked": true,
+          "name": "introvert",
+          "agent": "",
+          "agentLocked": false,
           "alive": true,
-          "agentImg": "/assets/agent/viper.webp",
-          "playerImg": "assets/player-image/genoman.jpg"
+          "agentImg": "",
+          "playerImg": "assets/player-image/intro.jpg"
         },
         {
           "id": "p4",
-          "name": "kayn",
-          "agent": "Vyse",
-          "agentLocked": true,
+          "name": "Pa2Z",
+          "agent": "",
+          "agentLocked": false,
           "alive": true,
-          "agentImg": "/assets/agent/vyse.webp",
-          "playerImg": "assets/player-image/kayn.jpg"
+          "agentImg": "",
+          "playerImg": "assets/player-image/pa2z.jpg"
         },
         {
           "id": "p5",
-          "name": "Immature",
-          "agent": "Raze",
-          "agentLocked": true,
+          "name": "ITZzSulphuric",
+          "agent": "",
+          "agentLocked": false,
           "alive": true,
-          "agentImg": "/assets/agent/raze.webp",
-          "playerImg": "assets/player-image/immature.jpg"
-        }
-      ],
-      "roster": [
-        {
-          "name": "Tikka masala",
-          "playerImg": "assets/player-image/tikkamasala.jpg"
-        },
-        {
-          "name": "DEMON",
-          "playerImg": "assets/player-image/demon.jpg"
-        },
-        {
-          "name": "Frenzy",
-          "playerImg": "assets/player-image/frenzy.jpg"
-        },
-        {
-          "name": "Dream1",
-          "playerImg": "assets/player-image/dream1.jpg"
-        },
-        {
-          "name": "Goonknight",
-          "playerImg": "assets/player-image/goonknight.jpg"
-        },
-        {
-          "name": "CrimsonBlaze",
-          "playerImg": "assets/player-image/crimsonblaze.jpg"
-        }
-      ]
-    },
-    "right": {
-      "name": "Red Viperz",
-      "tag": "RVZ",
-      "score": 0,
-      "logoUrl": "assets/team-logo/redviperz.png",
-      "side": "defense",
-      "roundWins": [],
-      "lossStreak": 0,
-      "players": [
-        {
-          "id": "p6",
-          "name": "Kyojin",
-          "agent": "Brimstone",
-          "agentLocked": true,
-          "alive": true,
-          "agentImg": "/assets/agent/brimstone.webp",
-          "playerImg": "assets/player-image/kyojin.jpg"
-        },
-        {
-          "id": "p7",
-          "name": "UDeaD",
-          "agent": "Vyse",
-          "agentLocked": true,
-          "alive": true,
-          "agentImg": "/assets/agent/vyse.webp",
-          "playerImg": "assets/player-image/udead.jpg"
-        },
-        {
-          "id": "p8",
-          "name": "h e r m i 1",
-          "agent": "Phoenix",
-          "agentLocked": true,
-          "alive": true,
-          "agentImg": "/assets/agent/phoenix.webp",
-          "playerImg": "assets/player-image/hermi1.jpg"
-        },
-        {
-          "id": "p9",
-          "name": "Falc",
-          "agent": "Waylay",
-          "agentLocked": true,
-          "alive": true,
-          "agentImg": "/assets/agent/waylay.webp",
-          "playerImg": "assets/player-image/falc.jpg"
-        },
-        {
-          "id": "p10",
-          "name": "a",
-          "agent": "Yoru",
-          "agentLocked": true,
-          "alive": true,
-          "agentImg": "/assets/agent/yoru.webp",
-          "playerImg": "assets/player-image/a.jpg"
+          "agentImg": "",
+          "playerImg": "assets/player-image/itzzsulphuric.jpg"
         }
       ],
       "roster": [
@@ -223,6 +141,88 @@
         {
           "name": "N3MESiS",
           "playerImg": "assets/player-image/n3mesis.jpg"
+        }
+      ]
+    },
+    "right": {
+      "name": "Red Viperz",
+      "tag": "RVZ",
+      "score": 0,
+      "logoUrl": "assets/team-logo/redviperz.png",
+      "side": "defense",
+      "roundWins": [],
+      "lossStreak": 0,
+      "players": [
+        {
+          "id": "p6",
+          "name": "Kyojin",
+          "agent": "",
+          "agentLocked": false,
+          "alive": true,
+          "agentImg": "",
+          "playerImg": "assets/player-image/kyojin.png"
+        },
+        {
+          "id": "p7",
+          "name": "UDeaD",
+          "agent": "",
+          "agentLocked": false,
+          "alive": true,
+          "agentImg": "",
+          "playerImg": "assets/player-image/udead.png"
+        },
+        {
+          "id": "p8",
+          "name": "h e r m i 1",
+          "agent": "",
+          "agentLocked": false,
+          "alive": true,
+          "agentImg": "",
+          "playerImg": "assets/player-image/hermi1.png"
+        },
+        {
+          "id": "p9",
+          "name": "Falc",
+          "agent": "",
+          "agentLocked": false,
+          "alive": true,
+          "agentImg": "",
+          "playerImg": "assets/player-image/falc.png"
+        },
+        {
+          "id": "p10",
+          "name": "a",
+          "agent": "",
+          "agentLocked": false,
+          "alive": true,
+          "agentImg": "",
+          "playerImg": "assets/player-image/a.png"
+        }
+      ],
+      "roster": [
+        {
+          "name": "Kyojin",
+          "playerImg": "assets/player-image/kyojin.png"
+        },
+        {
+          "name": "UDeaD",
+          "playerImg": "assets/player-image/udead.png"
+        },
+        {
+          "name": "h e r m i 1",
+          "playerImg": "assets/player-image/hermi1.png"
+        },
+        {
+          "name": "Falc",
+          "playerImg": "assets/player-image/falc.png"
+        },
+        {
+          "name": "a",
+          "playerImg": "assets/player-image/a.png"
+        },
+        {
+          "name": "subzero",
+          "playerImg": "assets/player-image/subzero.png"
         }
       ]
     }
@@ -253,7 +253,7 @@
     "customNote": ""
   },
   "replay": {
-    "visible": false
+    "visible": true
   },
   "bracket": {
     "apiKey": "ce87ca15cc3116e69955ccc472f53b492ef81071dd3d0ae6",
@@ -694,5 +694,10 @@
     "scoreboardImage": "",
     "mvpNote": "",
     "topAcs": ""
+  },
+  "overlay2": {
+    "writeNames": true,
+    "writeScores": true,
+    "writeMaps": false
   }
 }

@@ -258,6 +258,11 @@ const state = {
         scoreboardImage: '',
         mvpNote: '',
         topAcs: ''
+    },
+    overlay2: {
+        writeNames: false,
+        writeScores: false,
+        writeMaps: false
     }
 };
 
@@ -399,7 +404,7 @@ app.use(express.json());
 // Secures the admin control panel, challonge credentials, and all state-modifying POST requests
 app.use((req, res, next) => {
     const isDestructiveApi = req.method === 'POST';
-    const isAdminPanel = req.path === '/' || req.path === '/admin.html' || req.path === '/challonge.json';
+    const isAdminPanel = req.path === '/' || req.path === '/admin.html' || req.path === '/admin-fun' || req.path === '/admin-fun.html' || req.path === '/challonge.json';
     const isBypassPath = req.path === '/api/reset-round' || req.path === '/api/update' || req.path === '/api/confirm-veto';
     
     if ((isAdminPanel || isDestructiveApi) && !isBypassPath) {
@@ -436,9 +441,19 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
+// Admin panel for fun overlay
+app.get('/admin-fun', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin-fun.html'));
+});
+
 // Overlay
 app.get('/overlay', (req, res) => {
     res.sendFile(path.join(__dirname, 'overlay.html'));
+});
+
+// Fun handwritten overlay
+app.get('/overlay2', (req, res) => {
+    res.sendFile(path.join(__dirname, 'overlay2.html'));
 });
 
 // Start Overlay [NEW]
@@ -460,6 +475,12 @@ app.get('/agent', (req, res) => {
 app.get('/caster', (req, res) => {
     res.sendFile(path.join(__dirname, 'caster.html'));
 });
+
+// Caster Desk 2 Overlay (New Premium Layout)
+app.get(['/caster2', '/caster-2', '/caster 2'], (req, res) => {
+    res.sendFile(path.join(__dirname, 'caster2.html'));
+});
+
 
 // Endpoint to list caster images from assets/caster
 app.get('/api/caster-images', (req, res) => {

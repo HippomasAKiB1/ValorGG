@@ -1,0 +1,219 @@
+/* overlay2.css — Chalk Scoreboard Overlay Stylesheet */
+
+:root {
+    --white-chalk: #ffffff;
+    --yellow-chalk: #ffd54f;
+    --red-chalk: #ff5252;
+    --green-chalk: #69f0ae;
+    --chalk-font: 'Belmonte Ballpoint Cursive', 'Belmonte Ballpoint', 'Belmonte', 'Caveat', 'Gochi Hand', 'Kalam', cursive;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 1920px;
+    height: 1080px;
+    background: transparent !important;
+    overflow: hidden;
+    color: var(--white-chalk);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ──────────────────────────────────────────────────────────
+   1. CORE CHALKBOARD TEXT GRAPHICS (Outlines for Visibility)
+   ────────────────────────────────────────────────────────── */
+.chalk-text {
+    font-family: var(--chalk-font);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: inline-block;
+    
+    /* Softened outline shadow - highly legible but no longer excessive */
+    text-shadow: 
+        -1.5px -1.5px 0 #000,  
+         1.5px -1.5px 0 #000,
+        -1.5px  1.5px 0 #000,
+         1.5px  1.5px 0 #000,
+         0 4px 6px rgba(0, 0, 0, 0.95);
+}
+
+.white-chalk {
+    color: var(--white-chalk);
+}
+
+.yellow-chalk {
+    color: var(--yellow-chalk);
+}
+
+.red-chalk {
+    color: var(--red-chalk);
+}
+
+.green-chalk {
+    color: var(--green-chalk);
+}
+
+/* ──────────────────────────────────────────────────────────
+   2. SCOREBOARD BAR (Top Center)
+   ────────────────────────────────────────────────────────── */
+.hand-scoreboard {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1600px;
+    z-index: 10;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+}
+
+.scoreboard-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.team-container {
+    min-width: 480px;
+    display: flex;
+    align-items: center;
+}
+
+.team-container.left-side {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.team-container.right-side {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+#left-team-name, #right-team-name {
+    font-size: 80px; /* Scaled up for extra prominence and clear cursive legibility */
+    max-width: 460px;
+}
+
+.score-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    min-width: 280px;
+}
+
+#left-team-score, #right-team-score {
+    font-size: 110px; /* High prominence whiteboard numbers */
+    min-width: 80px;
+    text-align: center;
+}
+
+#score-divider {
+    font-size: 80px;
+    opacity: 0.9;
+}
+
+/* ──────────────────────────────────────────────────────────
+   3. MAPS PANEL (Left Sidebar)
+   ────────────────────────────────────────────────────────── */
+.hand-maps-panel {
+    position: absolute;
+    top: 50px;
+    left: 80px;
+    width: 380px;
+    z-index: 10;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.maps-header {
+    font-size: 32px;
+    margin: 0;
+    padding-bottom: 8px;
+}
+
+.maps-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.map-item {
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+}
+
+/* ──────────────────────────────────────────────────────────
+   4. CHALK HANDWRITING CURSOR & INDIVIDUAL CHARACTERS
+   ────────────────────────────────────────────────────────── */
+.write-target {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.chalk-char {
+    display: inline-block;
+    vertical-align: bottom;
+    opacity: 0;
+    transform: scale(0.9) rotate(-3deg);
+    transform-origin: bottom center;
+    pointer-events: none;
+}
+
+.chalk-char.revealed {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+.chalk-char.revealing {
+    opacity: 1;
+    animation: chalkWriteChar 0.18s linear forwards;
+}
+
+.chalk-stick-active {
+    position: absolute;
+    width: 8px;
+    height: 32px;
+    background: currentColor;
+    box-shadow: 
+        0 0 10px currentColor,
+        0 0 4px currentColor;
+    pointer-events: none;
+    z-index: 5;
+    transition: left 0.12s linear, top 0.12s linear, opacity 0.1s ease;
+    transform: translate(-50%, -50%);
+    animation: chalkFlicker 0.08s infinite alternate;
+    opacity: 0;
+}
+
+/* Chalk Stick vibration pattern */
+@keyframes chalkFlicker {
+    0% {
+        transform: translate(-50%, -50%) translateY(-2px) rotate(-10deg) scale(1.1);
+        opacity: 0.85;
+    }
+    100% {
+        transform: translate(-50%, -50%) translateY(2px) rotate(15deg) scale(0.9);
+        opacity: 1;
+    }
+}
+
+/* Chalk drawing reveal animation */
+@keyframes chalkWriteChar {
+    0% {
+        clip-path: inset(0 100% 0 0);
+        transform: scale(0.95) rotate(-2deg);
+    }
+    100% {
+        clip-path: inset(0 0% 0 0);
+        transform: scale(1) rotate(0deg);
+    }
+}

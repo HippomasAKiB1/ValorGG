@@ -6,6 +6,9 @@ const ws = new WebSocket(`${wsProto}//${location.host}`);
 let activeState = {};
 let prevVisible = null;
 
+// Start the rolling timecode counter immediately
+startTimecode();
+
 function deepMerge(target, src) {
     if (!src || typeof src !== 'object') return;
     for (const key of Object.keys(src)) {
@@ -52,9 +55,10 @@ ws.onmessage = (event) => {
             updateVisibility(replayVisible);
         }
 
-        // Update scrolling ticker text dynamically
         const match = activeState.match || {};
         const teams = activeState.teams || {};
+
+        // Update scrolling ticker text dynamically
         const tickerEl = document.getElementById('replay-ticker-text');
         if (tickerEl) {
             const tourney = (match.tournament || 'WarCities://Valorant Pro Series').toUpperCase();
@@ -66,6 +70,18 @@ ws.onmessage = (event) => {
                 tickerEl.textContent = combinedText;
             }
         }
+
+        // Update live matchup tags and scores in the replay console
+        const leftTagEl = document.getElementById('lbl-left-tag');
+        const rightTagEl = document.getElementById('lbl-right-tag');
+        const leftScoreEl = document.getElementById('lbl-left-score');
+        const rightScoreEl = document.getElementById('lbl-right-score');
+        
+        if (leftTagEl) leftTagEl.textContent = (teams.left?.tag || 'T1').toUpperCase();
+        if (rightTagEl) rightTagEl.textContent = (teams.right?.tag || 'T2').toUpperCase();
+        if (leftScoreEl) leftScoreEl.textContent = teams.left?.score ?? 0;
+        if (rightScoreEl) rightScoreEl.textContent = teams.right?.score ?? 0;
+
     } catch (err) {
         console.error('[WS] Error processing message:', err);
     }
@@ -93,4 +109,23 @@ function updateVisibility(visible) {
         wrapper.classList.remove('active');
         console.log('[REPLAY] Overlay Hidden (Animate Out)');
     }
+}
+
+// Dynamic 60fps running timecode display
+let frameCount = 0;
+function startTimecode() {
+    setInterval(() => {
+        frameCount++;
+        const frames = String(frameCount % 60).padStart(2, '0');
+        const totalSeconds = Math.floor(frameCount / 60);
+        const seconds = String(totalSeconds % 60).padStart(2, '0');
+        const totalMinutes = Math.floor(totalSeconds / 60);
+        const minutes = String(totalMinutes % 60).padStart(2, '0');
+        const hours = String(Math.floor(totalMinutes / 60) % 24).padStart(2, '0');
+        
+        const tcDisplay = document.getElementById('tc-display');
+        if (tcDisplay) {
+            tcDisplay.textContent = `${hours}:${minutes}:${seconds}:${frames}`;
+        }
+    }, 1000 / 60);
 }

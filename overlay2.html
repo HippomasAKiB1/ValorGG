@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ValorGG // Fun Handwritten Scoreboard</title>
+    <!-- Google Fonts for Chalk/Handwritten Marker Aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Gochi+Hand&family=Indie+Flower&family=Kalam:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="overlay2.css">
+</head>
+<body>
+
+    <div class="hud-overlay-container">
+        
+        <!-- TOP SCOREBOARD (Drawn in Chalk) -->
+        <div class="hand-scoreboard" id="scoreboard-container">
+            <div class="scoreboard-row">
+                <!-- Left Team Info -->
+                <div class="team-container left-side">
+                    <span id="left-team-name" class="chalk-text white-chalk write-target"></span>
+                </div>
+                
+                <!-- Center Scores -->
+                <div class="score-container">
+                    <span id="left-team-score" class="chalk-text yellow-chalk write-target"></span>
+                    <span id="score-divider" class="chalk-text white-chalk write-target"></span>
+                    <span id="right-team-score" class="chalk-text yellow-chalk write-target"></span>
+                </div>
+                
+                <!-- Right Team Info -->
+                <div class="team-container right-side">
+                    <span id="right-team-name" class="chalk-text white-chalk write-target"></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="overlay2.js"></script>
+</body>
+</html>
