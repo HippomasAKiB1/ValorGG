@@ -484,6 +484,21 @@
             opacity: 0.7;
         }
 
+        .roster-player-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .roster-player-avatar-initial {
+            font-family: var(--font-barlow);
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+        }
+
         .roster-player-name {
             font-family: var(--font-barlow);
             font-size: 17px;
@@ -944,6 +959,24 @@
         const ws = new WebSocket(`${wsProto}//${location.host}`);
         let state = null;
 
+        // Live image lookup from info.json — always has the latest paths
+        let infoPlayerImgMap = {}; // { "playername_lowercase": "assets/player-image/name.PNG" }
+
+        fetch('/api/rosters')
+            .then(r => r.json())
+            .then(teams => {
+                teams.forEach(team => {
+                    (team.players || []).forEach(p => {
+                        if (p.name && p.playerImg) {
+                            infoPlayerImgMap[p.name.toLowerCase().trim()] = p.playerImg;
+                        }
+                    });
+                });
+                console.log('[Roster] Loaded info.json image map:', Object.keys(infoPlayerImgMap).length, 'players');
+                if (state) renderRoster();
+            })
+            .catch(err => console.warn('[Roster] Could not load info.json:', err));
+
         // Roster Slideshow Loop variables
         let currentRosterTeam = 'left'; // 'left' | 'right'
         let rosterInterval = null;
@@ -1032,6 +1065,38 @@
             return `/assets/team-logo/${logoUrl}`;
         }
 
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                      .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function getPlayerImgPath(img) {
+            if (!img) return '';
+            if (img.startsWith('http') || img.startsWith('/')) return img;
+            return `/${img}`;
+        }
+
+        function handleRosterImgError(el, initial) {
+            const currentSrc = el.src || '';
+            if (!el.dataset.triedPng) {
+                el.dataset.triedPng = 'true';
+                const lowerSrc = currentSrc.toLowerCase();
+                if (lowerSrc.endsWith('.jpg') || lowerSrc.endsWith('.jpeg') || lowerSrc.endsWith('.png')) {
+                    const newSrc = currentSrc.replace(/\.[a-zA-Z]+$/, '.png');
+                    if (newSrc !== currentSrc) {
+                        el.src = newSrc;
+                        return;
+                    }
+                }
+            }
+
+            const div = document.createElement('div');
+            div.className = 'roster-player-avatar-initial';
+            div.textContent = initial || '?';
+            el.parentNode.replaceChild(div, el);
+        }
+
         // Roster slides control
         function renderRoster() {
             if (!state || !state.teams) return;
@@ -1053,16 +1118,24 @@
             if (playersListEl) {
                 const players = team.players || [];
                 playersListEl.innerHTML = players.map(p => {
+                    const infoImg = infoPlayerImgMap[(p.name || '').toLowerCase().trim()] || '';
+                    const imgPath = getPlayerImgPath(p.playerImg || infoImg);
+                    const initial = escapeHtml((p.name || '?').charAt(0).toUpperCase());
+
+                    const avatarHtml = imgPath
+                        ? `<img class="roster-player-avatar-img" src="${imgPath}" alt="${escapeHtml(p.name)}" onerror="handleRosterImgError(this, '${initial}')">`
+                        : `<svg class="generic-user-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 21C20 18.2386 16.4183 16 12 16C7.58172 16 4 18.2386 4 21" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="12" cy="8" r="4" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                           </svg>`;
+
                     return `
                         <div class="roster-player-row">
                             <div class="roster-player-left">
                                 <div class="roster-player-avatar-icon">
-                                    <svg class="generic-user-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M20 21C20 18.2386 16.4183 16 12 16C7.58172 16 4 18.2386 4 21" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
-                                        <circle cx="12" cy="8" r="4" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
-                                    </svg>
+                                    ${avatarHtml}
                                 </div>
-                                <span class="roster-player-name">${p.name || 'Player'}</span>
+                                <span class="roster-player-name">${escapeHtml(p.name || 'Player')}</span>
                             </div>
                             <span class="roster-player-role-tag">STARTER</span>
                         </div>
